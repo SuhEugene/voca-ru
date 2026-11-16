@@ -1,123 +1,111 @@
-# tiny-voca
+# voca
 
-tiny-voca is a small English text-to-speech model. It has two voices, 4.5M
-parameters, and runs on a CPU or in the browser.
+Type `voca hello` and your computer says it. Offline, instant, 4.5M parameters.
 
-[Demo](https://tiny-voca.n4ze3m.com) · [Weights](https://huggingface.co/n4ze3m/tiny-voca) · [Dataset](https://huggingface.co/datasets/n4ze3m/tiny-voca)
+```sh
+voca hello there, this is tiny voca
+```
 
-## Features
-
-- **Small**: 4,537,291 parameters, 18 MB, waveform generator included.
-- **Fast**: about 70x real time on four CPU threads.
-- **Two voices**: F2 (female) and M2 (male), American English, 24 kHz.
-- **Runs anywhere**: PyTorch, ONNX Runtime, and ONNX Runtime Web.
-- **Open**: code, weights, training recipe and dataset. Trained from scratch.
+> **Fork of [n4ze3m/tiny-voca](https://github.com/n4ze3m/tiny-voca).** The model,
+> the weights and the training are Muhammed Nazeem's work. This fork rewrites
+> inference in Rust (same output, 2–7x faster) and adds the `voca` command.
 
 ## Install
 
-```bash
-git clone https://github.com/n4ze3m/tiny-voca.git
-cd tiny-voca
-pip install -e ".[own]"
-hf download n4ze3m/tiny-voca --local-dir weights
-export DIZIONE_DATA=weights/phonemizer
+```sh
+curl -fsSL https://raw.githubusercontent.com/sultson/voca/main/install.sh | sh
 ```
 
-## Usage
+That is the whole setup. No Python, no account, nothing to configure.
 
-```bash
-python -m tiny_voca.infer \
-  --checkpoint weights/tiny-voca.pt \
-  --voice F2 \
-  --text "Hello! This is tiny voca." \
-  --output hello.wav
+| System | What the installer does |
+|---|---|
+| macOS, Apple silicon | Downloads a ready binary (1.4 MB) and the model (19 MB) |
+| Anything else | Builds with [cargo](https://rustup.rs); compiles on Linux, not yet tested there |
+
+## Use
+
+```sh
+voca the build finished with no errors      # speak it
+echo "Read this aloud." | voca              # speak piped text
+voca -f notes.txt                           # speak a file
+voca -v m2 -s 1.2 good morning              # male voice, 20% faster
+voca -o hello.wav "Save this to a file."    # write a WAV, play nothing
 ```
 
-| Option | Default | Meaning |
+| Option | Meaning | Default |
 |---|---|---|
-| `--text-file` | | Read the text from a file instead of `--text` |
-| `--voice` | `F2` | `F2` or `M2` |
-| `--speed` | 1.0 | Speaking rate |
-| `--pitch-shift` | 0 | Raise or lower the pitch |
-| `--pitch-range` | 1.0 | More or less pitch movement |
+| `-v`, `--voice` | `f2` (female) or `m2` (male) | `f2` |
+| `-s`, `--speed` | Speaking rate, 0.25 to 4 | 1 |
+| `-p`, `--pitch` | Pitch shift in semitones | 0 |
+| `-o`, `--output` | Write a WAV file instead of playing | play |
+| `-f`, `--file` | Read the text from a file | |
 
-Long text is fine. It is read one sentence at a time and the audio is joined.
-A text that ends without a mark gets a full stop, so the last word does not
-break off. A sentence with nothing to read, such as one in another script, is
-skipped. The output never peaks above 0.99, so it does not clip as a 16-bit
-WAV. In Python, `tiny_voca.infer.speak_text` does the same.
+English only. Quote the text if it contains `?`, `!`, `'` or `&`.
 
-## ONNX
+## Claude Code skill
 
-```bash
-python -m tiny_voca.export --checkpoint weights/tiny-voca.pt --output tiny-voca.onnx
+The installer also adds a skill, so Claude can talk. Say so once:
+
+```
+> let's make this a voice session
 ```
 
-A ready file is in the weights repository as `onnx/model.onnx`. The
-[model card](https://huggingface.co/n4ze3m/tiny-voca) shows how to call it.
+From then on each reply is written in full as usual, and Claude speaks the one
+or two sentences that matter most. The whole skill is
+[this file](skills/voca/SKILL.md):
 
-## Web demo
-
-The [demo](https://tiny-voca.n4ze3m.com) runs the model in the browser. It
-plays each sentence as soon as it is made, and keeps the whole clip in the
-player. Its source is in `web/`.
-
-```bash
-cd web
-bash fetch_assets.sh /path/to/dizione
-npx wrangler dev
+```
+Each turn, write the full answer as usual. Then run `voca "<gist>"` in the
+background: one or two plain sentences carrying only what matters most.
 ```
 
-## Training
+## Speed
 
-```bash
-export TINY_VOCA_FRONTEND=own
-python -m tiny_voca.prepare --inputs data/train-*.parquet --split train --output features
-python -m tiny_voca.annotate --features features --output annotations
-python -m tiny_voca.train --train annotations/train.jsonl --validation annotations/validation.jsonl \
-  --output runs/NAME --steps 104000 --gan-start 8000 --gan-ratio 0.7 --teacher-final 0
-python -m tiny_voca.evaluate --checkpoint runs/NAME/inference.pt --annotations annotations --output eval/NAME
+Apple M1 Pro. Time to turn phonemes into audio, median of repeated runs.
+
+| Audio length | PyTorch (original) | ONNX (published) | voca | voca vs PyTorch |
+|---:|---:|---:|---:|---:|
+| 1.9 s | 19 ms | 32 ms | **7 ms** | 2.8x |
+| 6.3 s | 62 ms | 123 ms | **29 ms** | 2.1x |
+| 16.8 s | 206 ms | 483 ms | **117 ms** | 1.8x |
+| 16.8 s, 4 threads | 132 ms | 188 ms | **60 ms** | 2.2x |
+
+| Whole command, text in to WAV out | Python | voca | |
+|---|---:|---:|---:|
+| 1.9 s of audio | 880 ms | **24 ms** | 37x |
+| 6.3 s of audio | 907 ms | **45 ms** | 20x |
+
+That is 140 to 350 times faster than real time. Method and every number:
+[BENCHMARK.md](BENCHMARK.md).
+
+## Same output as the original
+
+- Phonemes: identical on all 1,828 test texts.
+- Timing of every sound: identical on all 38 test cases.
+- Waveform: differs from PyTorch only by rounding (52 to 107 dB below the signal).
+
+## For developers
+
+```sh
+git clone https://github.com/sultson/voca && cd voca
+./install.sh          # in a checkout, builds from source
 ```
 
-The released weights took 7.7 hours on one RTX 4090. More about the model and
-the data is in [docs/model.md](docs/model.md).
+- `crates/tiny-voca`: the model, the vocoder, the `voca` and `tiny-voca` commands.
+- `crates/dizione`: Rust port of the [dizione](https://github.com/n4ze3m/dizione) phonemizer.
+- `scripts/`: weight conversion, parity checks and benchmarks against upstream.
 
-## Tests
-
-```bash
-PYTHONPATH=src:tests python -m unittest discover -s tests
+```rust
+let tts = tiny_voca::tts::Tts::load("tiny-voca.safetensors".as_ref(), "phonemizer".as_ref())?;
+let speech = tts.speak("Hello there.", "F2", &tiny_voca::Options::default())?;
+tiny_voca::wav::write("hello.wav".as_ref(), &speech.audio, speech.sample_rate, false)?;
 ```
 
-## Limits
+Not ported: training, evaluation, batching and the web demo. Those live
+[upstream](https://github.com/n4ze3m/tiny-voca).
 
-- English only. Two fixed voices. No voice cloning.
-- The F2 voice sounds younger than intended. A more mature voice is planned.
-- Foreign names and odd spellings are often read wrong.
-- No streaming yet.
+## Licence
 
-## Cost
-
-The whole project cost $9.56 of GPU time on one rented RTX 4090. That is the
-dataset, the failed tries and the final training run.
-
-![Cost breakdown](docs/cost.png)
-
-## Support
-
-It cost less than a pizza to make. If you like it, you can buy me one:
-https://ko-fi.com/n4ze3m
-
-## License
-
-Apache-2.0 for code and weights. CC BY 4.0 for the dataset.
-
-## Citation
-
-```bibtex
-@software{nazeem2026tinyvoca,
-  author = {Nazeem, Muhammed},
-  title  = {tiny-voca: a 4.5M-parameter two-voice English text-to-speech model},
-  year   = {2026},
-  url    = {https://huggingface.co/n4ze3m/tiny-voca}
-}
-```
+Apache-2.0, as upstream. See [NOTICE](NOTICE). The pronunciation data derives
+from CMUdict.

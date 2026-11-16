@@ -1,0 +1,149 @@
+The quick brown fox jumps over the lazy dog.
+I read the book I read yesterday, and I will read it again.
+They live near a live music venue.
+She wound the bandage around the wound.
+The bass player caught a bass in the lake.
+Please record the record before the present is presented.
+He will lead them to the lead pipe.
+A minute detail took a minute to explain.
+The content creator was content with the content.
+Tie a bow and take a bow on the bow of the ship.
+The wind will wind the clock; tears in her eyes, she tears the paper.
+We must polish the Polish furniture.
+I object to that object. The desert will desert you. Do not subject the subject to that.
+The dove dove into the bushes. He separates the separate piles.
+They were too close to the door to close it.
+The insurance was invalid for the invalid.
+How to use this? What is the use of it? It abuses the rules; the abuses continue.
+It's 3:45 PM on Jan. 5, 2026, and I've got $1,234.56 left.
+Call me at (555) 123-4567 or +1 800 555 0199 before 9 a.m. tomorrow.
+The meeting is at 14:30 in room B-12; bring 2 1/2 cups of coffee.
+Version 3.12.1 of Python was released; upgrade to v2.05 now.
+Visit https://www.example.com/path/to/page.html or email john.doe+test@mail.example.org today.
+The file report_final_v2.pdf is in /home/user/docs/.
+He ran 5 km in 25 min, about 12 km/h, at 20°C.
+It weighs 3.5 kg, 120 lbs, or 1 lb. exactly.
+The TV is 55 in. wide and 1080p, with a 16:9 ratio.
+Dr. Smith lives on Elm St. near St. Paul's, on Baker Dr. in the city.
+Mr. and Mrs. Jones met Prof. Xavier and Capt. Kirk, Jr.
+The U.S. and the U.K. signed it, e.g. yesterday, i.e. on time.
+NASA, the FBI and the CIA use AI at IBM.
+OMG lol idk, brb, gr8 2day b4 u go w/ me w/o them, n/a!
+I loooove it soooo much, it's sooo goooood!!! Yesss.
+She said, "Wait... what?!" — and left; (really).
+‘Single’ and “double” quotes — with en–dash and em—dash…
+The year 1999 was great; in 2005 and 2026 too. The 1980s, the '90s, and the 2000s.
+Born in 1885, est. 1885, he paid 1500 dollars for 1500 chairs.
+Henry VIII and Louis XIV met in World War II, Chapter IV.
+It is 1st, 2nd, 3rd, 4th, 11th, 21st, 100th and 1000th.
+The ratio is 3:1, the score was 21-14, and 10-15 people came.
+Temperatures of -5 to 10 degrees, or −3°F.
+3 × 4 = 12, 2^10 is 1024, 5 > 3 and 2 < 4, x >= y.
+50% of 1,000,000 is 500,000; 0.5 and .75 and 007.
+My iPhone runs iOS 17.2 and macOS; YouTube uses JavaScript on GitHub.
+The RTX 4070 Ti beats the GTX 1080; ISO 9001 and the B12 vitamin.
+Order #A7-4419 and ticket 884213 for flight AB-4471-Z.
+My PIN is 4821 and the code is 009-12.
+Dial 911 or 9-1-1; my number is 555-0199.
+It costs €1 or £20 or ¥500 or ₹99.50, also 30 USD and 12.50 EUR.
+A $2.5 million deal, a $10k bonus, and $3bn in debt; -$5 too.
+I paid 5¢ and then 1¢.
+1/2, 3/4, 7/10, 5/8 and 24/7; 50/50 chance.
+On 12/25/2026 and 25/12/2026 and 2026-12-25 and 15.11.2026.
+Due 03/04, shipped on 14/03, arriving 1/2.
+From 9.30 to 11.30 the window opens; 7.30 pm works.
+It lasted 2:03:45 and the lap took 48:12.
+At 20:00 and 00:00 and 12:00 and 9:05 a.m. EST.
+Mon.-Fri. and Jan-Mar, 3-17 November, November 3-17, 2026.
+22 February, 5 Jan. 2026, March 3rd, 4th of July.
+The area is 120 m² or 3 m3, 5 km², 10 ft2.
+1½ cups and ¾ of a teaspoon.
+Sizes S-XL and XS-XXL are in stock.
+#hashtag and #1 and ~50 people.
+Use C++ & Java; A/B testing; and/or yes.
+:) :-) ;P <3 ^_^ lol 😀👍 great 🎉
+résumé, café, naïve, jalapeño, Zoë, façade, exposé, rosé.
+Say {HH AH0 L OW1} and tomato{t ə m ˈɑː t oʊ} please.
+The WWW and HTTP and URL of the PDF.
+A dog. A plan. Plan A. Vitamin A and B. I am I.
+THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG.
+THIS IS AN ALL CAPS SENTENCE ABOUT THE USA AND NASA.
+well-known state-of-the-art twenty-one mother-in-law re-enter
+It's the dog's bone, the dogs' bones, James's book, the boss's car.
+'Tis the season, rock 'n' roll, 'em and 'cause.
+don't won't can't shouldn't I'll you've they're it's
+Xylophonist zyzzyva quokka flibbertigibbet.
+Blorptastic snorgle fwibbit zanthrox quillomber.
+Grzegorz Brzęczyszczykiewicz and Nguyen Tran.
+Okafor, Adeyemi, Chukwuemeka, Siobhan, Aoife, Niamh.
+Kubernetes, PostgreSQL, TensorFlow, PyTorch, NumPy, CUDA 12.1.
+Python 3.12 and node 18.04, version 2.10 to 2.12.
+I upgraded to iOS 17.01 and Ubuntu 22.04.
+a
+I
+Hi!
+...
+?!
+123
+$
+-
+   
+No. 5 and no. 7; ref. no. 12345.
+Max. load 50 kg; min. 5; est. time 3 hrs.
+He sat. The sun. In Mar. 2020 and Dec. 25.
+vs. the others, etc. Then approx. 5 ft. tall.
+The end.Then start. file.txt and data.json and notes.md
+See fig. 3 and p. 12, vol. 2, pp. 5-10.
+1 000 000 people and 12 345 678 items.
+Card 4111 1111 1111 1111 expires 08/27.
+Tracking number 1Z 999 AA1 0123 4567 84.
+IBAN GB29 NWBK 6016 1331 9268 19.
+call 0800 123 456 or text 07700 900123.
+My order number is 77123456 and my account ends in 4321.
+Enter 2024 and then enter 123456.
+3-in-1, 20-year-old, F-16s, 50s-60s, pre-2020, COVID-19, SAVE-20, 5-year, 3-D.
+KX-300, B-12, AB-12345, X7K, PS5, 14C, 4K, 8GB, 256GB, 5G, H2O, CO2.
+2x faster, 10x better, 4 x 6 in, 3x4.
+The 2019-2021 period, 1914–1918, pages 10–15.
+It's 5 o'clock; 12 noon; half past 3.
+I have 1 apple, 2 apples, 11 apples, 100, 101, 110, 1001, 10000000.
+1,000,000,000,000,000,000,000,000 is big; 12345678901234567890123.
+Pi is 3.14159 and e is 2.71828; 0.001; 1e5.
+Go to www.google.com, example.org/about, or http://localhost:8080/api?q=1.
+Mail me@you.io or Support@Company.co.uk.
+main.py, index.html, style.css, README.md, photo.JPG, archive.tar.gz.
+~/projects/app/src/main.rs and C:\Users\name\file.docx
+I think... no — wait; yes: go! (ok) "sure" 'fine'
+What?! Really?? Yes!!! No...
+He said: "It's 'fine'."
+The café's naïve résumés.
+Mother's, mothers', children's, it'd, y'all, o'clock, ma'am.
+running jumped happily quickly stopped hoped hopped loving biggest
+unhappiness reorganizations overachievers misunderstanding preexisting
+colour honour organise centre theatre travelled analyse
+sandpiper houseplant bookshelf doghouse snowboarders
+frenemy hangry bromance staycation webinar mansplaining
+Schwarzenegger Tchaikovsky Dostoevsky Nietzsche Kierkegaard
+The data shows that 45.5% of users (n=120) prefer A/B.
+Tom & Jerry @ 5pm = fun + games.
+100°F is 37.8°C; 5′10″ tall.
+Chapter 3: The Return; Part II — The End.
+St. Louis, St. John's, 123 Main St., 45 Park Dr., Dr. Who.
+at it at all, for all, after it, the apple, to eat, the end of the hour.
+The US uses it. Is it us? An IT guy. It is. AM radio at 5 AM.
+I'm in LA. He went to the ER. LED lights. SAT scores. RIP.
+One-two-three. Twenty-first century. X-ray. T-shirt. e-mail.
+CEO, CFO, CTO, VP, HR, PR, R&D, Q&A, DIY, FAQ, ASAP, FYI.
+Mt. Everest, Ft. Worth, Gen. Lee, Sgt. Pepper, Lt. Dan, Col. Sanders.
+10 a.m. to 5 p.m. The store closes at 9 p.m. Then we left.
+It was 5 p.m. it was late.
+He weighs 180 lbs. and is 6 ft. 2 in. tall.
+3 m, 3 M, 5 s, 10 g, 2 l, 4 h, 7 d.
+5m-long, 3's, 4/5ths.
+It’s John’s “book”—isn’t it?
+Ñandú, Ångström, Œuvre, Straße, Łódź, Đorđe.
+Привет мир. 你好世界. مرحبا.
+tung tung tung sahur
+of the in the on the for the from the with the that the
+I want to, I have to, going to, out of, kind of, a lot of.
+do you, did you, would you, could you, what do you.
