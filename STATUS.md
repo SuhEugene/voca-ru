@@ -23,11 +23,12 @@ Branch: **B′ synthetic teacher distillation** — see `docs/plan-ru-qwen.md`. 
 | R1 | repo analysis | subagent | task/recon | **merged** (a067aa0) | — |
 | R2 | russian data/text/stress survey | subagent | task/ru-data | **merged** (302fb86, both passes) | — |
 | R3 | teacher + fallback survey | subagent | task/base-models | **merged** (71df916) | — |
-| R4 | compute + Qwen-on-M5 test | subagent | task/compute-env | running | — |
+| R4 | compute + Qwen-on-M5 test | subagent | task/compute-env | **merged** (f127c36) — MPS works, batch 16 ≈ 5× realtime, teacher gen ≈ 3.8 h | checkpoint sha mismatch (prefix only, splice in progress) |
+| R4b | stand-down + corruption forensics | subagent | task/compute-env | **merged** (b17ee08) | — |
 | R5 | community ports study | subagent | task/ports | **merged** (7c92dfe) | — |
 | R6 | Silero applicability (teacher/stress/runtime) | subagent | task/silero | **merged** (fbf8ecc) | — |
 | Gate 0 | `docs/contracts.md` | orchestrator | main | **done** | — |
-| F2 | Russian scripts (8k sentences) | subagent | task/f2-texts | running | — |
+| F2 | Russian scripts (8k sentences) | subagent | task/f2-texts | **merged** (4b66df2) — 4500 batch1 (3870/315/315) + 3500 batch2, tests green | — |
 | F6 | aligner spike (Russian eSpeak labels) | subagent | task/f6-align | running | — |
 
 ## Risks
