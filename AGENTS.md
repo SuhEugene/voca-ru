@@ -14,6 +14,10 @@ It points `HF_HOME`, `UV_CACHE_DIR`, `PIP_CACHE_DIR`, `TORCH_HOME` and `XDG_CACH
 
 Large artefacts that are not caches (teacher downloads, generated corpora, checkpoints, venvs) also live under `.cache/models`, `.cache/venvs` or the git-ignored `data/`, never in `/tmp`, `~/Downloads` or any other temporary directory.
 
+## Big downloads
+
+A single connection to huggingface.co is throttled to tens of KB/s here; parallel HTTP ranges reach several MB/s. For any file over ~100 MB use `scripts/fetch-hf-file.sh <url> <out> <sha256> [parts]` — it downloads ranges concurrently, verifies SHA-256, and removes its parts on success. Never trust an unverified checkpoint, and never resume a single big file with `curl -C -` (the CDN may ignore the range and silently corrupt it).
+
 ## Clean up after yourself
 
 When a task finishes: move its artefacts into `.cache/` (or the owned report paths), **verify the new location works**, and only then delete the old copies and any temporary directories it created outside the repo (`/private/var/folders/.../T/opencode/<task>`, stray venvs, duplicate weights). Never leave a second copy on disk, and never delete something you did not create.
