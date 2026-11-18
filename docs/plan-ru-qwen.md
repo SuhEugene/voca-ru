@@ -58,7 +58,7 @@ Wave 0 (running): R1 repo map, R2 data/text/stress survey, R3 base-model survey 
 | D1 | Design + approve two Russian voices (VoiceDesign descriptions, seeds), human listens | `references/`, `voices.json`, `reports/D1-voices.md` |
 | D2 | Generate the corpus (2 voices × scripts), resume-safe, screening, manifest | `data/synthetic-ru/` (ignored) |
 | D3 | Prepare + annotate (adapt upstream `prepare.py` / `annotate.py` to F3/F6) | `training/prepare/`, `training/annotate/` |
-| T0 | **Frontend ablation**: phoneme+stress vs grapheme pilot (≤10k steps each), scored on 200 hard sentences (numbers, homographs, names) by round-trip WER + stress-error audit | `training/train/` (configs only), `reports/T0-ablation.md` |
+| T0 | *(stretch, optional)* frontend ablation: phoneme+stress vs grapheme pilot, scored on 200 hard sentences (numbers, homographs, names) | `reports/T0-ablation.md` |
 | T1 | Training entrypoint: same architecture/hyperparameters as upstream, resume, periodic eval hook, sample synthesis of a fixed Russian sentence list | `training/train/`, `configs/` |
 | T2 | Configs: upstream-equivalent baseline + one cheaper/smaller run; hardware-specific batch sizes from R4 | `configs/*.yaml` |
 
@@ -78,10 +78,11 @@ L1 model card (teacher model, synthetic-data provenance, licences, metrics, limi
 
 ## 5. Open decisions (need the human)
 
-1. **Runtime stress strategy** (the human wants no RUAccent in the shipped binary):
-   - (a) **pruned static stress dictionary** (top-N forms as a Rust trie, a few MB) + rules for OOV → keep phoneme frontend, proven recipe;
-   - (b) **grapheme frontend** — Cyrillic letters + punctuation, no stress, no G2P; the model learns Russian phonology from the audio. Simplest runtime, unproven at 4.5M params; needs an alignment workaround (phones→letters).
-   **Locked by the human:** RUAccent is training-time only and must not ship. Decision between (a) and (b) is technical, made by the **T0 ablation** (two ≤10k-step pilots on the same data, scored on 200 hard sentences: numbers, homographs, names). If (b) is not clearly worse, drop the dictionary and G2P from the runtime entirely; otherwise ship only a pruned static dictionary derived from RUAccent (MIT, attributed), never the loader, the ONNX models or Python.
+1. **Runtime stress strategy** — **decided:** ship a Rust-native RUAccent subset with the phoneme frontend (the human allows RUAccent in the runtime if it is practical). No Python, no full `ruaccent` package. The viable subset from `ruaccent/accentuator` (MIT):
+   - `dictionary/accents.json.gz` 21.0 MB (plus `omographs.json.gz`), converted to a compact Rust trie at build time;
+   - `nn/nn_accent/model.onnx` for OOV words and `nn/nn_omograph/tiny` 10.5 MB for context; **not** `turbo3` (359 MB) or `big_poetry` (714 MB);
+   - ONNX via `tract` (pure Rust) or `ort` (bundled); decide in F3 on op coverage.
+   Gates: ≤50 MB on disk added to `voca-data.tar.gz`, ≤300 MB RSS at inference, no Python. The grapheme-frontend ablation (T0) is now a **stretch experiment**, not a gate: run it only if schedule allows, and switch only on a clear win.
 2. **Voice approval.** You listen to candidate F/M references before 17k clips are generated.
 3. **Generation compute.** Teacher generation on this M5 is unproven (qwen-tts is CUDA-oriented). If MPS fails, a rented 4090 for a few hours is ~$10–20; that is a spend decision.
 4. **Script sourcing.** Which Russian text sources you accept (R2 will list licences).
