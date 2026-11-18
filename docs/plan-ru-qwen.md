@@ -34,6 +34,7 @@ Verified from `n4ze3m/tiny-voca` (`README.md`, `docs/model.md`, `scripts/generat
 - Two voices (F + M).
 - Local M5 training; **no training run starts without the human's explicit go-ahead**; GPU rental needs a cost shown first.
 - Fork `SuhEugene/voca-ru`; no upstream PR unless asked.
+- **Silero TTS is excluded as a data generator** (human decision, 2026-11-19). It is CC BY-NC-SA 4.0, inference-only and digit-dropping. Do not plan any corpus around it; Qwen3-TTS is the only teacher. Silero VAD (MIT) may still be used as a trimming tool; Silero's published tests stay as a quality reference only.
 
 ## 4. Waves and tasks
 
