@@ -26,6 +26,7 @@ Branch: **B′ synthetic teacher distillation** — see `docs/plan-ru-qwen.md`. 
 | R4 | compute + Qwen-on-M5 test | subagent | task/compute-env | running | — |
 | R5 | community ports study | subagent | task/ports | **merged** (7c92dfe) | — |
 | R6 | Silero applicability (teacher/stress/runtime) | subagent | task/silero | running | — |
+| Gate 0 | `docs/contracts.md` | orchestrator | main | **done** | — |
 
 ## Risks
 
