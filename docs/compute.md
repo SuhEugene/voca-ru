@@ -336,11 +336,100 @@ Hard limits this machine imposes:
 
 ## 9. Qwen3-TTS 1.7 B teacher on this machine
 
-See `reports/R4-compute.md` for the run log and tracebacks; the summary table
-lives here.
+**Verdict: it runs on MPS, end to end, in bfloat16 — no CPU fallback needed.**
+19.1 h of Russian audio is roughly a 4-hour job on this laptop.
 
-*(measured results are filled in below — see the report for the exact
-commands, timings and any error text)*
+Setup that worked (Python **3.12**, not 3.15 — see §9.1):
+
+```sh
+. "$(git rev-parse --show-toplevel)/scripts/cache-env.sh"
+uv venv --python 3.12 .cache/venvs/r4
+uv pip install --python .cache/venvs/r4/bin/python torch==2.15.0 qwen-tts
+```
+
+Model: `Qwen/Qwen3-TTS-12Hz-1.7B-Base`, Apache-2.0, `gated:false`,
+7.8 GB on disk after download (3.86 GB transformer + 0.68 GB 12 Hz tokenizer
++ tokenizer files). Path: `.cache/models/qwen3-tts-1.7b`.
+
+Loading and generation, measured on this machine:
+
+| Step | Result |
+|---|---|
+| `from_pretrained(device_map="mps", dtype="auto")` | **works**, 1.9–2.3 s warm, 7.5 s cold |
+| dtype chosen by `auto` | bfloat16 |
+| MPS memory after load | **4.76 GiB** driver-allocated |
+| `create_voice_clone_prompt(x_vector_only_mode=True)` | 0.2–1.7 s, reusable across calls |
+| Batch 1, warm | 3.92 s audio in 6.53 s → **0.60× realtime** |
+| Batch 8 | 28.9 s audio in 8.74 s → **3.31× realtime**, 6.1 GiB |
+| Batch 16 | 56.7 s audio in 11.3 s → **5.04× realtime**, 11.2 GiB |
+| Batch 32 | 123.4 s audio in 20.1 s → **6.13× realtime**, 21.8 GiB |
+| 199-char sentence, batch 1 | 14.32 s audio, RTF 1.60, peak 0.53 / RMS 0.079 (speech-like levels) |
+| Output | 24 kHz mono float32, numpy arrays |
+| Failing ops | **none on MPS** |
+
+Two warnings, neither fatal:
+
+- `sox: command not found` — printed by the `sox` Python package at import.
+  It is only used by the 25 Hz tokenizer path, which the 12 Hz model does not
+  touch. Generation works.
+- `flash-attn is not installed` — expected on Apple silicon; `eager`
+  attention is used and the speeds above already include that.
+
+Sample rate 24 kHz, so a 19.1 h corpus is ~6.6 GB as mono float32 WAV,
+~3.3 GB as 16-bit PCM, ~1.6 GB as FLAC.
+
+### 9.1 Why 3.12 and not 3.15
+
+Torch itself is fine on 3.15.2 (§3), but **`onnxruntime` publishes arm64
+wheels only up to cp314**, and `qwen-tts` imports it at module scope. The `sox`
+PyPI package likewise has no 3.15 wheel. So the teacher stack is pinned to
+3.12, which `uv` provisions with no extra download (already in
+`.cache/python`).
+
+Corollary worth knowing: plain torch experiments (the training loop, the
+micro-benchmark) can stay on 3.15, and the teacher needs 3.12. Two venvs, not
+one.
+
+### 9.2 Generation budget for the corpus
+
+Plan: 17,371 clips, 19.1 h of audio, ~8,500 sentences × 2 voices.
+`voice_clone_prompt` is built once per voice, so every batch skips prompt
+encoding; batch within one voice.
+
+| Batch | Speed | 19.1 h of audio | Memory |
+|---:|---:|---:|---:|
+| 8 | 3.31× | 5.8 h | 6.1 GiB |
+| **16** | **5.04×** | **3.8 h** | 11.2 GiB |
+| 32 | 6.13× | 3.1 h | 21.8 GiB |
+
+Recommended operating point: **batch 16, ~4 h**, leaving 13 GiB for the OS and
+any concurrent job. Batch 32 is 20 % faster and consumes almost the whole
+machine; not worth the risk on a 24 GB box.
+
+Throughput per character (measured, batch 16): 776 input characters produced
+56.7 s of audio in 11.3 s — **≈ 69 characters/s**, ≈ 0.71 s per clip.
+At batch 32 it is ≈ 83 characters/s.
+
+Voice design: a handful of clips, seconds. Add ~5 minutes total.
+
+Whisper screening (reject bad clips, check the transcript matches) — **not
+measured here.** *Estimate:* faster-whisper large-v3 in int8 on the 5
+performance cores runs at roughly 8–12× realtime for this kind of short-clip
+batch, so 19.1 h of audio is a **1.5–2.5 h** pass. Treat as an estimate; it
+needs one measurement before it is scheduled.
+
+Rented-GPU comparison for generation (*estimate*): a 4090 at ~$0.7/h would run
+the 1.7 B teacher perhaps 3–4× faster than MPS, i.e. **~1 h, ~$1**. Generation
+is not the reason to rent a GPU — 4 hours on the laptop is acceptable and
+avoids a 4.5 GB upload/download round trip on a 2 MB/s link.
+
+### 9.3 Can generation and training overlap?
+
+Only badly. Both want the same 16-core GPU; MPS gives no isolation, so a
+teacher batch and a training step interleave and each runs slower. Memory is
+not the constraint (11 GiB + ~2 GiB), attention is. Serialise them: 4 h of
+generation, then the training run. If overlap is unavoidable, expect roughly
+the sum of both wall times, not the max.
 
 ## 10. Appendix — reproducing the benchmark
 
