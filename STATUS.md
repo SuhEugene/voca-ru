@@ -24,7 +24,7 @@ Branch: **B′ synthetic teacher distillation** — see `docs/plan-ru-qwen.md`. 
 | R2 | russian data/text/stress survey | subagent | task/ru-data | **merged** (db3f437); 2nd pass running | — |
 | R3 | teacher + fallback survey | subagent | task/base-models | **merged** (71df916) | — |
 | R4 | compute + Qwen-on-M5 test | subagent | task/compute-env | running | — |
-| R5 | community ports study | subagent | task/ports | running | — |
+| R5 | community ports study | subagent | task/ports | **merged** (7c92dfe) | — |
 | R6 | Silero applicability (teacher/stress/runtime) | subagent | task/silero | running | — |
 
 ## Risks
