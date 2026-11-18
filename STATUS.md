@@ -2,17 +2,31 @@
 
 Project: Russian model for `sultson/voca` (Rust TTS, 4.5M params, English only).
 
+Remotes: `origin` = github.com/SuhEugene/voca-ru (fork), `upstream` = sultson/voca (read-only).
+
+## Human decisions (2026-11-19)
+
+| Question | Answer |
+|---|---|
+| Licence scope | **Personal / research only.** Non-commercial corpora allowed; model card must record restrictions. |
+| Compute | **Local M5 first. Never start training autonomously.** Renting GPU needs a concrete cost shown to the human first. |
+| Release target | **Two Russian voices (female + male)**, mirroring `f2` / `m2`. |
+| Publishing | Fork under `SuhEugene` — done (`voca-ru`). No upstream PR unless asked. |
+
+## Tasks
+
 | ID | Task | Owner | Branch | State | Blockers |
 |----|------|-------|--------|-------|----------|
 | —  | Scaffold | orchestrator | main | done | — |
-| R1 | repo analysis | — | task/recon | pending | — |
-| R2 | russian data survey | — | task/ru-data | pending | — |
-| R3 | base model survey | — | task/base-models | pending | — |
-| R4 | compute + env | — | task/compute-env | pending | — |
+| R1 | repo analysis | subagent | task/recon | running | — |
+| R2 | russian data survey | subagent | task/ru-data | running | — |
+| R3 | base model survey | subagent | task/base-models | running | — |
+| R4 | compute + env | subagent | task/compute-env | running | — |
 
 ## Risks
 
 1. Upstream is a **Rust** rewrite; training code was removed (NOTICE). We must recover the original Python training stack from `n4ze3m/tiny-voca`.
 2. This machine is an Apple M5 Pro (no CUDA). Training budget is MPS/CPU only unless the human rents compute.
-3. Licences: upstream Apache-2.0; CMUdict data ships with the phonemizer; Russian corpora licences unverified.
+3. Licences: upstream Apache-2.0; CMUdict data ships with the phonemizer; Russian corpora licences unverified. Research-only scope relaxes corpus choice but not attribution.
 4. Test-set leakage / normalisation mismatch — see plan section 7.
+5. Two voices doubles data and training work; plan for it in Gate 0 contracts.
