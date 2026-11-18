@@ -20,4 +20,4 @@ __pycache__/
 *.pyc
 
 # --- local model/tool caches, shared by all agents ---
-/.cache/
+/.cache
