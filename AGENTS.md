@@ -10,9 +10,13 @@ Source the shared cache first, in every shell:
 . "$(git rev-parse --show-toplevel)/scripts/cache-env.sh"
 ```
 
-It points `HF_HOME`, `UV_CACHE_DIR`, `PIP_CACHE_DIR`, `TORCH_HOME` and `XDG_CACHE_HOME` at `<repo>/.cache`. Model weights, wheels, uv's toolchains and torch hub downloads are reused by every agent and every later session. The network here is slow; a re-download is a defect. `.cache/` is git-ignored and must never be committed.
+It points `HF_HOME`, `UV_CACHE_DIR`, `PIP_CACHE_DIR`, `TORCH_HOME` and `XDG_CACHE_HOME` at **`/Users/suheugene/projects/22-tiniest-voca-ru/.cache`** — that absolute path is the only cache location for this project. Model weights, wheels, uv's toolchains and torch hub downloads are reused by every agent and every later session. The network here is slow; a re-download is a defect. `.cache/` is git-ignored and must never be committed.
 
-Large artefacts that are not caches (teacher downloads, generated corpora, checkpoints, venvs) also live under `<repo>/.cache/models`, `<repo>/.cache/venvs` or the git-ignored `data/`, never in `/tmp`.
+Large artefacts that are not caches (teacher downloads, generated corpora, checkpoints, venvs) also live under `.cache/models`, `.cache/venvs` or the git-ignored `data/`, never in `/tmp`, `~/Downloads` or any other temporary directory.
+
+## Clean up after yourself
+
+When a task finishes: move its artefacts into `.cache/` (or the owned report paths), **verify the new location works**, and only then delete the old copies and any temporary directories it created outside the repo (`/private/var/folders/.../T/opencode/<task>`, stray venvs, duplicate weights). Never leave a second copy on disk, and never delete something you did not create.
 
 ## Worktrees and ownership
 
