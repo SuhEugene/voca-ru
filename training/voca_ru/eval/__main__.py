@@ -28,7 +28,8 @@ def parse_args(argv=None) -> argparse.Namespace:
                    choices=["faster-whisper", "gigaam", "fake"])
     p.add_argument("--model-path", help="CTranslate2 model directory")
     p.add_argument("--gigaam-model", default="v3_e2e_rnnt")
-    p.add_argument("--device", default="cpu", help="cpu (CTranslate2 has no MPS backend)")
+    p.add_argument("--device", default="cpu", choices=["cpu", "mps"],
+                   help="cpu (default) or experimental Metal (CTranslate2)")
     p.add_argument("--compute-type", default="int8")
     p.add_argument("--beam-size", type=int, default=5)
     p.add_argument("--fake-transcripts", help="JSON {audio_path: text} for --backend fake")

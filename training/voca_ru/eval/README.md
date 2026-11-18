@@ -26,7 +26,7 @@ PYTHONPATH=training python -m voca_ru.eval \
 
 | flag | what | notes |
 |---|---|---|
-| `--backend faster-whisper` (default) | large-v3-turbo CTranslate2 | CPU; CTranslate2 has no MPS backend, so `--device mps` raises |
+| `--backend faster-whisper` (default) | large-v3-turbo CTranslate2 | `--device cpu` (default, int8) or `--device mps` (experimental Metal, int8 becomes float16) |
 | `--backend gigaam --gigaam-model v3_e2e_rnnt` | GigaAM cross-check | needs `uv pip install gigaam`; fails loudly otherwise |
 | `--backend fake --fake-transcripts j.json` | deterministic self-check | no speech involved |
 
