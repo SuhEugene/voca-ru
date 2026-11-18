@@ -37,7 +37,7 @@ while [ "$i" -lt "$parts" ]; do
       curl -sfL --retry 5 --retry-all-errors --retry-delay 2 -m 7200 \
         -r "$((s + have))-$e" "$url" | head -c "$remain" >> "$f" || sleep 2
       now=$(stat -f%z "$f" 2>/dev/null || echo 0)
-      [ "$now" -eq "$have" ] && sleep 5   # no progress: back off
+      if [ "$now" -eq "$have" ]; then sleep 5; fi   # no progress: back off
     done
     [ "$(stat -f%z "$f")" -eq "$want" ] || { echo "part $i wrong size" >&2; exit 1; }
   ) &
