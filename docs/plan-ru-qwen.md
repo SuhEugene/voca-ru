@@ -81,7 +81,7 @@ L1 model card (teacher model, synthetic-data provenance, licences, metrics, limi
 1. **Runtime stress strategy** (the human wants no RUAccent in the shipped binary):
    - (a) **pruned static stress dictionary** (top-N forms as a Rust trie, a few MB) + rules for OOV → keep phoneme frontend, proven recipe;
    - (b) **grapheme frontend** — Cyrillic letters + punctuation, no stress, no G2P; the model learns Russian phonology from the audio. Simplest runtime, unproven at 4.5M params; needs an alignment workaround (phones→letters).
-   Decided by the **T0 ablation** (two ≤10k-step pilots on the same data, scored on 200 hard sentences: numbers, homographs, names). If (b) is not clearly worse, drop RUAccent and G2P from the runtime entirely. RUAccent stays a training-time tool either way.
+   **Locked by the human:** RUAccent is training-time only and must not ship. Decision between (a) and (b) is technical, made by the **T0 ablation** (two ≤10k-step pilots on the same data, scored on 200 hard sentences: numbers, homographs, names). If (b) is not clearly worse, drop the dictionary and G2P from the runtime entirely; otherwise ship only a pruned static dictionary derived from RUAccent (MIT, attributed), never the loader, the ONNX models or Python.
 2. **Voice approval.** You listen to candidate F/M references before 17k clips are generated.
 3. **Generation compute.** Teacher generation on this M5 is unproven (qwen-tts is CUDA-oriented). If MPS fails, a rented 4090 for a few hours is ~$10–20; that is a spend decision.
 4. **Script sourcing.** Which Russian text sources you accept (R2 will list licences).
