@@ -100,6 +100,13 @@ Bandwidth is shared: concurrent downloads from this machine slow each other
 roughly proportionally, and other agents on this box were downloading at the
 same time.
 
+Measured on the teacher checkpoint later in the session: **16 parallel HTTP
+ranges sustained ~0.8 MB/s aggregate** (498 MB in 10 min), i.e. ~80 min for
+3.86 GB. Single-stream `curl -C -` on the same file stalled altogether. So
+parallel ranges help but do not make this link fast — the link itself is the
+bottleneck, and the 17× PyPI-mirror win above was a different CDN, not a
+different technique.
+
 ## 3. Python and PyTorch — the critical finding
 
 System Python is Homebrew **3.15.2** (`/opt/homebrew/bin/python3`).
@@ -348,8 +355,8 @@ uv pip install --python .cache/venvs/r4/bin/python torch==2.15.0 qwen-tts
 ```
 
 Model: `Qwen/Qwen3-TTS-12Hz-1.7B-Base`, Apache-2.0, `gated:false`,
-7.8 GB on disk after download (3.86 GB transformer + 0.68 GB 12 Hz tokenizer
-+ tokenizer files). Path: `.cache/models/qwen3-tts-1.7b`.
+**4.4 GB on disk** (3.86 GB transformer + 0.68 GB 12 Hz tokenizer + tokenizer
+files). Path: `.cache/models/qwen3-tts-1.7b`.
 
 Loading and generation, measured on this machine:
 

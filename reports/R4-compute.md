@@ -142,13 +142,18 @@ The `model.safetensors` I tested with does **not** match the Hugging Face LFS
 sha256 (`38fc7fc51c5e…`); it hashes to `ac725cd734da…`. Three 1 MB ranges
 sampled across the file (offset 0, 1.9 GB, and the final MB) are byte-identical
 to the origin, so the file is not wholesale corrupt — but a full-file
-verification did not pass, and a re-fetch with the project's
-`scripts/fetch-hf-file.sh` was still running when I finished.
+verification did not pass.
 
-What that means: the *timings, memory figures and the fact that MPS works* are
-sound and will not change for a corrected checkpoint. Audio quality from this
-particular copy is unverified — listen to the samples before trusting the
-corpus. Re-verify with:
+A full re-fetch was started and abandoned: 16 parallel ranges moved 498 MB in
+about ten minutes (**~0.8 MB/s aggregate**), so 3.86 GB is an ~80-minute
+download on today's link. The partial staging copy was deleted. Meanwhile the
+orchestrator's `scripts/fetch-hf-file.sh` is also targetting the same path, so
+the directory will end up verified by that run.
+
+What this means: the timings, the memory figures and the fact that MPS works
+are sound and will not change for a corrected checkpoint. **Audio quality from
+this particular copy is unverified** — listen to `out/r4/*.wav` before
+trusting the corpus. Re-verify with:
 
 ```sh
 shasum -a 256 .cache/models/qwen3-tts-1.7b/model.safetensors
