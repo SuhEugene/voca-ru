@@ -7,7 +7,9 @@
 
 # --- voca-ru: training and data artefacts ---
 worktrees/
-data/
+/data/*
+# F2 script lists are small and committed (docs/contracts.md §7); all other data stays ignored.
+!/data/scripts-ru/
 checkpoints/
 wandb/
 runs/
