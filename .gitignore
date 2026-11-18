@@ -4,3 +4,15 @@
 /upstream
 /out
 /.claude
+
+# --- voca-ru: training and data artefacts ---
+worktrees/
+data/
+checkpoints/
+wandb/
+runs/
+*.wav
+*.flac
+*.mp3
+__pycache__/
+*.pyc
