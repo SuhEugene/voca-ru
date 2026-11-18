@@ -1,0 +1,12 @@
+# Teacher generation environment — verified on the M5 Pro (macOS 27, Python 3.12.16).
+# Install:  uv pip install --python .cache/venvs/r4/bin/python -r env/requirements-qwen.txt
+# These are the exact versions that produced reports/G1-teacher.md.
+torch==2.15.0
+qwen-tts==0.1.1
+transformers==4.57.3
+soundfile==0.14.0
+librosa==1.0.1
+numpy==2.5.5
+# qwen-tts imports accelerate and safetensors directly.
+accelerate==1.12.0
+safetensors==0.8.0
