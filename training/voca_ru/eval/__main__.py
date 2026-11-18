@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import time
 from pathlib import Path
 
 from . import scoring
@@ -57,6 +58,7 @@ def main(argv=None) -> int:
     if not corpora:
         corpora = sorted((ROOT / "data" / "scripts-ru").glob("*.jsonl"))
 
+    load_started = time.perf_counter()
     backend = make_backend(
         args.backend,
         model_dir=args.model_path,
@@ -66,8 +68,10 @@ def main(argv=None) -> int:
         fake_transcripts=args.fake_transcripts,
         gigaam_model=args.gigaam_model,
     )
+    load_seconds = time.perf_counter() - load_started
     report = evaluate(rows, backend, args.audio_dir, corpora)
     report["asr_backend"] = backend.name
+    report["model_load_seconds"] = round(load_seconds, 3)
     report["scoring_implementation"] = scoring.implementation
     report["warnings"] = []
     if args.backend == "fake":

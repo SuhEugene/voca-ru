@@ -9,7 +9,7 @@ from pathlib import Path
 
 from .asr import ASRBackend, timed_transcribe
 from .audio import audio_info
-from .metrics import cer, edit_counts
+from .metrics import cer_counts, edit_counts
 from .scoring import score_text
 
 CATEGORIES = ("number", "date", "money", "name", "question",
@@ -76,6 +76,7 @@ def evaluate(
         duration, rate = audio_info(audio)
         text, asr_seconds = timed_transcribe(backend, str(audio))
         errors, ref_len, subs, ins = edit_counts(row["text"], text)
+        cer_errors, ref_chars = cer_counts(row["text"], text)
         out_rows.append({
             "id": row["id"],
             "category": resolve_category(row, by_id, by_text),
@@ -90,7 +91,9 @@ def evaluate(
             "substitutions": subs,
             "insertions": ins,
             "wer": errors / ref_len if ref_len else float(bool(errors)),
-            "cer": cer(row["text"], text),
+            "cer": cer_errors / ref_chars if ref_chars else float(bool(cer_errors)),
+            "cer_errors": cer_errors,
+            "ref_chars": ref_chars,
             "synth_seconds": row.get("synth_seconds"),
             "first_audio_seconds": row.get("first_audio_seconds"),
         })
@@ -101,12 +104,14 @@ def evaluate(
     total_words = sum(r["ref_words"] for r in out_rows)
     total_audio = sum(r["audio_seconds"] for r in out_rows)
     total_asr = sum(r["asr_seconds"] for r in out_rows)
+    total_cer = sum(r["cer_errors"] for r in out_rows)
+    total_chars = sum(r["ref_chars"] for r in out_rows)
     overall = {
         "rows": len(out_rows),
         "audio_seconds": round(total_audio, 3),
         "asr_seconds": round(total_asr, 3),
         "wer": total_errors / total_words if total_words else None,
-        "cer": _mean(r["cer"] for r in out_rows),
+        "cer": total_cer / total_chars if total_chars else None,
         "asr_rtf": total_asr / total_audio if total_audio else None,
         "asr_speed_x": total_audio / total_asr if total_asr else None,
         "wall_seconds": round(wall, 3),
@@ -119,10 +124,12 @@ def evaluate(
             continue
         errs = sum(r["errors"] for r in rows_c)
         words = sum(r["ref_words"] for r in rows_c)
+        chars = sum(r["ref_chars"] for r in rows_c)
+        cer_errs = sum(r["cer_errors"] for r in rows_c)
         categories[name] = {
             "rows": len(rows_c),
             "wer": errs / words if words else None,
-            "cer": _mean(r["cer"] for r in rows_c),
+            "cer": cer_errs / chars if chars else None,
         }
     synth = [r for r in out_rows
              if r["synth_seconds"] is not None and r["first_audio_seconds"] is not None]
@@ -144,11 +151,6 @@ def evaluate(
         "synthesis": synthesis,
         "rows": out_rows,
     }
-
-
-def _mean(values) -> float | None:
-    values = list(values)
-    return sum(values) / len(values) if values else None
 
 
 def _p95(values: list[float]) -> float:
@@ -175,14 +177,15 @@ def to_markdown(report: dict) -> str:
         "",
         f"- ASR: `{report['asr_backend']}`",
         f"- Scoring text: `{report['scoring_implementation']}`",
+        f"- Model load: {report.get('model_load_seconds', '—')} s",
         f"- Rows: {o['rows']}, audio {o['audio_seconds']:.1f} s",
         "",
         "## Overall",
         "",
         "| metric | value |",
         "|---|---:|",
-        f"| WER | {_fmt(o['wer'])} |",
-        f"| CER | {_fmt(o['cer'])} |",
+        f"| WER | {_pct(o['wer'])} |",
+        f"| CER | {_pct(o['cer'])} |",
         f"| ASR RTF | {_fmt(o['asr_rtf'])} |",
         f"| ASR speed (audio s / wall s) | {_fmt(o['asr_speed_x'])} |",
         f"| sample rates | {', '.join(map(str, o['sample_rates']))} |",

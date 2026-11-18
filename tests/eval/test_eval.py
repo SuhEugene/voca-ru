@@ -129,6 +129,17 @@ class StressSetTest(unittest.TestCase):
         groups = {i["group"] for i in items}
         self.assertIn("homograph", groups)
 
+    def test_evaluate_without_detector_is_explicit(self):
+        from voca_ru.eval import evaluate_stress
+
+        items = load_stress_set()[:3]
+        transcripts = {item["id"]: item["word"] for item in items}
+        result = evaluate_stress(items, transcripts)
+        self.assertEqual(result["word_miss_rate"], 0.0)
+        self.assertIsNone(result["stress_error_rate"])
+        self.assertIsNone(result["detector"])
+        self.assertIn("no stress marks", result["note"])
+
 
 if __name__ == "__main__":
     unittest.main()

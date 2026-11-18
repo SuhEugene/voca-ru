@@ -94,7 +94,7 @@
 {"id": "st094", "word": "досу́г", "correct": "досу́г", "wrong": "до́суг", "group": "noun"}
 {"id": "st095", "word": "жалюзи́", "correct": "жалюзи́", "wrong": "жа́люзи", "group": "noun"}
 {"id": "st096", "word": "свёкла", "correct": "свёкла", "wrong": "свекла́", "group": "noun"}
-{"id": "st097", "word": "це́мент", "correct": "це́мент", "wrong": "цеме́нт", "group": "noun"}
+{"id": "st097", "word": "цеме́нт", "correct": "цеме́нт", "wrong": "це́мент", "group": "noun"}
 {"id": "st098", "word": "щаве́ль", "correct": "щаве́ль", "wrong": "ща́вель", "group": "noun"}
 {"id": "st099", "word": "экспе́рт", "correct": "экспе́рт", "wrong": "э́ксперт", "group": "noun"}
 {"id": "st100", "word": "фено́мен", "correct": "фено́мен", "wrong": "феноме́н", "group": "noun"}
@@ -110,8 +110,8 @@
 {"id": "st110", "word": "сре́дство", "correct": "сре́дство", "wrong": "средство́", "group": "noun"}
 {"id": "st111", "word": "бухга́лтер", "correct": "бухга́лтер", "wrong": "бухгалте́р", "group": "noun"}
 {"id": "st112", "word": "шофёр", "correct": "шофёр", "wrong": "шо́фер", "group": "noun"}
-{"id": "st113", "word": "све́рло", "correct": "све́рло", "wrong": "сверло́", "group": "noun"}
-{"id": "st114", "word": "свёкор", "correct": "свёкор", "wrong": "свекро́в", "group": "noun"}
+{"id": "st113", "word": "сверло́", "correct": "сверло́", "wrong": "све́рло", "group": "noun"}
+{"id": "st114", "word": "алфави́т", "correct": "алфави́т", "wrong": "алфа́вит", "group": "noun"}
 {"id": "st115", "word": "догово́ры", "correct": "догово́ры", "wrong": "до́говоры", "group": "noun_plural"}
 {"id": "st116", "word": "катало́ги", "correct": "катало́ги", "wrong": "ката́логи", "group": "noun_plural"}
 {"id": "st117", "word": "кварта́лы", "correct": "кварта́лы", "wrong": "ква́рталы", "group": "noun_plural"}

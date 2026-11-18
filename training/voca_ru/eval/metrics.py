@@ -42,10 +42,16 @@ def wer(ref_text: str, hyp_text: str) -> float:
     return errors / ref_len if ref_len else float(bool(errors))
 
 
-def cer(ref_text: str, hyp_text: str) -> float:
+def cer_counts(ref_text: str, hyp_text: str) -> tuple[int, int]:
+    """(char errors, reference chars). Spaces are not scored."""
     ref = score_text(ref_text).replace(" ", "")
     hyp = score_text(hyp_text).replace(" ", "")
     if not ref:
-        return float(bool(hyp))
+        return int(bool(hyp)), 0
     subs, dels, ins = _distance(list(ref), list(hyp))
-    return (subs + dels + ins) / len(ref)
+    return subs + dels + ins, len(ref)
+
+
+def cer(ref_text: str, hyp_text: str) -> float:
+    errors, ref_chars = cer_counts(ref_text, hyp_text)
+    return errors / ref_chars if ref_chars else float(bool(errors))
