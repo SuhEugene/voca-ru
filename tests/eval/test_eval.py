@@ -98,6 +98,18 @@ class FixtureSelfCheck(unittest.TestCase):
         self.assertGreater(self.report["overall"]["audio_seconds"], 2.5)
         self.assertIn("asr_seconds", self.report["overall"])
 
+    def test_synthesis_timing_fields(self):
+        row = {"id": "t", "text": "один два", "audio": self.rows[0]["audio"],
+               "synth_seconds": 1.0, "first_audio_seconds": 0.25}
+        report = evaluate(
+            [row],
+            FakeASR({str((self.root / row["audio"]).resolve()): "один два"}),
+            self.root,
+        )
+        self.assertEqual(report["synthesis"]["rows"], 1)
+        self.assertAlmostEqual(report["synthesis"]["first_audio_seconds_mean"], 0.25)
+        self.assertGreater(report["synthesis"]["rtf"], 0.0)
+
     def test_category_breakdown_and_single_pair_cli(self):
         report = evaluate(
             [{"id": "x", "text": "один два", "audio": self.rows[0]["audio"],
