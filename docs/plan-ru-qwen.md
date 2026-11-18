@@ -26,7 +26,7 @@ Verified from `n4ze3m/tiny-voca` (`README.md`, `docs/model.md`, `scripts/generat
 | Rust `dizione` frontend | New Rust Russian frontend. **Biggest integration risk** — decision in §5. |
 | Two English voices | Two Russian voices, F and M, same interface as `f2`/`m2`. |
 
-**Teacher stress is a hard requirement (R3).** Base Qwen3-TTS follows a stress mark only 65 % of the time (17 % against the dictionary), so unstressed generation would teach the student wrong stress. Always mark the text with RUAccent (MIT) as U+0301 after the stressed vowel and generate with the Apache-2.0 adapter `siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf` (100 % / 96 % adherence, 0.1 % departure from RUAccent on ordinary text).
+**Teacher stress is a hard requirement (R3).** Base Qwen3-TTS follows a stress mark only 65 % of the time (17 % against the dictionary), so unstressed generation would teach the student wrong stress. Always mark the text with RUAccent (MIT) as U+0301 after the stressed vowel and generate with the Apache-2.0 adapter `siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf` (100 % / 96 % adherence, 0.1 % departure from RUAccent on ordinary text). Screening must include a stress check, not only WER: the adapter repo ships `meter2`, an Apache-2.0 audio stress detector, which we use to reject clips that misplace the mark.
 
 ## 3. Locked decisions
 
