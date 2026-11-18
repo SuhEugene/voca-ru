@@ -58,6 +58,7 @@ Wave 0 (running): R1 repo map, R2 data/text/stress survey, R3 base-model survey 
 | D1 | Design + approve two Russian voices (VoiceDesign descriptions, seeds), human listens | `references/`, `voices.json`, `reports/D1-voices.md` |
 | D2 | Generate the corpus (2 voices × scripts), resume-safe, screening, manifest | `data/synthetic-ru/` (ignored) |
 | D3 | Prepare + annotate (adapt upstream `prepare.py` / `annotate.py` to F3/F6) | `training/prepare/`, `training/annotate/` |
+| T0 | **Frontend ablation**: phoneme+stress vs grapheme pilot (≤10k steps each), scored on 200 hard sentences (numbers, homographs, names) by round-trip WER + stress-error audit | `training/train/` (configs only), `reports/T0-ablation.md` |
 | T1 | Training entrypoint: same architecture/hyperparameters as upstream, resume, periodic eval hook, sample synthesis of a fixed Russian sentence list | `training/train/`, `configs/` |
 | T2 | Configs: upstream-equivalent baseline + one cheaper/smaller run; hardware-specific batch sizes from R4 | `configs/*.yaml` |
 
@@ -77,7 +78,10 @@ L1 model card (teacher model, synthetic-data provenance, licences, metrics, limi
 
 ## 5. Open decisions (need the human)
 
-1. **Frontend strategy.** (a) Port eSpeak-ru rules to Rust; (b) our own Russian G2P + stress dictionary modelled on `dizione`; (c) relax the "no runtime dependency" property. Recommend (b), decided after R5/ports and F7 prototype evidence.
+1. **Runtime stress strategy** (the human wants no RUAccent in the shipped binary):
+   - (a) **pruned static stress dictionary** (top-N forms as a Rust trie, a few MB) + rules for OOV → keep phoneme frontend, proven recipe;
+   - (b) **grapheme frontend** — Cyrillic letters + punctuation, no stress, no G2P; the model learns Russian phonology from the audio. Simplest runtime, unproven at 4.5M params; needs an alignment workaround (phones→letters).
+   Decided by the **T0 ablation** (two ≤10k-step pilots on the same data, scored on 200 hard sentences: numbers, homographs, names). If (b) is not clearly worse, drop RUAccent and G2P from the runtime entirely. RUAccent stays a training-time tool either way.
 2. **Voice approval.** You listen to candidate F/M references before 17k clips are generated.
 3. **Generation compute.** Teacher generation on this M5 is unproven (qwen-tts is CUDA-oriented). If MPS fails, a rented 4090 for a few hours is ~$10–20; that is a spend decision.
 4. **Script sourcing.** Which Russian text sources you accept (R2 will list licences).
