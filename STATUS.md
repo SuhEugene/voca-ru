@@ -15,13 +15,16 @@ Remotes: `origin` = github.com/SuhEugene/voca-ru (fork), `upstream` = sultson/vo
 
 ## Tasks
 
+Branch: **B′ synthetic teacher distillation** — see `docs/plan-ru-qwen.md`. Russian audio comes from Qwen3-TTS VoiceDesign + Base clone; the 4.5M model is trained from scratch on it. No collected speech corpus.
+
 | ID | Task | Owner | Branch | State | Blockers |
 |----|------|-------|--------|-------|----------|
 | —  | Scaffold | orchestrator | main | done | — |
 | R1 | repo analysis | subagent | task/recon | running | — |
-| R2 | russian data survey | subagent | task/ru-data | running | — |
-| R3 | base model survey | subagent | task/base-models | running | — |
-| R4 | compute + env | subagent | task/compute-env | running | — |
+| R2 | russian data/text/stress survey | subagent | task/ru-data | running | — |
+| R3 | teacher + fallback survey | subagent | task/base-models | running | — |
+| R4 | compute + Qwen-on-M5 test | subagent | task/compute-env | running | — |
+| R5 | community ports study | subagent | task/ports | running | — |
 
 ## Risks
 
