@@ -29,6 +29,8 @@ Branch: **B′ synthetic teacher distillation** — see `docs/plan-ru-qwen.md`. 
 | R6 | Silero applicability (teacher/stress/runtime) | subagent | task/silero | **merged** (fbf8ecc) | — |
 | Gate 0 | `docs/contracts.md` | orchestrator | main | **done** | — |
 | F2 | Russian scripts (8k sentences) | subagent | task/f2-texts | **merged** (4b66df2) — 4500 batch1 (3870/315/315) + 3500 batch2, tests green | — |
+| F5 | eval harness (WER/CER, stress set, RTF) | subagent | task/f5-eval | **merged** (2be31d3) — 14 tests green; real ASR numbers pending whisper weights | whisper model.bin |
+| G1 | teacher harness + MPS smoke | subagent | task/g1-teacher | **merged** (b48b31c); Base works on MPS; voice candidates pending VoiceDesign weights | VoiceDesign download |
 | F6 | aligner spike (Russian eSpeak labels) | subagent | task/f6-align | **merged** (add64c1) — 97.7 % accept on FLEURS, 0 unalignable phones, mapping contract in `docs/aligner-mapping.md` | — |
 
 ## Risks
