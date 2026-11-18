@@ -21,7 +21,7 @@ Branch: **B′ synthetic teacher distillation** — see `docs/plan-ru-qwen.md`. 
 |----|------|-------|--------|-------|----------|
 | —  | Scaffold | orchestrator | main | done | — |
 | R1 | repo analysis | subagent | task/recon | **merged** (a067aa0) | — |
-| R2 | russian data/text/stress survey | subagent | task/ru-data | running | — |
+| R2 | russian data/text/stress survey | subagent | task/ru-data | **merged** (db3f437); 2nd pass running | — |
 | R3 | teacher + fallback survey | subagent | task/base-models | running | — |
 | R4 | compute + Qwen-on-M5 test | subagent | task/compute-env | running | — |
 | R5 | community ports study | subagent | task/ports | running | — |
