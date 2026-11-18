@@ -749,6 +749,13 @@ CPU-trained Arabic and fine-tuned Sanskrit (`upstream/README.md:109-129`).
 5. **Data licence.** Russian corpus licences are unverified (STATUS risk 3).
    Any Russian derivative must clear training and redistribution rights.
 
+**Shortest escape hatch:** if a reduced Russian inventory fits 76 symbols with
+consonants in 17–42 and vowels in 43–75, the Rust model and vocoder need **no**
+code change: only `crates/dizione` (symbols + frontend) and the checkpoint
+change. That is the cheapest route if the reduced phone set is phonologically
+acceptable; the alternative is expanding the inventory and editing the Rust
+constants.
+
 ### 6.5 Can the vocoder be reused?
 
 - **Architecture: yes.** The harmonic/noise source-filter head is language-
