@@ -27,6 +27,8 @@ Branch: **B′ synthetic teacher distillation** — see `docs/plan-ru-qwen.md`. 
 | R5 | community ports study | subagent | task/ports | **merged** (7c92dfe) | — |
 | R6 | Silero applicability (teacher/stress/runtime) | subagent | task/silero | **merged** (fbf8ecc) | — |
 | Gate 0 | `docs/contracts.md` | orchestrator | main | **done** | — |
+| F2 | Russian scripts (8k sentences) | subagent | task/f2-texts | running | — |
+| F6 | aligner spike (Russian eSpeak labels) | subagent | task/f6-align | running | — |
 
 ## Risks
 
