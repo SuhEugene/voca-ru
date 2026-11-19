@@ -1,0 +1,35 @@
+# Upstream-equivalent recipe (n4ze3m/tiny-voca, Apache-2.0).
+# Model defaults are the released 4.5M architecture; only the Russian symbol
+# table (still 76 ids) differs. See training/voca_ru/train/config.py.
+
+model: {}
+
+steps: 104000
+batch_frames: 9000        # padded acoustic frames per batch (upstream default)
+max_batch: 32
+accumulate: 1             # micro-batches per optimizer step
+amp: true                 # bfloat16 autocast
+
+learning_rate: 3.0e-4
+warmup: 1000
+lr_half_life: 100000
+grad_clip: 10.0
+
+gan_start: 8000           # spectral-only for the first 8k steps
+gan_ratio: 0.7            # adversarial gradient / reconstruction gradient
+gan_ramp: 3000
+feature_matching: 30.0
+gan_scale_max: 2000.0
+crop_samples: 8192
+crops: 2
+
+teacher_hold: 3000
+teacher_ramp: 7000
+teacher_final: 0.0
+
+save_every: 1000
+keep_every: 10000
+log_every: 10
+sample_every: 1000
+eval_every: 1000
+validation_size: 32
