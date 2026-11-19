@@ -34,7 +34,7 @@ while [ "$i" -lt "$parts" ]; do
       [ "$have" -ge "$want" ] && break
       tries=$((tries + 1)); [ "$tries" -gt 80 ] && { echo "part $i gave up at $have/$want" >&2; exit 1; }
       remain=$((want - have))
-      curl -sfL --retry 5 --retry-all-errors --retry-delay 2 -m 900 \
+      curl -sfL -m 900 \
         --speed-limit 20000 --speed-time 60 \
         -r "$((s + have))-$e" "$url" | head -c "$remain" >> "$f" || sleep 2
       now=$(stat -f%z "$f" 2>/dev/null || echo 0)
