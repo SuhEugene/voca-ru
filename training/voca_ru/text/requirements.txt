@@ -1,0 +1,5 @@
+# F3 runtime deps (Python). eSpeak NG is only used offline for labels.
+ruaccent==1.5.8.3
+espeakng-loader==0.2.4
+onnxruntime==1.32.0
+numpy==2.5.5
