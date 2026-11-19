@@ -31,6 +31,8 @@ Branch: **B′ synthetic teacher distillation** — see `docs/plan-ru-qwen.md`. 
 | F2 | Russian scripts (8k sentences) | subagent | task/f2-texts | **merged** (4b66df2) — 4500 batch1 (3870/315/315) + 3500 batch2, tests green | — |
 | F5 | eval harness (WER/CER, stress set, RTF) | subagent | task/f5-eval | **merged** (2be31d3) — 14 tests green; real ASR numbers pending whisper weights | whisper model.bin |
 | F3 | Russian frontend (norm+stress+G2P, 76 symbols) | subagent | task/f3-frontend | **merged** (db75488) — 59 tests green in `.cache/venvs/f3`; OOV 2.05 % of tokens; 18/20 stress | — |
+| P1 | training stack ported (4,537,291 params) | subagent | task/p1-train | **merged** (716b6c2) — 61 h for 104k steps on M5; decision pending | training time |
+| F7 | Rust Russian frontend | subagent | task/f7-rust | **merged** (9cb41da) — 100 % token parity on 8k sentences; 5 MB dictionary | eSpeak-derived lexicon licence |
 | G1 | teacher harness + MPS smoke | subagent | task/g1-teacher | **merged** (b48b31c); Base works on MPS; voice candidates pending VoiceDesign weights | VoiceDesign download |
 | F6 | aligner spike (Russian eSpeak labels) | subagent | task/f6-align | **merged** (add64c1) — 97.7 % accept on FLEURS, 0 unalignable phones, mapping contract in `docs/aligner-mapping.md` | — |
 
