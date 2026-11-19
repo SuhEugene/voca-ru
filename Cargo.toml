@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["crates/dizione", "crates/tiny-voca"]
+members = ["crates/dizione", "crates/tiny-voca", "crates/voca-ru-text"]
 
 [profile.release]
 opt-level = 3

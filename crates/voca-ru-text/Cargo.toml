@@ -1,0 +1,17 @@
+[package]
+name = "voca-ru-text"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "Russian text frontend (normalise, stress, G2P) for the voca-ru model"
+
+[dependencies]
+fancy-regex = "0.14"
+unicode-normalization = "0.1"
+
+[[bin]]
+name = "voca-ru-text"
+path = "src/main.rs"
+
+[dev-dependencies]
+serde_json = "1"

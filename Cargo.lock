@@ -328,6 +328,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "voca-ru-text"
+version = "0.1.0"
+dependencies = [
+ "fancy-regex",
+ "serde_json",
+ "unicode-normalization",
+]
+
+[[package]]
 name = "zmij"
 version = "1.0.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
