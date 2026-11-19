@@ -44,3 +44,25 @@ Branch: **B′ synthetic teacher distillation** — see `docs/plan-ru-qwen.md`. 
 3. Licences: upstream Apache-2.0; CMUdict data ships with the phonemizer; Russian corpora licences unverified. Research-only scope relaxes corpus choice but not attribution.
 4. Test-set leakage / normalisation mismatch — see plan section 7.
 5. Two voices doubles data and training work; plan for it in Gate 0 contracts.
+
+## Downloaded assets (verified, do not re-download)
+
+All under `<repo>/.cache/models` and git-ignored. SHA-256 verified against HF.
+
+| Asset | Size | SHA-256 (prefix) | Used by |
+|---|---:|---|---|
+| `qwen3-tts-1.7b` (Base) | 3.86 GB | `38fc7fc5…` | teacher generation |
+| `qwen3-tts-1.7b/speech_tokenizer` | 682 MB | `836b7b35…` | teacher |
+| `qwen3-tts-1.7b-voicedesign` | 3.83 GB | `391e8db2…` | voice design |
+| `qwen3-tts-ru-stress/lora/adapter.safetensors` | 35 MB | — | stress adapter (peft) |
+| `qwen3-tts-ru-stress/meter/{head.pt,meter2.py}` | 4.2 MB | — | audio stress screening |
+| `whisper-large-v3-turbo/model.bin` | 1.62 GB | `e76620f8…` | WER judge |
+| `gigaam-v3/pytorch_model.bin` | 428 MB | `afc6dcba…` | cross-check judge |
+| `wav2vec2-lv-60-espeak-cv-ft/pytorch_model.bin` | 1.26 GB | `3173bde9…` | forced alignment |
+| `ruaccent/{dictionary,nn_accent}` | 24 MB | — | stress dictionary + NN |
+| `fleurs-ru/test` (131 clips) | 91 MB | n/a (tar extract) | eval set |
+
+Environment: one venv `.cache/venvs/r4` has torch 2.15, peft 0.21, faster-whisper 1.2.1,
+qwen-tts, ruaccent, espeakng-loader, librosa, torchaudio, matplotlib.
+Rust toolchain and its crates live in `.cache/{rustup,cargo}`.
+Run `. scripts/cache-env.sh` in every shell; it pins the absolute cache path.
