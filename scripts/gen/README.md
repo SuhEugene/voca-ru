@@ -46,3 +46,30 @@ Notes:
 - Seeds are fixed with `torch.manual_seed` right before each generation call;
   they are recorded in the metrics JSON.
 - `sox` and `flash-attn` warnings are expected and harmless on macOS.
+
+## Corpus builder (D2)
+
+`build_corpus.py` turns `data/scripts-ru/batch{1,2}.jsonl` into screened audio
+for the two chosen voices (`f_neutral`, `m_neutral`).
+
+```sh
+. scripts/cache-env.sh
+# references: out/g1/voices/<name>.{wav,txt} -> assets/voices/ (git-ignored audio)
+PYTHONPATH=training .cache/venvs/r4/bin/python scripts/gen/build_corpus.py \
+    --pilot --measure-batch 4,8 --batch-size 8
+```
+
+- Text goes through `training/voca_ru/text` (F3): normalise → RUAccent stress
+  (U+0301) → phonemes. The marked string is what the teacher receives.
+- Teacher: Qwen3-TTS Base + the Russian stress LoRA loaded with `peft`
+  (`inject_adapter_in_model`). If `peft` fails the run **prints a loud warning**
+  and continues on Base alone; `teacher_adapter` in the manifest records it.
+- Length-bucketed batches (G1: 1.64× in corpus order vs 3.0× bucketed).
+- Screening per clip (`screen.py`): Whisper large-v3-turbo WER ≤ 15 %,
+  duration ratio 0.6–1.6 of `chars / 14`, 0.5–35 s, 0.5–7 words/s, RMS,
+  clipping, leading/trailing trim, meter2 stress vs the marks. One
+  regeneration, then `review.jsonl`.
+- Output: `manifest.jsonl`, `review.jsonl`, `audio/<voice>/<id>.flac`,
+  `rejected/`, `run-stats.json`. Rerunning skips ids already in either JSONL.
+
+Tests: `PYTHONPATH=training .cache/venvs/r4/bin/python -m unittest discover -s tests/gen`
