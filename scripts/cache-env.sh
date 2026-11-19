@@ -4,7 +4,7 @@
 #
 #   . "$(git rev-parse --show-toplevel)/scripts/cache-env.sh"
 #
-ROOT=$(cd "$(dirname "$0")/.." && pwd)
+ROOT=/Users/suheugene/projects/22-tiniest-voca-ru
 export VOCA_CACHE="$ROOT/.cache"
 export XDG_CACHE_HOME="$VOCA_CACHE"
 export HF_HOME="$VOCA_CACHE/huggingface"
