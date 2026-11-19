@@ -12,6 +12,8 @@ Remotes: `origin` = github.com/SuhEugene/voca-ru (fork), `upstream` = sultson/vo
 | Compute | **Local M5 first. Never start training autonomously.** Renting GPU needs a concrete cost shown to the human first. |
 | Release target | **Two Russian voices (female + male)**, mirroring `f2` / `m2`. |
 | Publishing | Fork under `SuhEugene` — done (`voca-ru`). No upstream PR unless asked. |
+| Voice choice (iteration 1) | **`f_neutral` (F) + `m_neutral` (M)** — from the four VoiceDesign candidates, chosen by ear 2026-11-19. `f_warm`/`m_warm` kept as alternates. |
+| Adding voices later | Accepted to be **expensive**: new voice = VoiceDesign reference → full corpus generation for it → **retrain** the student with the expanded speaker list (`nn.Embedding(len(speakers))` in `model.py:254`). No speaker-embedding redesign for now. |
 
 ## Tasks
 
@@ -66,3 +68,19 @@ Environment: one venv `.cache/venvs/r4` has torch 2.15, peft 0.21, faster-whispe
 qwen-tts, ruaccent, espeakng-loader, librosa, torchaudio, matplotlib.
 Rust toolchain and its crates live in `.cache/{rustup,cargo}`.
 Run `. scripts/cache-env.sh` in every shell; it pins the absolute cache path.
+
+## Decisions log
+
+Newest last. Every decision that constrains future work goes here, not only in memory.
+
+| Date | Decision | Why / consequence |
+|---|---|---|
+| 2026-11-19 | Synthetic teacher (Qwen3-TTS), no recorded corpus | Plan branch B′; recorded corpora demoted to fallback |
+| 2026-11-19 | RUAccent for training-time stress; Rust subset allowed at runtime under 50 MB / 300 MB gates | Russian stress is lexical; hidden from the model otherwise |
+| 2026-11-19 | 76-symbol inventory (5 special + 23 punctuation + 48 phonemes) | Rust model/vocoder shapes unchanged |
+| 2026-11-19 | Silero TTS excluded as a generator | Human decision; Qwen is the only teacher |
+| 2026-11-19 | Teacher = Base + RUAccent marks + Russian LoRA | Base alone follows stress ~65 %; G2 measures the delta |
+| 2026-11-19 | Voices = `f_neutral` + `m_neutral` for iteration 1 | Human listened to the same-phrase samples |
+| 2026-11-19 | Adding a voice later = new VoiceDesign ref + corpus + **retrain** | Speaker set is compile/config time (`nn.Embedding`); accepted cost |
+| 2026-11-19 | Batch corpus by length, not corpus order | 1.64× vs 3.0× realtime measured by G1 |
+| 2026-11-19 | Big HF files via `hf download` or `fetch-hf-file.sh` (no `curl --retry` + append) | `--retry` restarts ranges and silently corrupts |
