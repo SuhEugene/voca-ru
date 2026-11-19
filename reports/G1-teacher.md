@@ -8,13 +8,13 @@ audition.
 ## TL;DR
 
 - **Base works on MPS in bfloat16.** Six smoke clips, all non-silent, no
-  clipping, durations 0.91–1.37× of the expected length. Batch 1 runs at
-  RTF 1.79 (0.56× realtime); batching is where the speed comes from.
-- **VoiceDesign weights: fetching handed to the orchestrator** after the 16-range
-  fetch stalled at ~128 MB (71 concurrent connections across two agents froze
-  the CDN). Sections §2 and §3 are pending that file; everything else is done.
-- **Batch 8 measure** — see §3; this is the number to use for the 17k-clip
-  budget.
+  clipping, durations 0.91–1.37× of the expected length, 3.9% ASR WER at
+  batch 1 (RTF 1.79 / 0.56× realtime).
+- **VoiceDesign works and produced four candidates** (2 F, 2 M), 8.2–9.0 s
+  each, exact transcripts, seeds 101/202/303/404, no clipping. Shortlist
+  `f_warm` + `m_warm`; human ears still decide accent.
+- **Batch 8 is 1.64× realtime on the raw corpus order and 2.96–3.16× after
+  length bucketing** — the 5× claim needs batch 16 plus bucketing. See §3.
 - `data/scripts-ru/batch1.jsonl` has **no digits at all**; numbers and dates
   are spelled out by the text contract. The teacher never sees a digit, so
   the "numbers" risk is a normaliser risk, not a TTS risk.
@@ -71,7 +71,7 @@ correctly. Raw transcripts are in `out/g1/asr-smoke.json`.
 Command:
 
 ```sh
-./scripts/gen/fetch-voicedesign.sh        # 3.83 GB, sha256-verified
+./scripts/gen/fetch-voicedesign.sh   # only if the cache is missing; verifies sha256
 .cache/venvs/r4/bin/python scripts/gen/teacher.py design
 ```
 
@@ -80,29 +80,64 @@ English `instruct` strings (the model expects English descriptions), one
 expressive digit-free Russian sentence each, `torch.manual_seed(seed)` before
 every call.
 
-**Status: blocked on the weights.** The 16-range fetch stalled at ~128 MB
-(0.46 GB total across the cache) and was stopped at the orchestrator's request;
-the orchestrator is refetching with few connections and a stall detector. The
-four candidate definitions (names, seeds, English descriptions, Russian
-sentences) are frozen in `scripts/gen/teacher.py` (`VOICES`), so the run is one
-command once `model.safetensors` exists:
+**Status: done** (weights verified, sha `391e8db219f292c5…`). The 16-range
+fetch stalled at ~128 MB and was stopped at the orchestrator's request; the
+orchestrator refetched centrally and the run is one command:
 
 ```sh
 .cache/venvs/r4/bin/python scripts/gen/teacher.py design
 ```
 
-Expected outputs: `out/g1/voices/{f_warm,f_neutral,m_warm,m_neutral}.wav` +
-`.txt`, `out/g1/voices-metrics.json`, and `out/g1/LISTEN.md`.
+| name | gender | seed | duration s | peak | RMS | silence | chars/s | RTF | ASR WER |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| `f_warm` | F | 101 | 8.64 | 0.527 | 0.084 | 5.0% | 9.15 | 1.54 | **0.0%** |
+| `f_neutral` | F | 202 | 8.64 | 0.629 | 0.099 | 3.3% | 9.93 | 1.48 | 12.5% |
+| `m_warm` | M | 303 | 8.24 | 0.645 | 0.075 | 2.7% | 9.76 | 1.49 | **5.0%** |
+| `m_neutral` | M | 404 | 9.04 | 0.766 | 0.083 | 6.6% | 7.44 | 1.95 | 10.5% |
 
-> table filled in when the run completes
+All four are 24 kHz mono PCM16, 8.2–9.0 s, no clipping. ASR WER is a
+`faster-whisper-small` round-trip (`out/g1/asr-voices.json`), a coarse
+intelligibility check, not the F5 screen. Load 2.2 s, peak MPS 4.91 GiB,
+generation 12–18 s per reference.
+
+Descriptions (passed verbatim, English as the model expects) and the exact
+Russian transcripts are in `out/g1/voices/voices.md`; the four pairs are frozen
+in `scripts/gen/teacher.py` (`VOICES`), seeds 101/202/303/404.
+
+**Shortlist:** `f_warm` + `m_warm` — best ASR agreement, lowest peaks in their
+gender, normal rate. `m_neutral` has the highest peak (0.766) and slowest rate;
+`f_neutral` has one clear ASR mismatch. Accent/naturalness is the human's call:
+see `out/g1/LISTEN.md`.
+
 
 ## 3. Batch 8 with a designed reference
 
-Pending the VoiceDesign weights: `teacher.py batch <voice>` loads Base, builds
-a prompt from the chosen reference **with its exact transcript**
-(`x_vector_only_mode=False`), and generates 8 batch1 sentences in one call. It
-records total wall time, RTF, chars/s, s/clip and peak MPS memory to
-`out/g1/batch8-metrics.json`.
+Command: `teacher.py batch f_warm`. This loads Base, builds a prompt from
+`out/g1/voices/f_warm.wav` **with its exact transcript**
+(`x_vector_only_mode=False`, 0.36 s) and generates 8 batch1 sentences in one
+call. The 8 sentences are the first 8 rows of batch1, i.e. the real corpus mix:
+one 179-char sentence plus seven of 30–65 chars.
+
+| mode | clips | audio s | wall cold s | wall warm s | RTF cold | × realtime | chars/s | s/clip | peak MPS |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| as-is (first 8 rows) | 8 | 38.72 | 23.64 | 24.21 | 0.611 | **1.64× / 1.60×** | 21.1 | 2.96 | 14.05 GiB |
+| uniform 55–75 chars | 8 | 36.96 | 12.50 | 11.71 | 0.338 | **2.96× / 3.16×** | 40.6 | 1.56 | 9.93 GiB |
+
+The **5× realtime claim is not reproduced at batch 8 with an unfiltered
+corpus batch**. The reason is padding: generation is batched, so every clip
+costs as much as the longest one. One 179-char / 11.9 s sentence among seven
+short ones makes the batch ~2.5× slower than its audio length suggests.
+R4's 3.31× at batch 8 used eight similar-length short sentences.
+
+Length bucketing recovers most of it: the uniform batch runs at **3.0–3.2×**
+with 40.6 chars/s, 1.56 s per clip and 9.93 GiB instead of 14.05 GiB. That is
+~1.65 h per 19 h of audio at batch 8; batch 16 was 5.04× in R4 and is the
+configuration to use for the corpus, provided clips are bucketed by length.
+
+Practical consequence for the 17k-clip run: **sort sentences by length and
+batch within length buckets**, or use batch 16. Memory at batch 8 with a 12 s
+outlier was 14.05 GiB driver-allocated, already too close to the 24 GiB budget
+for batch 16 with long clips.
 
 ## 4. Environment
 
@@ -135,22 +170,27 @@ speech tokenizer is byte-identical to Base's and is copied, not downloaded.
   smoke clone had to use `x_vector_only_mode=True`. Fine for a smoke, but the
   production prompt should be a VoiceDesign reference **with** its transcript
   (as in §3), or the reference must be transcribed/confirmed by a human.
-- **VoiceDesign download is slow** (~0.75 MB/s aggregate with 16 ranges today,
-  same ceiling R4 measured). Handed to the orchestrator; a central fetch with
-  few connections and a stall detector is the fix.
 - **No human listening yet.** All quality statements here are objective
   (peak, RMS, duration, ASR WER). The accent/naturalness gate is the human's.
+- **Throughput is length-sensitive.** Batch time is set by the longest clip;
+  bucket by sentence length before the corpus run. Re-measure at batch 16
+  with buckets on the real script file, not on 8 sentences.
 
 ## 6. Reproducing
 
 ```sh
 make doctor
 .cache/venvs/r4/bin/python scripts/gen/teacher.py smoke
-./scripts/gen/fetch-voicedesign.sh
+./scripts/gen/fetch-voicedesign.sh          # no-op if the cache is complete
 .cache/venvs/r4/bin/python scripts/gen/teacher.py design
-.cache/venvs/r4/bin/python scripts/gen/teacher.py batch <voice>
+.cache/venvs/r4/bin/python scripts/gen/teacher.py batch f_warm
+.cache/venvs/r4/bin/python scripts/gen/teacher.py batch f_warm uniform
 ```
 
-Outputs land in `out/g1/`; `out/` and `.cache/` are git-ignored, so no audio or
-weights are ever committed.
+Outputs: `out/g1/base/{0_number,1_date,2_question,3_long,4_name,5_plain}.wav`,
+`out/g1/voices/{f_warm,f_neutral,m_warm,m_neutral}.{wav,txt}`,
+`out/g1/voices/voices.md`, `out/g1/LISTEN.md`, `out/g1/batch8*/`, and the
+matching `*-metrics.json`. `out/` and `.cache/` are git-ignored, so no audio or
+weights are ever committed. `out/g1/asr-*.json` are the ASR round-trip
+transcripts cited above.
 

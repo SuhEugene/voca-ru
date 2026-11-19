@@ -21,6 +21,9 @@ make doctor                      # versions, MPS, model cache
 
 # 5. 8-clip batch with the best candidate reference (reference + transcript)
 .cache/venvs/r4/bin/python scripts/gen/teacher.py batch f_warm
+
+# 5a. length-bucketed batch (the fair throughput number)
+.cache/venvs/r4/bin/python scripts/gen/teacher.py batch f_warm uniform
 ```
 
 Outputs are git-ignored:

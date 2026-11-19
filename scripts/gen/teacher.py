@@ -246,6 +246,7 @@ def cmd_design():
 
 def cmd_batch():
     name = sys.argv[2] if len(sys.argv) > 2 else "f_warm"
+    mode = sys.argv[3] if len(sys.argv) > 3 else "as-is"
     wav = os.path.join(OUT, "voices", name + ".wav")
     txt = os.path.join(OUT, "voices", name + ".txt")
     ref_text = open(txt).read().strip()
@@ -257,31 +258,43 @@ def cmd_batch():
     print(f"[prompt] {name} with transcript, {time.perf_counter()-t0:.2f} s", flush=True)
 
     rows = batch1()
-    texts = [r["text"] for r in rows[:8]]
+    if mode == "uniform":
+        # Length-bucketed batch: no clip is padded to a 179-char outlier.
+        cand = [r["text"] for r in rows if 55 <= len(r["text"]) <= 75]
+        texts = cand[:8]
+    else:
+        texts = [r["text"] for r in rows[:8]]
     torch.manual_seed(SEED)
-    t0 = time.perf_counter()
-    wavs, sr = model.generate_voice_clone(
-        text=texts, language=[LANG] * len(texts), voice_clone_prompt=prompt,
-    )
-    dt = time.perf_counter() - t0
+    runs = {}
+    wavs = sr = None
+    for tag in ("cold", "warm"):
+        t0 = time.perf_counter()
+        wavs, sr = model.generate_voice_clone(
+            text=texts, language=[LANG] * len(texts), voice_clone_prompt=prompt,
+        )
+        runs[tag] = time.perf_counter() - t0
+    dt = runs["cold"]
     recs = []
     for i, (w, txt_i) in enumerate(zip(wavs, texts)):
         stats = audio_stats(w, sr)
-        path = os.path.join(OUT, "batch8", f"{i}.wav")
+        path = os.path.join(OUT, "batch8" if mode == "as-is" else "batch8-uniform", f"{i}.wav")
         save(w, sr, path)
         recs.append({"i": i, "text": txt_i, "chars": len(txt_i),
                      "wall_s": round(dt / len(texts), 2), **stats})
     audio = sum(r["duration_s"] for r in recs)
     summary = {
-        "voice": name, "batch": len(texts), "device": "mps", "dtype": "bfloat16",
-        "total_audio_s": round(audio, 2), "wall_s": round(dt, 2),
-        "rtf": round(dt / audio, 3), "x_realtime": round(audio / dt, 2),
-        "chars_per_s": round(sum(r["chars"] for r in recs) / dt, 2),
+        "voice": name, "batch": len(texts), "mode": mode, "device": "mps", "dtype": "bfloat16",
+        "total_audio_s": round(audio, 2),
+        "wall_cold_s": round(dt, 2), "wall_warm_s": round(runs["warm"], 2),
+        "rtf_cold": round(dt / audio, 3), "rtf_warm": round(runs["warm"] / audio, 3),
+        "x_realtime_cold": round(audio / dt, 2),
+        "x_realtime_warm": round(audio / runs["warm"], 2),
+        "chars_per_s_cold": round(sum(r["chars"] for r in recs) / dt, 2),
         "s_per_clip": round(dt / len(texts), 2),
         "peak_mps_gib": round(torch.mps.driver_allocated_memory() / 1024**3, 2),
         "clips": recs,
     }
-    with open(os.path.join(OUT, "batch8-metrics.json"), "w") as f:
+    with open(os.path.join(OUT, "batch8-metrics.json" if mode == "as-is" else "batch8-uniform-metrics.json"), "w") as f:
         json.dump(summary, f, ensure_ascii=False, indent=1)
     print("[batch]", json.dumps({k: v for k, v in summary.items() if k != "clips"}),
           flush=True)
