@@ -156,10 +156,11 @@ with long prose buckets will be slower, so budget **3–4 h** on this M5.
 
 ## 8. Open issues / what could not be verified
 
-1. **Full run not started** (per instructions). Resumability was exercised only
-   at the id-filter level (the smoke run and the pilot share code, but the pilot
-   never needed a retry or a resume). A deliberate kill/resume test is still
-   missing.
+1. **Full run not started** (per instructions). Resume was verified by rerunning
+   the pilot command: 0 clips generated, `manifest.jsonl` stayed at 40 rows,
+   `run-stats.json` was left untouched. A kill *mid-batch* (partial batch) was
+   not tested; the id filter and stable batch seeds make it equivalent in code,
+   but it is unproven on disk.
 2. **`m_neutral` «поезд»** — see §5; human listen needed. If it is a teacher
    error, expect a small WER tail on other words too; the 40-clip pilot is too
    small to estimate it.

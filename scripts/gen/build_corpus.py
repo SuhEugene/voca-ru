@@ -506,8 +506,11 @@ def main():
         "peak_rss_gib": peak_rss_gib(),
         "peak_mps_gib": mps_gib(),
     })
-    with open(os.path.join(out, "run-stats.json"), "w") as f:
-        json.dump(stats, f, ensure_ascii=False, indent=1)
+    if clips:
+        with open(os.path.join(out, "run-stats.json"), "w") as f:
+            json.dump(stats, f, ensure_ascii=False, indent=1)
+    else:
+        print("[done] nothing new; run-stats.json left untouched", flush=True)
     print("[done]", json.dumps({k: v for k, v in stats.items()
                                 if k not in ("mark_examples", "measured_batches")}),
           flush=True)
