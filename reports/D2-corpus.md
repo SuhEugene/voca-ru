@@ -31,7 +31,7 @@ categories, stop before the full 8 000-sentence run.
 | `scripts/gen/README.md` | operator guide |
 | `assets/voices/{f_neutral,m_neutral}.{wav,txt}` | clone references copied from `out/g1/voices/` (audio is git-ignored) |
 | `out/d2/samples/` + `out/d2/LISTEN.md` | 4 samples + Russian listening note (git-ignored) |
-| `data/corpus-ru/` (git-ignored) | `manifest.jsonl`, `review.jsonl` (empty), `audio/<voice>/*.flac`, `rejected/`, `run-stats.json` |
+| `data/corpus-ru/` (git-ignored) | `manifest.jsonl`, `review.jsonl` (created on the first drop; absent in the pilot), `audio/<voice>/*.flac`, `rejected/`, `run-stats.json` |
 
 The manifest row matches the requested schema and adds provenance/screening
 fields:
