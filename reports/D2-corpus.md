@@ -177,9 +177,12 @@ with long prose buckets will be slower, so budget **3–4 h** on this M5.
 5. **Stress check only covers words meter2 is confident about.** 184 checked
    instances over 40 clips, none flagged; the adapter's headline 96 % adherence
    against the dictionary cannot be confirmed or refuted at this sample size.
-6. **Retry path not exercised.** No pilot clip failed, so the regenerate-once
-   branch ran zero times; the unit test covers the reason strings but not a real
-   regeneration.
+6. **Retry path exercised separately.** No pilot clip failed, so the pilot
+   itself never retried. A forced-failure smoke (`--max-wer -1`, one sentence,
+   one voice) generated attempt 1, regenerated once as attempt 2, then dropped:
+   `data/corpus-ru-retry/review.jsonl` has the reason `wer 0.000 > -1.0` and
+   `attempt: 2`; 0 accepted rows. The branch works, but a *real* quality failure
+   on the pilot corpus has not been seen.
 
 ## 9. Reproduce
 
@@ -190,6 +193,11 @@ cp ../../out/g1/voices/{f_neutral,m_neutral}.{wav,txt} assets/voices/   # if mis
 PYTHONPATH=training .cache/venvs/r4/bin/python -m unittest discover -s tests/gen
 PYTHONPATH=training .cache/venvs/r4/bin/python scripts/gen/build_corpus.py \
     --pilot --voices f_neutral,m_neutral --batch-size 8 --measure-batch 4,8
+
+# force the retry→drop path (no model output is kept):
+PYTHONPATH=training .cache/venvs/r4/bin/python scripts/gen/build_corpus.py \
+    --pilot --limit 1 --voices f_neutral --batch-size 1 --max-wer -1 \
+    --out data/corpus-ru-retry
 ```
 
 Outputs: `data/corpus-ru/` (git-ignored), `out/d2/LISTEN.md`,

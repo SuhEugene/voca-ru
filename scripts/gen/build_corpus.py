@@ -249,7 +249,7 @@ def append_jsonl(path, row):
         f.flush()
 
 
-def handle_clip(row, wav, sr, voice, seed, attempt, out, asr, stress, factory):
+def handle_clip(row, wav, sr, voice, seed, attempt, out, asr, stress, factory, max_wer):
     """Shape, save, screen one clip; move it into audio/ only if accepted."""
     cid = clip_id(row, voice)
     if sr != SR:
@@ -261,7 +261,7 @@ def handle_clip(row, wav, sr, voice, seed, attempt, out, asr, stress, factory):
     try:
         result = screen_clip(
             rejected, text=row["text"], stressed_text=row["stressed_text"],
-            stats=stats, asr=asr, stress=stress,
+            stats=stats, asr=asr, stress=stress, max_wer=max_wer,
         )
     except Exception as exc:  # one bad clip must not kill the run
         result = {"ok": False, "reject_reasons": [f"screening error: {type(exc).__name__}: {exc}"],
@@ -366,6 +366,8 @@ def main():
     ap.add_argument("--batch-size", type=int, default=8)
     ap.add_argument("--measure-batch", default="", help="e.g. 4,8 — measure then continue")
     ap.add_argument("--seed", type=int, default=1234)
+    ap.add_argument("--max-wer", type=float, default=0.15,
+                    help="screening WER ceiling (negative forces a drop, for testing)")
     ap.add_argument("--asr-device", default="mps")
     ap.add_argument("--asr-compute-type", default="float16")
     ap.add_argument("--no-screen", action="store_true")
@@ -409,7 +411,7 @@ def main():
         "teacher_model": "Qwen/Qwen3-TTS-12Hz-1.7B-Base",
         "teacher_adapter": adapter,
         "sentences": len(rows), "voices": voices,
-        "batch_size": args.batch_size, "pilot": bool(args.pilot),
+        "batch_size": args.batch_size, "max_wer": args.max_wer, "pilot": bool(args.pilot),
         "split": args.split, "seed": args.seed,
         "text_seconds": round(text_seconds, 2),
         "mark_examples": examples,
@@ -445,7 +447,7 @@ def main():
                 failed = []
                 for row, wav in zip(pending, wavs):
                     res = handle_clip(row, wav, sr, voice, seed, 1, out, asr, stress,
-                                      {"seconds": per_clip})
+                                      {"seconds": per_clip}, args.max_wer)
                     clips += 1
                     if res["ok"]:
                         append_jsonl(manifest, accept(row, res, voice, out, adapter))
@@ -463,7 +465,7 @@ def main():
                     print(f"[retry] {voice} {len(failed)} clips {rwall:.1f}s", flush=True)
                     for row, wav in zip(failed, rwavs):
                         res = handle_clip(row, wav, sr, voice, retry_seed, 2, out, asr, stress,
-                                          {"seconds": rpc})
+                                          {"seconds": rpc}, args.max_wer)
                         clips += 1
                         if res["ok"]:
                             append_jsonl(manifest, accept(row, res, voice, out, adapter))
