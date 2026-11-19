@@ -1,0 +1,6 @@
+Portions of this directory are derived from tiny-voca
+(https://github.com/n4ze3m/tiny-voca), revision e7f1bde, Copyright Muhammed
+Nazeem, licensed under the Apache License, Version 2.0 (see the repository
+LICENSE). The Russian adaptation keeps the upstream architecture, layer sizes
+and training recipe; the text front end, symbol table and aligner label
+mapping come from this project.

@@ -1,0 +1,32 @@
+# <=100-step smoke run on this M5 (MPS) or CPU. Same model, smaller batches.
+
+model: {}
+
+steps: 100
+batch_frames: 1200
+max_batch: 4
+accumulate: 2
+amp: true
+
+learning_rate: 3.0e-4
+warmup: 10
+lr_half_life: 100000
+grad_clip: 10.0
+
+gan_start: 20
+gan_ratio: 0.7
+gan_ramp: 10
+feature_matching: 30.0
+crop_samples: 4096
+crops: 1
+
+teacher_hold: 10
+teacher_ramp: 20
+teacher_final: 0.0
+
+save_every: 10
+keep_every: 50
+log_every: 1
+sample_every: 20
+eval_every: 0
+validation_size: 2
