@@ -36,8 +36,9 @@ with `--model-path`. `--compute-type int8` (default) or `float32`.
 ## Scoring text
 
 `training/voca_ru/eval/scoring.py` has `score_text()`. It imports
-`voca_ru.text.normalise_for_scoring` when F3 lands and otherwise uses a shim
-marked `TODO F3`. Every report records which implementation ran.
+`voca_ru.text.normalize` (F3) and adds comparison-only cleanup: ё→е, strip
+stress marks, lowercase, drop punctuation. A shim exists only if the F3 package
+is absent. Every report records which implementation ran.
 
 ## Tests
 

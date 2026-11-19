@@ -131,19 +131,20 @@ def evaluate(
             "wer": errs / words if words else None,
             "cer": cer_errs / chars if chars else None,
         }
-    synth = [r for r in out_rows
-             if r["synth_seconds"] is not None and r["first_audio_seconds"] is not None]
+    synth = [r for r in out_rows if r["synth_seconds"] is not None]
     synthesis = None
     if synth:
         synth_seconds = sum(r["synth_seconds"] for r in synth)
-        firsts = [r["first_audio_seconds"] for r in synth]
+        synth_audio = sum(r["audio_seconds"] for r in synth)
+        firsts = [r["first_audio_seconds"] for r in synth
+                  if r["first_audio_seconds"] is not None]
         synthesis = {
             "rows": len(synth),
             "synth_seconds": round(synth_seconds, 3),
-            "rtf": synth_seconds / total_audio if total_audio else None,
-            "first_audio_seconds_mean": round(statistics.mean(firsts), 4),
-            "first_audio_seconds_p95": round(_p95(firsts), 4),
-            "first_audio_seconds_max": round(max(firsts), 4),
+            "rtf": synth_seconds / synth_audio if synth_audio else None,
+            "first_audio_seconds_mean": round(statistics.mean(firsts), 4) if firsts else None,
+            "first_audio_seconds_p95": round(_p95(firsts), 4) if firsts else None,
+            "first_audio_seconds_max": round(max(firsts), 4) if firsts else None,
         }
     return {
         "overall": overall,

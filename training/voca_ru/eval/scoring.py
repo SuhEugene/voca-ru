@@ -1,12 +1,10 @@
 """Text normalisation used for scoring only (not for synthesis).
 
 The contract (§5) puts the single text normaliser in ``training/voca_ru/text``
-(F3).  Until that module lands, ``score_text`` below is a thin, explicitly
-reported shim.  ``implementation`` says which one ran, and every report records
-it; switching to F3 is one import.
-
-    TODO F3: when voca_ru.text exposes a scoring normaliser, import it here and
-    delete the shim.  Do not fork the normaliser into eval.
+(F3).  ``score_text`` imports it and adds only the comparison cleanup that must
+not leak into synthesis: fold ё→е, drop stress marks, punctuation and case.
+If the F3 package is absent the shim below runs instead, and every report says
+so through ``implementation``.
 """
 
 from __future__ import annotations
@@ -14,12 +12,12 @@ from __future__ import annotations
 import re
 import unicodedata
 
-try:  # F3 frontend, once merged.
-    from voca_ru.text import normalise_for_scoring as _f3_normalise  # type: ignore
+try:  # F3 frontend
+    from voca_ru.text import normalize as _f3_normalize
 
-    implementation = "voca_ru.text.normalise_for_scoring"
+    implementation = "voca_ru.text.normalize + eval cleanup"
 except ImportError:
-    _f3_normalise = None
+    _f3_normalize = None
     implementation = "eval.shim (TODO F3)"
 
 _ONES = (
@@ -96,6 +94,17 @@ def _shim(text: str) -> str:
     return " ".join(text.split())
 
 
+def _cleanup(text: str) -> str:
+    text = unicodedata.normalize("NFC", text)
+    text = text.replace("ё", "е").replace("Ё", "Е")
+    text = re.sub(r"[\u0300-\u036f]", "", text)
+    text = text.lower()
+    text = re.sub(r"[^а-яa-z]+", " ", text)
+    return " ".join(text.split())
+
+
 def score_text(text: str) -> str:
     """Normalise one side of a comparison; symmetric and idempotent."""
-    return _f3_normalise(text) if _f3_normalise else _shim(text)
+    if _f3_normalize is not None:
+        return _cleanup(_f3_normalize(text))
+    return _shim(text)

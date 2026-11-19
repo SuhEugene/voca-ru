@@ -33,8 +33,8 @@ class ScoringTest(unittest.TestCase):
 
     def test_stress_and_digits(self):
         self.assertEqual(score_text("замо́к"), "замок")
-        self.assertEqual(score_text("23 января"), "двадцать три января")
-        self.assertEqual(score_text("1000"), "одна тысяча")
+        self.assertEqual(score_text("23 января"), "двадцать третьего января")
+        self.assertEqual(score_text("1000"), "тысяча")
 
     def test_idempotent(self):
         text = "В 1917 году было 3 дома."
