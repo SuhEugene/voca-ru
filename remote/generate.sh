@@ -84,6 +84,14 @@ done
 
 mkdir -p "$OUT"
 
+# Optional Telegram error alerts: a no-op unless TG_CHAT_ID is set (hook.sh
+# also checks python3 and the watcher are present).
+if [ -n "${TG_CHAT_ID:-}" ] && [ -f "$ROOT/remote/tg/hook.sh" ]; then
+  # shellcheck disable=SC1091
+  . "$ROOT/remote/tg/hook.sh"
+  tg_hook_install "$OUT/run.log" "$OUT/health.log"
+fi
+
 {
   printf '\n=== generate %s ===\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   printf 'voices=%s limit=%s split=%s batch_size=%s\n' "$VOICES" "$LIMIT" "$SPLIT" "$BATCH"

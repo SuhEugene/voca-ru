@@ -20,6 +20,14 @@ fail() { CHECKS+=("FAIL  $*"); FAILS=$((FAILS + 1)); printf 'FAIL  %s\n' "$*" >&
 warn() { CHECKS+=("WARN  $*"); printf 'WARN  %s\n' "$*" >&2; }
 step() { printf '\n== %s\n' "$*"; }
 
+# Optional Telegram alerts: a no-op unless TG_CHAT_ID is set.  Captures this
+# script's output to .cache/logs/bootstrap.log and reports a failing exit.
+if [ -n "${TG_CHAT_ID:-}" ] && [ -f "$ROOT/remote/tg/hook.sh" ]; then
+  # shellcheck disable=SC1091
+  . "$ROOT/remote/tg/hook.sh"
+  tg_hook_capture "$ROOT/.cache/logs/bootstrap.log"
+fi
+
 summary() {
   printf '\n==================== SUMMARY ====================\n'
   local line
