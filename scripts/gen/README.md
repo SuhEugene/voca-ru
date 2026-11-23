@@ -72,4 +72,25 @@ PYTHONPATH=training .cache/venvs/r4/bin/python scripts/gen/build_corpus.py \
 - Output: `manifest.jsonl`, `review.jsonl`, `audio/<voice>/<id>.flac`,
   `rejected/`, `run-stats.json`. Rerunning skips ids already in either JSONL.
 
+### Staged pipeline (GPU-bound runs)
+
+`--pipeline` runs the same generation/screening through three concurrent stages
+(see `pipeline.py`): generation → a bounded queue → N screening threads →
+one writer thread. The GPU never idles while Whisper/meter2 work, and the
+screeners never wait on the teacher. The sequential path stays the default.
+
+```sh
+PYTHONPATH=training .cache/venvs/r4/bin/python scripts/gen/build_corpus.py \
+    --pipeline --batch-size 8 --screen-workers 3 \
+    --asr-device cuda --stress-device cpu
+```
+
+- Retries go back through a retry queue as single-clip batches (one retry).
+- A kill is safe: a torn manifest line is truncated and duplicate ids collapsed
+  at startup; the manifest remains the source of truth.
+- `run-stats.json` gains `pipeline`, `gpu_busy_s`, `gpu_idle_pct`,
+  `max_generate_screen_queue`, `screen_workers`, `asr_device`, `stress_device`.
+- Overlap proof without a model:
+  `python scripts/gen/pipeline.py --benchmark-fake`.
+
 Tests: `PYTHONPATH=training .cache/venvs/r4/bin/python -m unittest discover -s tests/gen`

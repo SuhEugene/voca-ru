@@ -4,6 +4,10 @@
     PYTHONPATH=training .cache/venvs/r4/bin/python scripts/gen/build_corpus.py \
         --pilot --measure-batch 4,8
 
+    # staged (GPU never waits for screening), see pipeline.py and reports/PIPE-pipeline.md
+    PYTHONPATH=training .cache/venvs/r4/bin/python scripts/gen/build_corpus.py \
+        --pipeline --batch-size 8 --screen-workers 3 --asr-device cuda
+
 Text is normalised, stressed (RUAccent) and phonemised by ``training/voca_ru/text``
 (F3) — nothing is reimplemented here.  The teacher is Qwen3-TTS Base plus the
 Russian stress LoRA ``qwen3-tts-ru-stress/lora`` loaded with ``peft``.  Every
@@ -380,14 +384,31 @@ def main():
     ap.add_argument("--seed", type=int, default=1234)
     ap.add_argument("--max-wer", type=float, default=0.15,
                     help="screening WER ceiling (negative forces a drop, for testing)")
-    ap.add_argument("--asr-device", default=os.environ.get("VOCA_ASR_DEVICE", "mps"))
+    ap.add_argument("--asr-device", default=os.environ.get("VOCA_ASR_DEVICE", "mps"),
+                    help="Whisper device (cuda on the rented GPU, mps on the laptop)")
     ap.add_argument("--asr-compute-type", default="float16")
+    ap.add_argument("--stress-device", default=os.environ.get("VOCA_STRESS_DEVICE", "cpu"),
+                    help="meter2 device; keep it on cpu so it does not fight the teacher for VRAM")
     ap.add_argument("--no-screen", action="store_true")
     ap.add_argument("--no-stress", action="store_true")
     ap.add_argument("--no-lora", action="store_true")
     ap.add_argument("--require-lora", action="store_true",
                     help="exit non-zero if the stress adapter cannot be loaded")
+    ap.add_argument("--pipeline", action="store_true",
+                    help="staged generation/screening (GPU never waits on the screeners); "
+                         "sequential remains the default for MPS/laptop")
+    ap.add_argument("--screen-workers", type=int, default=3,
+                    help="Stage B threads; Whisper and meter2 share them")
+    ap.add_argument("--queue-size", type=int, default=32,
+                    help="bounded depth of the generate->screen queue (backpressure)")
+    ap.add_argument("--benchmark-fake", action="store_true",
+                    help="run the stub-teacher/stub-screener overlap benchmark and exit")
     args = ap.parse_args()
+
+    if args.benchmark_fake:
+        from pipeline import main as bench_main
+
+        sys.exit(bench_main(["--benchmark-fake", "--batch-size", str(args.batch_size)]))
 
     voices = [v.strip() for v in args.voices.split(",") if v.strip()]
     out = os.path.abspath(args.out)
@@ -439,59 +460,82 @@ def main():
             model, prompts[voices[0]], rows, sizes, args.seed)
 
     asr = None if args.no_screen else AsrJudge(args.asr_device, args.asr_compute_type)
-    stress = None if (args.no_screen or args.no_stress) else StressJudge(device="cpu")
+    stress = None if (args.no_screen or args.no_stress) else StressJudge(
+        device=args.stress_device)
 
     started = time.perf_counter()
     generation_wall = 0.0
     accepted = dropped = 0
     clips = 0
-    try:
-        for voice in voices:
-            prompt = prompts[voice]
-            for bi, batch in enumerate(batches):
-                pending = [r for r in batch if clip_id(r, voice) not in done]
-                if not pending:
-                    continue
-                ids = [r["id"] for r in batch]
-                seed = seed_for(ids, voice, 0, args.seed)
-                wavs, sr, wall = generate(model, prompt, [r["stressed_text"] for r in pending], seed)
-                generation_wall += wall
-                per_clip = wall / max(len(pending), 1)
-                print(f"[gen] {voice} batch {bi + 1}/{len(batches)} "
-                      f"{len(pending)} clips {wall:.1f}s ({per_clip:.2f}s/clip)", flush=True)
+    pipeline_obs = None
+    if args.pipeline:
+        from pipeline import Screener, Teacher, run_pipelined
 
-                failed = []
-                for row, wav in zip(pending, wavs):
-                    res = handle_clip(row, wav, sr, voice, seed, 1, out, asr, stress,
-                                      {"seconds": per_clip}, args.max_wer)
-                    clips += 1
-                    if res["ok"]:
-                        append_jsonl(manifest, accept(row, res, voice, out, adapter))
-                        accepted += 1
-                    else:
-                        failed.append(row)
-                if failed:
-                    retry_ids = [r["id"] for r in failed]
-                    retry_seed = seed_for(retry_ids, voice, 1, args.seed)
-                    t0 = time.perf_counter()
-                    rwavs, sr, rwall = generate(
-                        model, prompt, [r["stressed_text"] for r in failed], retry_seed)
-                    generation_wall += rwall
-                    rpc = rwall / max(len(failed), 1)
-                    print(f"[retry] {voice} {len(failed)} clips {rwall:.1f}s", flush=True)
-                    for row, wav in zip(failed, rwavs):
-                        res = handle_clip(row, wav, sr, voice, retry_seed, 2, out, asr, stress,
-                                          {"seconds": rpc}, args.max_wer)
+        print(f"[pipe] stages: generation (1 thread) -> screening "
+              f"({args.screen_workers} threads, whisper={args.asr_device}, "
+              f"meter2={args.stress_device}) -> writer (1 thread), "
+              f"queue {args.queue_size}", flush=True)
+        pipeline_obs = {}
+        run_pipelined(rows=rows, voices=voices, batch_size=args.batch_size,
+                      base_seed=args.seed, out=out, teacher=Teacher(model, prompts),
+                      screener=Screener(out, asr, stress, args.max_wer,
+                                        enabled=not args.no_screen),
+                      adapter=adapter, queue_size=args.queue_size,
+                      screen_workers=args.screen_workers, observer=pipeline_obs)
+        clips = pipeline_obs["clips"]
+        accepted = pipeline_obs["accepted"]
+        dropped = pipeline_obs["dropped"]
+        generation_wall = pipeline_obs["gpu_gen_s"]
+    else:
+        try:
+            for voice in voices:
+                prompt = prompts[voice]
+                for bi, batch in enumerate(batches):
+                    pending = [r for r in batch if clip_id(r, voice) not in done]
+                    if not pending:
+                        continue
+                    ids = [r["id"] for r in batch]
+                    seed = seed_for(ids, voice, 0, args.seed)
+                    wavs, sr, wall = generate(
+                        model, prompt, [r["stressed_text"] for r in pending], seed)
+                    generation_wall += wall
+                    per_clip = wall / max(len(pending), 1)
+                    print(f"[gen] {voice} batch {bi + 1}/{len(batches)} "
+                          f"{len(pending)} clips {wall:.1f}s ({per_clip:.2f}s/clip)",
+                          flush=True)
+
+                    failed = []
+                    for row, wav in zip(pending, wavs):
+                        res = handle_clip(row, wav, sr, voice, seed, 1, out, asr, stress,
+                                          {"seconds": per_clip}, args.max_wer)
                         clips += 1
                         if res["ok"]:
                             append_jsonl(manifest, accept(row, res, voice, out, adapter))
                             accepted += 1
                         else:
-                            append_jsonl(review, review_row(row, res, voice))
-                            dropped += 1
-                sys.stdout.flush()
-    except KeyboardInterrupt:
-        print("[stop] interrupted; completed clips are in the manifest", flush=True)
+                            failed.append(row)
+                    if failed:
+                        retry_ids = [r["id"] for r in failed]
+                        retry_seed = seed_for(retry_ids, voice, 1, args.seed)
+                        rwavs, sr, rwall = generate(
+                            model, prompt, [r["stressed_text"] for r in failed], retry_seed)
+                        generation_wall += rwall
+                        rpc = rwall / max(len(failed), 1)
+                        print(f"[retry] {voice} {len(failed)} clips {rwall:.1f}s", flush=True)
+                        for row, wav in zip(failed, rwavs):
+                            res = handle_clip(row, wav, sr, voice, retry_seed, 2, out,
+                                              asr, stress, {"seconds": rpc}, args.max_wer)
+                            clips += 1
+                            if res["ok"]:
+                                append_jsonl(manifest,
+                                             accept(row, res, voice, out, adapter))
+                                accepted += 1
+                            else:
+                                append_jsonl(review, review_row(row, res, voice))
+                                dropped += 1
+                    sys.stdout.flush()
+        except KeyboardInterrupt:
+            print("[stop] interrupted; completed clips are in the manifest", flush=True)
 
     elapsed = time.perf_counter() - started
     audio_total = 0.0
@@ -522,6 +566,17 @@ def main():
         "peak_rss_gib": peak_rss_gib(),
         "peak_device_gib": device_gib(),
     })
+    if pipeline_obs is not None:
+        stats.update({
+            "pipeline": True,
+            "screen_workers": args.screen_workers,
+            "queue_size": args.queue_size,
+            "asr_device": args.asr_device,
+            "stress_device": args.stress_device,
+            "gpu_busy_s": round(pipeline_obs["gpu_gen_s"], 2),
+            "gpu_idle_pct": pipeline_obs["gpu_idle_pct"],
+            "max_generate_screen_queue": pipeline_obs["max_jobs_q"],
+        })
     if clips:
         with open(os.path.join(out, "run-stats.json"), "w") as f:
             json.dump(stats, f, ensure_ascii=False, indent=1)
