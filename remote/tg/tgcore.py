@@ -574,8 +574,11 @@ def format_status(status, *, stats=None, pod=None, now=None):
     if rate is not None:
         clips_line += f" \u00b7 {rate}/min"
 
+    header = f"{icon} corpus \u00b7 {time.strftime('%H:%M', time.localtime(now))} local"
+    if pod and pod.get("id"):
+        header += f" \u00b7 {pod['id']}"
     lines = [
-        f"{icon} corpus \u00b7 {time.strftime('%H:%M', time.localtime(now))} local",
+        header,
         f"{progress_bar(pct)} {pct:.1f}%" if pct is not None else f"{progress_bar(0)} \u2014",
         clips_line,
         f"ETA {human_duration((total - done) / rate * 60)} \u00b7 last clip {human_duration(age)}"
@@ -633,9 +636,11 @@ def widget_public_data(status, *, stats=None, pod=None, now=None):
         "d": done,
         "n": total,
         "r": f"{rate:.1f}" if rate is not None else None,
-        "e": human_duration((total - done) / rate * 60) if rate else None,
+        "e": human_duration((total - done) / rate * 60) if rate and total > done else None,
         "a": human_duration(_g(status, "last_clip_age_s")),
     }
+    if pod and pod.get("id"):
+        data["id"] = str(pod["id"])[:24]
     wer = _g(status, "wer_mean")
     if wer is not None:
         data["w"] = f"{100 * wer:.2f}"
@@ -677,57 +682,44 @@ def widget_public_data(status, *, stats=None, pod=None, now=None):
     return text
 
 
-WIDGET_HTML = """<html><body>
-<div class="hdr"><span id="t">\u2014</span> <span class="dim" id="st">waiting</span></div>
+WIDGET_HTML = """<html><head><style>
+body{margin:2px 0;font-size:14px}.hdr{font-size:12px;color:var(--tg-theme-hint-color,#8a8a8a);margin-bottom:3px}
+.bar{height:8px;border-radius:4px;background:rgba(127,127,127,.25);overflow:hidden}#fill{height:100%;width:0;border-radius:4px;background:var(--tg-theme-button-color,#3390ec);transition:width .3s}
+.top{display:flex;justify-content:space-between;align-items:baseline;margin:4px 0}.big{font-size:20px;font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:12px}td{padding:1px 0}.k{color:var(--tg-theme-hint-color,#8a8a8a)}.v{text-align:right;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+</style></head><body>
+<div class="hdr"><span id="t">--:--</span> · <span id="id">pod</span> <span id="st"></span></div>
 <div class="bar"><div id="fill"></div></div>
-<div class="big"><span id="p">\u2014</span><span class="dim" id="clips"></span></div>
-<div class="grid">
-<div><span class="dim">rate</span> <b id="r">\u2014</b></div>
-<div><span class="dim">eta</span> <b id="e">\u2014</b></div>
-<div><span class="dim">wer</span> <b id="w">\u2014</b></div>
-<div><span class="dim">p95</span> <b id="w9">\u2014</b></div>
-<div><span class="dim">stress</span> <b id="s">\u2014</b></div>
-<div><span class="dim">dropped</span> <b id="dr">\u2014</b></div>
-<div><span class="dim">gpu</span> <b id="g">\u2014</b></div>
-<div><span class="dim">disk</span> <b id="df">\u2014</b></div>
-<div><span class="dim">last clip</span> <b id="a">\u2014</b></div>
-<div><span class="dim">spend</span> <b id="c">\u2014</b></div>
-</div>
+<div class="top"><span class="big" id="p">—</span><span class="hdr" id="clips"></span></div>
+<table>
+<tr><td class="k">clips</td><td class="v" id="d">—</td></tr>
+<tr><td class="k">clips/min</td><td class="v" id="r">—</td></tr>
+<tr><td class="k">ETA</td><td class="v" id="e">—</td></tr>
+<tr><td class="k">WER mean / p95</td><td class="v" id="w">—</td></tr>
+<tr><td class="k">stress failures</td><td class="v" id="s">—</td></tr>
+<tr><td class="k">dropped</td><td class="v" id="dr">—</td></tr>
+<tr><td class="k">GPU temp / VRAM</td><td class="v" id="g">—</td></tr>
+<tr><td class="k">disk free</td><td class="v" id="df">—</td></tr>
+<tr><td class="k">last clip</td><td class="v" id="a">—</td></tr>
+<tr><td class="k">spend</td><td class="v" id="c">—</td></tr>
+</table>
 <script>
-var W=window.TelegramWidget||{};
-function el(i){return document.getElementById(i);}
-function put(i,v){if(v!==null&&v!==undefined&&v!=="")el(i).textContent=v;}
-function draw(){
-  var d={};try{d=JSON.parse(W.publicData||"{}");}catch(e){}
-  put("t",d.t);put("st",d.st||"live");
-  el("fill").style.width=Math.max(0,Math.min(100,Number(d.p)||0))+"%";
-  put("p",d.p!==null&&d.p!==undefined?d.p+"%":"\\u2014");
-  put("clips",d.d!==null&&d.d!==undefined?"  "+d.d+" / "+d.n:"");
-  put("r",d.r?d.r+"/min":null);put("e",d.e);put("w",d.w?d.w+"%":null);
-  put("w9",d.w9?d.w9+"%":null);put("s",d.s?d.s+"%":null);put("dr",d.dr);
-  put("g",d.g);put("df",d.df);put("a",d.a);put("c",d.c);
-}
-if(W.onEvent){W.onEvent("publicDataChanged",draw);}
-if(W.watchPublicData){W.watchPublicData();}
-draw();
+var W=window.TelegramWidget||{};function E(i){return document.getElementById(i)}function S(i,v){if(v!=null&&v!=="")E(i).textContent=v}
+function draw(){var d={};try{d=JSON.parse(W.publicData||"{}")}catch(e){}
+S("t",d.t);S("id",d.id);S("st",d.st);S("p",d.p!=null?d.p+"%":null);S("clips",d.d!=null?d.d+" / "+d.n+" clips":null);S("d",d.d!=null?d.d+" / "+d.n:null);S("r",d.r?d.r+"/min":null);S("e",d.e);
+S("w",d.w?d.w+"%"+(d.w9?" / "+d.w9+"%"):null);S("s",d.s?d.s+"%":null);S("dr",d.dr);S("g",d.g);S("df",d.df);S("a",d.a);S("c",d.c);
+E("fill").style.width=Math.max(0,Math.min(100,Number(d.p)||0))+"%"}if(W.watchPublicData)W.watchPublicData();if(W.onEvent)W.onEvent("publicDataChanged",draw);draw();
 </script>
 </body></html>"""
 
-WIDGET_CSS = """
-body{margin:2px 0;padding:0;font-size:15px}
-.hdr{font-size:13px;margin-bottom:4px}
-.bar{height:8px;border-radius:4px;background:rgba(127,127,127,.25);overflow:hidden}
-#fill{height:100%;width:0;border-radius:4px;background:var(--tg-theme-button-color,#3390ec);transition:width .3s}
-.big{font-size:22px;font-weight:600;margin:4px 0 6px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:1px 10px;font-size:13px}
-.dim{color:var(--tg-theme-hint-color,#8a8a8a);font-weight:400}
-b{font-weight:600}
-"""
-
 
 def widget_html():
-    """Inline the CSS because a widget allows no external stylesheet."""
-    return WIDGET_HTML.replace("<html><body>", "<html><head><style>" + WIDGET_CSS + "</style></head><body>")
+    """The exact widget document: inline CSS, inline JS, no external asset.
+
+    The HTML is set once by sendWidget and never resent; the JavaScript reads
+    ``TelegramWidget.publicData`` and redraws on ``publicDataChanged``.
+    """
+    return WIDGET_HTML
 
 
 def compress_bound(html=None):

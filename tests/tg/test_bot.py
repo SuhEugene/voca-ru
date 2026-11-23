@@ -8,6 +8,7 @@ import os
 import sys
 import tempfile
 import unittest
+import zlib
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -46,13 +47,17 @@ class FakeClient:
         self.next_id = 100
 
     def send_widget(self, chat_id, html, **extra):
-        self.calls.append(("sendWidget", chat_id, extra))
+        params = {"chat_id": chat_id, "html": html}
+        params.update(extra)
+        self.calls.append(("sendWidget", chat_id, params))
         if not self.widget_supported:
             raise tgcore.TelegramError("sendWidget", 400, "Bad Request: no widgets")
         return {"message_id": 7, "widget": {"id": "777"}}
 
     def edit_shared_widget_data(self, widget_id, public_data, **extra):
-        self.calls.append(("editSharedWidgetData", widget_id, extra))
+        params = {"widget_id": widget_id, "public_data": public_data}
+        params.update(extra)
+        self.calls.append(("editSharedWidgetData", widget_id, params))
         if self.edit_error:
             raise self.edit_error
         return True
@@ -114,13 +119,42 @@ class BotTests(unittest.TestCase):
         bot.handle(self.message("/status"))
         kinds = [call[0] for call in self.client.calls]
         self.assertEqual(kinds, ["sendWidget", "editSharedWidgetData"])
-        self.assertTrue(self.client.calls[0][2]["is_shared"])
-        self.assertEqual(self.client.calls[0][2]["public_data"][:1], "{")
-        self.assertEqual(self.client.calls[1][2]["cache_time"], 60)
+
+        kind, chat_id, params = self.client.calls[0]
+        self.assertEqual((kind, chat_id), ("sendWidget", 5))
+        self.assertIs(params["is_shared"], True)
+        self.assertEqual((params["width"], params["height"]), (0, 0))
+        html = params["html"]
+        self.assertTrue(html)
+        self.assertLess(len(html.encode("utf-8")), tgcore.WIDGET_HTML_LIMIT)
+        self.assertLess(len(zlib.compress(html.encode("utf-8"), 9)), 4096)
+        payload = json.loads(params["public_data"])
+        self.assertEqual(payload["d"], 7552)
+        self.assertLessEqual(len(params["public_data"].encode("utf-8")),
+                             tgcore.WIDGET_STATE_LIMIT)
+
+        kind, widget_id, extra = self.client.calls[1]
+        self.assertEqual((kind, widget_id), ("editSharedWidgetData", "777"))
+        self.assertNotIn("html", extra)
+        self.assertEqual(extra["cache_time"], 60)
+        self.assertIsInstance(json.loads(extra["public_data"]), dict)
+
         record = bot.state.widget(5)
         self.assertEqual(record["kind"], "widget")
         self.assertEqual(record["widget_id"], "777")
         self.assertTrue(record["active"])
+
+    def test_refresh_edits_data_and_never_resends_html(self):
+        bot = self.bot()
+        bot.handle(self.message("/status"))
+        self.clock.value += 61
+        bot.refresh_due()
+        kind, widget_id, extra = self.client.calls[-1]
+        self.assertEqual((kind, widget_id), ("editSharedWidgetData", "777"))
+        self.assertNotIn("html", extra)  # the HTML is immutable
+        self.assertEqual(extra["cache_time"], 60)
+        self.assertEqual(json.loads(extra["public_data"])["d"], 7552)
+        self.assertEqual([call[0] for call in self.client.calls].count("sendWidget"), 1)
 
     def test_widget_id_survives_a_restart(self):
         self.bot().handle(self.message("/status"))

@@ -114,6 +114,20 @@ class WidgetTests(unittest.TestCase):
             self.assertIn(key, data)
         self.assertEqual(data["d"], 7552)
         self.assertEqual(data["n"], 16000)
+        self.assertEqual(data["id"], "abc")  # pod id in the header
+
+    def test_html_is_a_table_with_a_div_bar_and_data_binding(self):
+        html = tgcore.widget_html()
+        self.assertIn('<div class="bar"><div id="fill"></div></div>', html)
+        self.assertIn("<table>", html)
+        for key in ("clips/min", "ETA", "WER mean / p95", "stress failures",
+                    "GPU temp / VRAM", "disk free", "last clip", "spend"):
+            self.assertIn(key, html)
+        self.assertIn("TelegramWidget", html)
+        self.assertIn("publicData", html)
+        self.assertIn("publicDataChanged", html)
+        self.assertIn("watchPublicData", html)
+        self.assertNotIn("http", html)  # no external asset or CDN
 
     def test_public_data_stays_small_with_extreme_numbers(self):
         status = dict(STATUS, clips_done=10**9, clips_expected=10**9,

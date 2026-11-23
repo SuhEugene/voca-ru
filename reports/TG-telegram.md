@@ -51,10 +51,75 @@ The documented mechanism is:
   say the app then polls the shared widget at its refresh period, which is the
   `cache_time` we set to 60 s. Clients that do not support widgets show the
   caption instead.
-* If the real mechanism differs from this documentation, the live check in
-  §1.4 is what will reveal it.
+* There are **no declarative placeholders** in widget HTML: the only binding the
+  documentation defines is JavaScript reading the state object. The exact
+  pattern quoted from
+  <https://core.telegram.org/bots/widgets#the-widgets-state> is:
 
-### 1.3 Fallback path, proven by tests
+  ```js
+  const W = window.TelegramWidget;
+  function render() {
+    let game = null;
+    try { game = JSON.parse(W.chatData); } catch (e) {}
+    // … draw from the chat state (null: no state yet)
+  }
+  W.onEvent('chatDataChanged', render);
+  render();
+  ```
+
+  and, for shared state, "A widget already on screen gets a new shared state
+  only if it asks for it with `TelegramWidget.watchPublicData()`". Our document
+  follows that pattern verbatim with `W.publicData` / `publicDataChanged` /
+  `W.watchPublicData()` — see the literal HTML in §1.3.
+* If the real mechanism differs from this documentation, the live check in
+  §1.5 is what will reveal it.
+
+### 1.3 The literal HTML sent by `sendWidget`
+
+This is the exact 29-line string in `tgcore.WIDGET_HTML` (2335 bytes; 1018
+bytes after zlib-9; both under the documented 32768 / 4096 limits). Inline CSS
+and inline JavaScript only; no external asset, font, image or CDN.
+
+```html
+<html><head><style>
+body{margin:2px 0;font-size:14px}.hdr{font-size:12px;color:var(--tg-theme-hint-color,#8a8a8a);margin-bottom:3px}
+.bar{height:8px;border-radius:4px;background:rgba(127,127,127,.25);overflow:hidden}#fill{height:100%;width:0;border-radius:4px;background:var(--tg-theme-button-color,#3390ec);transition:width .3s}
+.top{display:flex;justify-content:space-between;align-items:baseline;margin:4px 0}.big{font-size:20px;font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:12px}td{padding:1px 0}.k{color:var(--tg-theme-hint-color,#8a8a8a)}.v{text-align:right;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+</style></head><body>
+<div class="hdr"><span id="t">--:--</span> · <span id="id">pod</span> <span id="st"></span></div>
+<div class="bar"><div id="fill"></div></div>
+<div class="top"><span class="big" id="p">—</span><span class="hdr" id="clips"></span></div>
+<table>
+<tr><td class="k">clips</td><td class="v" id="d">—</td></tr>
+<tr><td class="k">clips/min</td><td class="v" id="r">—</td></tr>
+<tr><td class="k">ETA</td><td class="v" id="e">—</td></tr>
+<tr><td class="k">WER mean / p95</td><td class="v" id="w">—</td></tr>
+<tr><td class="k">stress failures</td><td class="v" id="s">—</td></tr>
+<tr><td class="k">dropped</td><td class="v" id="dr">—</td></tr>
+<tr><td class="k">GPU temp / VRAM</td><td class="v" id="g">—</td></tr>
+<tr><td class="k">disk free</td><td class="v" id="df">—</td></tr>
+<tr><td class="k">last clip</td><td class="v" id="a">—</td></tr>
+<tr><td class="k">spend</td><td class="v" id="c">—</td></tr>
+</table>
+<script>
+var W=window.TelegramWidget||{};function E(i){return document.getElementById(i)}function S(i,v){if(v!=null&&v!=="")E(i).textContent=v}
+function draw(){var d={};try{d=JSON.parse(W.publicData||"{}")}catch(e){}
+S("t",d.t);S("id",d.id);S("st",d.st);S("p",d.p!=null?d.p+"%":null);S("clips",d.d!=null?d.d+" / "+d.n+" clips":null);S("d",d.d!=null?d.d+" / "+d.n:null);S("r",d.r?d.r+"/min":null);S("e",d.e);
+S("w",d.w?d.w+"%"+(d.w9?" / "+d.w9+"%"):null);S("s",d.s?d.s+"%":null);S("dr",d.dr);S("g",d.g);S("df",d.df);S("a",d.a);S("c",d.c);
+E("fill").style.width=Math.max(0,Math.min(100,Number(d.p)||0))+"%"}if(W.watchPublicData)W.watchPublicData();if(W.onEvent)W.onEvent("publicDataChanged",draw);draw();
+</script>
+</body></html>
+```
+
+The numbers come from `public_data`, a compact JSON string (201 bytes in the
+fixture below, the documented limit is 1024):
+
+```json
+{"t":"16:00","p":47.2,"d":7552,"n":16000,"r":"39.2","e":"3h35m","a":"42s","id":"c3atmgfw1l3g3i","w":"1.24","w9":"3.10","s":"0.21","dr":12,"g":"71°C 21.3GB","df":"38GB","c":"$0.34/h · 3h00m · $1.02"}
+```
+
+### 1.4 Fallback path, proven by tests
 
 If `sendWidget` returns an error (e.g. unknown method on the server), the bot
 creates exactly **one plain message per chat** and refreshes it with
@@ -75,7 +140,7 @@ that the stored record is `kind="message"`; the second advances the fake clock
 61 s and asserts the only follow-up is `editMessageText` on the **same**
 `message_id` (no second `sendMessage`).
 
-### 1.4 Live behaviour is still unverified
+### 1.5 Live behaviour is still unverified
 
 Nothing here has been exercised against the real production server, because no
 chat id was saved in `remote/tg/state.json`, so no `/status` was sent and
@@ -90,7 +155,7 @@ production. What would prove it:
 3. on screen, the widget must visibly change within `cache_time` (60 s) while
    the message HTML stays the same.
 
-If step 1 returns "unknown method" or another error, the fallback in §1.3 takes
+If step 1 returns "unknown method" or another error, the fallback in §1.4 takes
 over automatically.
 
 **Correction to the earlier reading:** the widgets page is documentation. It is
@@ -109,7 +174,7 @@ not proof that any widget is live, and this report does not claim otherwise.
 | `remote/generate.sh` | 8-line guarded hook after `mkdir -p "$OUT"` |
 | `remote/bootstrap.sh` | 8-line guarded hook; tees output to `.cache/logs/bootstrap.log` so the watcher can see it |
 | `remote/tg/README.md` | pod setup, chat id, alert meanings, env vars, exact API limits |
-| `tests/tg/` | 76 tests, no network |
+| `tests/tg/` | 78 tests, no network |
 
 Dashboard content (status message and widget): clips done/total, %, clips/min,
 ETA, WER mean/p95, stress-failure %, dropped, GPU temp/VRAM (when
@@ -126,7 +191,7 @@ printed, and is masked in every log line.
 
 ```sh
 cd worktrees/tg-bot
-python3 -m unittest discover -s tests/tg -v     # 76 passed
+python3 -m unittest discover -s tests/tg -v     # 78 passed
 python3 -m unittest tests.remote.test_shell -v  # 6 passed (pipeline untouched)
 ```
 
@@ -135,9 +200,16 @@ N/min throttling with a fake clock, state persistence across instances, error
 detection on real D2/remote log shapes plus negative cases, tail offsets across
 restart, in-place truncation and rotation, partial lines, dedupe expiry, 15-line
 context, 429 `retry_after` (and the 30 s cap and give-up path), token masking,
-widget payload ≤1024 bytes and HTML within both size limits, status rendering
-from the real `status.json`/`run-stats.json`/`runpod-pod.json` shapes, widget
-creation/persistence/refresh, `/stop`, deleted-widget resend, message fallback.
+status rendering from the real `status.json`/`run-stats.json`/`runpod-pod.json`
+shapes, `/stop`, deleted-widget resend, and the widget protocol itself:
+
+* the first `/status` call is `sendWidget` with `is_shared=True`,
+  `width=0`, `height=0`, non-empty `html` < 32768 bytes and < 4096 bytes after
+  zlib-9, and `public_data` that parses as JSON and is ≤1024 bytes;
+* every later refresh is `editSharedWidgetData` with the same `widget_id`,
+  `cache_time=60`, fresh `public_data`, and **no `html` key at all**;
+* `sendWidget` being rejected produces exactly `sendWidget` → `sendMessage`, and
+  later refreshes are `editMessageText` on that same `message_id`.
 
 A local HTTP server was used once by hand (not in the suite) to confirm
 `notify.sh` → JSON → HTML escaping end to end on `127.0.0.1`; no external
@@ -145,7 +217,7 @@ Telegram request was made.
 
 ## 4. Not verified — needs a live chat
 
-See §1.4 for the exact live proof required. In short:
+See §1.5 for the exact live proof required. In short:
 
 * No real `sendWidget` / `editSharedWidgetData` round trip, and no view of the
   widget on a real client. The documentation was followed, not exercised; the

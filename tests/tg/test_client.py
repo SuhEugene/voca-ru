@@ -120,6 +120,7 @@ class ClientTests(unittest.TestCase):
         self.assertEqual(method, "editSharedWidgetData")
         self.assertEqual(self.transport.calls[1][1]["widget_id"], "777")
         self.assertEqual(self.transport.calls[1][1]["cache_time"], 60)
+        self.assertNotIn("html", self.transport.calls[1][1])
 
 
 class MaskTests(unittest.TestCase):
