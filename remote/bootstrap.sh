@@ -64,10 +64,10 @@ if command -v nvidia-smi >/dev/null 2>&1; then
   fi
 
   CUDA_VER="$(nvidia-smi 2>/dev/null | sed -n 's/.*CUDA Version: \([0-9][0-9.]*\).*/\1/p' | head -n1)"
-  if [[ "$CUDA_VER" == 12.* ]]; then
-    pass "CUDA driver API ${CUDA_VER} (12.x)"
+  if [[ "$CUDA_VER" == 12.* || "$CUDA_VER" == 13.* ]]; then
+    pass "CUDA driver API ${CUDA_VER} (12.x or newer; cu12 wheels run on it)"
   elif [ -n "$CUDA_VER" ]; then
-    fail "CUDA driver API ${CUDA_VER}; this bundle is pinned to CUDA 12.x"
+    fail "CUDA driver API ${CUDA_VER}; needs 12.x or 13.x (cu12 wheels)"
   else
     fail "cannot read the CUDA version from nvidia-smi"
   fi
