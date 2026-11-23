@@ -123,7 +123,7 @@ REQ_SHA="$("$PYTHON" -c 'import hashlib; print(hashlib.sha256(open("remote/requi
 STAMP="$VENV/.requirements.sha256"
 DEPS_OK=0
 if [ -x "$VENV/bin/python" ] && [ -f "$STAMP" ] && [ "$(cat "$STAMP")" = "$REQ_SHA" ] \
-   && "$VENV/bin/python" -c 'import torch, qwen_tts, peft, faster_whisper, ruaccent, espeakng_loader, soundfile, librosa, torchaudio' >/dev/null 2>&1; then
+   && "$VENV/bin/python" -c 'import torch, qwen_tts, peft, faster_whisper, ruaccent, espeakng_loader, soundfile, librosa' >/dev/null 2>&1; then
   DEPS_OK=1
 fi
 if [ "$DEPS_OK" -eq 1 ]; then
