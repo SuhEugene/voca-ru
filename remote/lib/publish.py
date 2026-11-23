@@ -61,6 +61,13 @@ def expected_sentences(root):
     return total
 
 
+def is_complete(stats, expected):
+    """Every sentence was either accepted or dropped (drops are expected)."""
+    if not expected:
+        return True
+    return stats.get("clips", 0) + stats.get("dropped", 0) >= expected
+
+
 def build_meta(root, corpus_dir, repo):
     lock = read_lock(root)
     meta = {
@@ -115,9 +122,11 @@ def main(argv=None):
     stats = result["stats"]
     expected = expected_sentences(root) * len(stats.get("voices") or {"f_neutral": 1})
     print(json.dumps(stats, ensure_ascii=False, indent=1), flush=True)
-    print(f"[publish] {stats['clips']}/{expected} clips, {stats['hours']} h", flush=True)
-    if stats["clips"] < expected and not (args.allow_partial or args.max_rows):
-        print(f"FAIL corpus incomplete ({stats['clips']} < {expected}); "
+    completed = stats["clips"] + stats["dropped"]
+    print(f"[publish] {completed}/{expected} attempted, {stats['clips']} accepted, "
+          f"{stats['dropped']} dropped, {stats['hours']} h", flush=True)
+    if not is_complete(stats, expected) and not (args.allow_partial or args.max_rows):
+        print(f"FAIL corpus incomplete ({completed} < {expected} attempted); "
               "rerun generate.sh or pass --allow-partial", flush=True)
         return 1
 

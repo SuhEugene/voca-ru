@@ -9,10 +9,11 @@ Training is out of scope.
 
 - `remote/` ships five scripts, four small Python modules, a pinned asset lock,
   pinned requirements and a runbook. `bash remote/pack.sh` builds
-  **`out/remote-bundle.tar.zst` (1.0 MB, 63 files, SHA-256
-  `10b047baab4f0be55d6fd394c3e70c5df53e24564a18b2d35280910e54df0fc1`)**
+  **`out/remote-bundle.tar.zst` (~1.0 MB, 63 files)** with no models, no audio
+  caches, no `.cache/`. `pack.sh` prints the tarball's SHA-256 (timestamps make
+  it differ between rebuilds; the content does not).
   with no models, no audio caches, no `.cache/`.
-- **41 local tests pass** (`tests/remote/`), including a real `pack.sh` run and
+- **44 local tests pass** (`tests/remote/`), including a real `pack.sh` run and
   manifest/FLAC verification against the **real D2 pilot corpus**: 40 clips,
   107.73 s, WER mean 0.67 %, 184 stress words checked, 0 errors — identical to
   `reports/D2-corpus.md`.
@@ -91,7 +92,7 @@ These two are owned by D2/F5; the orchestrator may prefer to move
 
 ```sh
 .cache/venvs/r4/bin/python -m unittest discover -s tests/remote -v
-# 41 tests, OK (~0.3 s)
+# 44 tests, OK (~0.3 s)
 ```
 
 Coverage:
@@ -107,6 +108,7 @@ Coverage:
   the pipeline reads, local SHA-256 spot-check against the shared cache.
 - **Smoke validator**: good clip passes; Base-without-LoRA, missing marks and
   empty manifest fail.
+- **Publish gate**: drops count towards completion; a truncated corpus fails.
 - **Shell**: `bash -n` on all five scripts, `set -euo pipefail`, no `read -p`,
   `--help` exits 0, unknown flag exits 2, `generate.sh --dry-run` resolves the
   full command (limit/voices/batch/require-lora/split).
@@ -161,7 +163,8 @@ bash remote/pack.sh
 2. `device_map="cuda:0"` through `qwen_tts` (the library documents it; not run).
 3. VRAM at batch 8/16 with the longest bucket; OOM is not reproducible here.
 4. Real throughput, `clips_per_min`/ETA in `watch.sh`, GPU temperature.
-5. `hf download` of the six repos on Linux (network, Xet, gated-repo access).
+5. `hf download` of the six repos on Linux (network, Xet, gated-repo access;
+   if any repo is gated, `HF_TOKEN` must also be exported for bootstrap).
 6. The first real smoke clip: LoRA adherence, stress marks in audio, WER.
 7. `hf` CLI upload flags (`--exclude`, `repo create --exist-ok`) against the
    live Hub.

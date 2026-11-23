@@ -122,7 +122,8 @@ to the manifest or the audio.
 - **OOM on long sentences**: `--batch-size 4` (or 16 on a 40 GB+ card). Length bucketing is on by
   default; the longest bucket still sets the cost.
 - **HF download throttled**: `hf download` resumes; rerun `bootstrap.sh`. If the
-  host has `hf_transfer`, `HF_HUB_ENABLE_HF_TRANSFER=1` speeds it up.
+  host has `hf_transfer`, `HF_HUB_ENABLE_HF_TRANSFER=1` speeds it up. If a model
+  repo asks you to accept terms, export `HF_TOKEN` before bootstrap too.
 - **LoRA cannot load**: generation aborts (`--require-lora`). This is deliberate:
   Base without the adapter garbles stressed speech.
 - **A corrupt model file**: `fetch_assets.py` prints `MISMATCH`; delete that one
