@@ -3,7 +3,9 @@
 # (macOS/MPS); the CUDA wheels ship the same torch 2.15.0 with CUDA 12.x.
 # Install: bash remote/bootstrap.sh   (creates .venv-remote, then this file)
 torch==2.15.0
-torchaudio==2.15.0
+# torchaudio is only needed by the training annotator (forced alignment), not by
+# corpus generation; its newest wheel is 2.11.1 while torch is at 2.15.0, so the
+# pair cannot be pinned together. Install it separately if you run annotate.py.
 qwen-tts==0.1.1
 peft==0.21.3
 transformers==4.57.3
