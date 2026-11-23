@@ -1,0 +1,26 @@
+# Teacher corpus generation on a rented Linux CUDA box.
+# Versions are the ones verified in reports/G1-teacher.md and reports/D2-corpus.md
+# (macOS/MPS); the CUDA wheels ship the same torch 2.15.0 with CUDA 12.x.
+# Install: bash remote/bootstrap.sh   (creates .venv-remote, then this file)
+torch==2.15.0
+torchaudio==2.15.0
+qwen-tts==0.1.1
+peft==0.21.3
+transformers==4.57.3
+accelerate==1.12.0
+safetensors==0.8.0
+soundfile==0.14.0
+librosa==1.0.1
+numpy==2.5.5
+
+# Screening: Whisper large-v3-turbo via CTranslate2 (CUDA).
+faster-whisper==1.2.1
+ctranslate2==4.9.0
+
+# Text frontend (F3): RUAccent stress + eSpeak NG phonemes, offline only.
+ruaccent==1.5.8.3
+espeakng-loader==0.2.4
+onnxruntime==1.32.0
+
+# Asset download + dataset upload (the `hf` CLI).
+huggingface_hub[cli]==0.36.2

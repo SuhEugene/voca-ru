@@ -36,8 +36,8 @@ class FasterWhisperASR:
         language: str = "ru",
         beam_size: int = 5,
     ) -> None:
-        if device not in ("cpu", "mps"):
-            raise ValueError(f"unsupported device {device!r}; use cpu or mps")
+        if device not in ("cpu", "mps", "cuda"):
+            raise ValueError(f"unsupported device {device!r}; use cpu, mps or cuda")
         model_dir = Path(model_dir) if model_dir else default_model_dir()
         if not (model_dir / "model.bin").is_file():
             raise FileNotFoundError(

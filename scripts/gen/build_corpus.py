@@ -51,9 +51,11 @@ from voca_ru.text import analyze  # noqa: E402
 # The cache is shared by every worktree and lives at the main repo root.
 _git = os.popen(f"git -C {REPO} rev-parse --path-format=absolute --git-common-dir").read().strip()
 SHARED = os.path.dirname(os.path.abspath(_git)) if _git else REPO
-CACHE = os.path.join(SHARED, ".cache/models")
-BASE_DIR = os.path.join(CACHE, "qwen3-tts-1.7b")
-ADAPTER_DIR = os.path.join(CACHE, "qwen3-tts-ru-stress/lora")
+MODELS = os.environ.get("VOCA_MODELS", os.path.join(SHARED, ".cache/models"))
+BASE_DIR = os.path.join(MODELS, "qwen3-tts-1.7b")
+ADAPTER_DIR = os.path.join(MODELS, "qwen3-tts-ru-stress/lora")
+# mps (this laptop) or cuda:<n> (rented GPU); see remote/README.md
+TTS_DEVICE = os.environ.get("VOCA_TTS_DEVICE", "mps")
 LANG = "Russian"
 SR = 24000
 VOICES = ("f_neutral", "m_neutral")
@@ -138,12 +140,13 @@ def marked_examples(rows, n=5):
 
 # ---------------------------------------------------------------- teacher
 
-def load_teacher(use_lora=True):
+def load_teacher(use_lora=True, require_lora=False):
     from qwen_tts import Qwen3TTSModel
 
     t0 = time.perf_counter()
     model = Qwen3TTSModel.from_pretrained(
-        BASE_DIR, device_map="mps", dtype=torch.bfloat16, attn_implementation="eager",
+        BASE_DIR, device_map=TTS_DEVICE, dtype=torch.bfloat16,
+        attn_implementation="eager",
     )
     print(f"[load] Base {time.perf_counter() - t0:.1f} s", flush=True)
     adapter = "none"
@@ -177,6 +180,11 @@ def load_teacher(use_lora=True):
             print("!! generating with the BASE model only — stress marks will not be followed",
                   flush=True)
             print("!" * 78, flush=True)
+            if require_lora:
+                raise SystemExit(
+                    "LoRA is mandatory when --require-lora is set; refusing to generate "
+                    "with the Base model alone"
+                )
             adapter = "none (LoRA failed: %s: %s)" % (type(exc).__name__, exc)
     return model, adapter
 
@@ -220,8 +228,11 @@ def peak_rss_gib():
     return round(rss / 1024**3 if sys.platform == "darwin" else rss / 1024**2, 2)
 
 
-def mps_gib():
+def device_gib():
+    """Peak device memory in GiB for the device the teacher runs on."""
     try:
+        if TTS_DEVICE.startswith("cuda"):
+            return round(torch.cuda.max_memory_allocated() / 1024**3, 2)
         return round(torch.mps.driver_allocated_memory() / 1024**3, 2)
     except Exception:
         return None
@@ -345,7 +356,7 @@ def measure_batches(model, prompt, rows, sizes, base_seed):
             "wall_s": round(wall, 2), "rtf": round(wall / audio, 3),
             "x_realtime": round(audio / wall, 2),
             "clips_per_min": round(len(texts) / wall * 60, 2),
-            "peak_mps_gib": mps_gib(),
+            "peak_device_gib": device_gib(),
         })
         print("[measure]", json.dumps(measured[-1]), flush=True)
     return measured
@@ -362,17 +373,20 @@ def main():
     ap.add_argument("--ref-dir", default=os.path.join(REPO, "assets/voices"))
     ap.add_argument("--pilot", action="store_true", help="20 sentences across categories")
     ap.add_argument("--limit", type=int, default=0, help="cap sentences after selection")
-    ap.add_argument("--split", default="train")
+    ap.add_argument("--split", default="train",
+                    help="'train', 'val', 'test' or 'all' (corpus keeps every split)")
     ap.add_argument("--batch-size", type=int, default=8)
     ap.add_argument("--measure-batch", default="", help="e.g. 4,8 — measure then continue")
     ap.add_argument("--seed", type=int, default=1234)
     ap.add_argument("--max-wer", type=float, default=0.15,
                     help="screening WER ceiling (negative forces a drop, for testing)")
-    ap.add_argument("--asr-device", default="mps")
+    ap.add_argument("--asr-device", default=os.environ.get("VOCA_ASR_DEVICE", "mps"))
     ap.add_argument("--asr-compute-type", default="float16")
     ap.add_argument("--no-screen", action="store_true")
     ap.add_argument("--no-stress", action="store_true")
     ap.add_argument("--no-lora", action="store_true")
+    ap.add_argument("--require-lora", action="store_true",
+                    help="exit non-zero if the stress adapter cannot be loaded")
     args = ap.parse_args()
 
     voices = [v.strip() for v in args.voices.split(",") if v.strip()]
@@ -383,7 +397,8 @@ def main():
     done = read_ids(manifest) | read_ids(review)
 
     rows = load_rows(args.sources)
-    rows = [r for r in rows if r.get("split") == args.split]
+    if args.split and args.split != "all":
+        rows = [r for r in rows if r.get("split") == args.split]
     rows = select_pilot(rows) if args.pilot else rows
     if args.limit:
         rows = rows[:args.limit]
@@ -403,11 +418,12 @@ def main():
     print(f"[data] {len(batches)} length-bucketed batches of <= {args.batch_size}; "
           f"F3 frontend {text_seconds:.1f} s", flush=True)
 
-    model, adapter = load_teacher(use_lora=not args.no_lora)
+    model, adapter = load_teacher(use_lora=not args.no_lora,
+                                  require_lora=args.require_lora)
     prompts = load_prompts(model, voices, args.ref_dir)
 
     stats = {
-        "device": "mps", "dtype": "bfloat16",
+        "device": TTS_DEVICE, "dtype": "bfloat16",
         "teacher_model": "Qwen/Qwen3-TTS-12Hz-1.7B-Base",
         "teacher_adapter": adapter,
         "sentences": len(rows), "voices": voices,
@@ -504,7 +520,7 @@ def main():
         "wer_max": round(float(np.max(wer_values)), 4) if wer_values else None,
         "stress_failed_clips": stress_fail,
         "peak_rss_gib": peak_rss_gib(),
-        "peak_mps_gib": mps_gib(),
+        "peak_device_gib": device_gib(),
     })
     if clips:
         with open(os.path.join(out, "run-stats.json"), "w") as f:
