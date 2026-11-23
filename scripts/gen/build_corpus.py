@@ -282,22 +282,17 @@ def handle_clip(row, wav, sr, voice, seed, attempt, out, asr, stress, factory, m
     return result
 
 
-def accept(row, result, voice, out, adapter):
-    cid = clip_id(row, voice)
-    src = os.path.join(out, "rejected", voice, cid + ".flac")
-    dst_rel = os.path.join("audio", voice, cid + ".flac")
-    dst = os.path.join(out, dst_rel)
-    os.makedirs(os.path.dirname(dst), exist_ok=True)
-    shutil.move(src, dst)
+def manifest_row(row, result, voice, adapter, audio_rel):
+    """One accepted row; only the caller's audio path differs between modes."""
     return {
-        "id": cid,
+        "id": clip_id(row, voice),
         "text_id": row["id"],
         "text": row["text"],
         "norm_text": row["norm_text"],
         "stressed_text": row["stressed_text"],
         "phonemes": row["phonemes"],
         "voice": voice,
-        "audio": dst_rel,
+        "audio": audio_rel,
         "seconds": result.get("document_seconds"),
         "wer": result.get("wer"),
         "stress_ok": result.get("stress_ok"),
@@ -323,6 +318,16 @@ def accept(row, result, voice, out, adapter):
         "teacher_adapter": adapter,
         "reference_audio": voice + ".wav",
     }
+
+
+def accept(row, result, voice, out, adapter):
+    cid = clip_id(row, voice)
+    src = os.path.join(out, "rejected", voice, cid + ".flac")
+    dst_rel = os.path.join("audio", voice, cid + ".flac")
+    dst = os.path.join(out, dst_rel)
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    shutil.move(src, dst)
+    return manifest_row(row, result, voice, adapter, dst_rel)
 
 
 def review_row(row, result, voice):
