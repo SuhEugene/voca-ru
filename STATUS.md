@@ -36,7 +36,9 @@ Branch: **B′ synthetic teacher distillation** — see `docs/plan-ru-qwen.md`. 
 | P1 | training stack ported (4,537,291 params) | subagent | task/p1-train | **merged** (716b6c2) — 61 h for 104k steps on M5; decision pending | training time |
 | F7 | Rust Russian frontend | subagent | task/f7-rust | **merged** (9cb41da) — 100 % token parity on 8k sentences; 5 MB dictionary | eSpeak-derived lexicon licence |
 | G1 | teacher harness + voices + throughput | subagent | task/g1-teacher | **merged** (38b2a8c) — 4 voices in `out/g1/voices/`, batch 8 bucketed 3.0-3.2x realtime | human voice pick |
-| G2 | stress adapter A/B | subagent | task/g2-adapter | running — decides whether the teacher reads stress correctly | — |
+| G2 | stress adapter A/B | subagent | task/g2-adapter | partial — LoRA merges cleanly; Base+marks without LoRA = garbled speech; full A/B/C table missing | — |
+| D2 | corpus builder + pilot | subagent | task/d2-corpus | **merged** (d790979) — 40/40 clips kept, WER 0.67 %, stress 184/184; full run not started | full run |
+| S1 | remote generation bundle | subagent | task/s1-remote | **merged** (5212d6e) — bootstrap/generate/watch/publish/pack, 44 tests; bundle built `out/remote-bundle.tar.zst` | HF token, server |
 | F6 | aligner spike (Russian eSpeak labels) | subagent | task/f6-align | **merged** (add64c1) — 97.7 % accept on FLEURS, 0 unalignable phones, mapping contract in `docs/aligner-mapping.md` | — |
 
 ## Risks
