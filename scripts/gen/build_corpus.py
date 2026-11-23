@@ -146,7 +146,7 @@ def load_teacher(use_lora=True, require_lora=False):
     t0 = time.perf_counter()
     model = Qwen3TTSModel.from_pretrained(
         BASE_DIR, device_map=TTS_DEVICE, dtype=torch.bfloat16,
-        attn_implementation="eager",
+        attn_implementation="sdpa",
     )
     print(f"[load] Base {time.perf_counter() - t0:.1f} s", flush=True)
     adapter = "none"
