@@ -4,6 +4,7 @@
 /upstream
 /out
 /.claude
+/.agents/
 
 # --- voca-ru: training and data artefacts ---
 worktrees/
