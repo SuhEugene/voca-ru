@@ -4,35 +4,98 @@ Branch `task/tg-bot`, worktree `worktrees/tg-bot`, commits prefixed `TG:`.
 Deliberately **not** rebased or merged into `main` (human instruction): the
 branch stays as it is.
 
-## 1. What the official docs allow (fetched 2026-11-24)
+## 1. Widgets in the docs: methods, parameters, mechanism
 
-From <https://core.telegram.org/bots/api> and
-<https://core.telegram.org/bots/widgets>:
+Sources re-read on 2026-11-24: the Bot API page and the individual method/type
+pages, plus the 10.4 changelog entry. `https://core.telegram.org/bots/widgets`
+is a **documentation page**, not a running widget instance; nothing below is
+evidence that widgets are live on the production server. The changelog states
+the methods were added in **Bot API 10.4 (November 9, 2026)**; the API page
+currently reports 10.5 (November 22, 2026).
 
-* Widget creation: **`sendWidget`**. With `is_shared: true` the first send
-  creates a shared widget — "one object on the server ... any number of messages
-  show it by its identifier". The identifier is `Message.widget.id`.
-* Widget update: **`editSharedWidgetData`** (`widget_id`, `public_data`,
-  `cache_time`) for a shared widget; **`editMessageWidgetData`** for a static
-  one. There is **no method that replaces a widget's HTML** ("no method replaces
-  it"); only its state changes.
-* Re-sending an existing shared widget: **`sendSharedWidget`** (not needed here).
-* A widget is anchored to **a message** (chat state) while its shared state
-  belongs to the widget object, not to a chat.
-* Rates: a shared widget takes **at most one edit per second**; an edit counts
-  as one sent message. `cache_time` (refresh period) is **5–3600 s**, default
-  30 s. We use 60 s.
-* Sizes: widget HTML **32768 bytes**, and **4096 bytes after zlib-9
-  compression**; `public_data` **1024 UTF-8 bytes**; `sendMessage` text
-  **1–4096 characters after entities parsing**.
-* Production availability: widgets work **only in the private chat with the
-  bot** (groups, inline and forwards are test-server only). A bot cannot post
-  widgets in channels.
-* 429 responses carry `parameters.retry_after`.
+### 1.1 Exact methods and documented parameter names
 
-So the shared-widget flow the brief asked for **is supported** and is what was
-implemented; the message-edit fallback exists only for servers/apps where
-`sendWidget` is rejected.
+All four exist on the API pages; nothing implemented here is invented, and
+nothing had to be deleted for being absent.
+
+| Method | Documented parameters (as written on the page) | Used here |
+|---|---|---|
+| `sendWidget` | `chat_id` (Integer or String, required), `message_thread_id`, `html` (String, required, 1–32768 bytes, ≤4096 compressed zlib max), `width`, `height`, `public_data` (String, 0–1024 bytes), `chat_data` (0–1024 bytes), `caption` (0–1024 chars), `parse_mode`, `caption_entities`, `show_caption_above_media`, `allow_queries`, `is_shared`, `disable_notification`, `protect_content`, `allow_paid_broadcast`, `message_effect_id`, `reply_parameters`, `reply_markup` | `chat_id`, `html`, `width=0`, `height=0`, `public_data`, `is_shared=True`, `caption` |
+| `sendSharedWidget` | `chat_id`, `message_thread_id`, `widget_id` (String, required), `chat_data`, `caption`, `parse_mode`, `caption_entities`, `show_caption_above_media`, `disable_notification`, `protect_content`, `allow_paid_broadcast`, `message_effect_id`, `reply_parameters`, `reply_markup` | not used (one widget per chat) |
+| `editSharedWidgetData` | `widget_id` (String, required), `public_data` (String, required, 0–1024 bytes; empty string removes it), `cache_time` (Integer, optional, **5–3600**, default 30) | `widget_id`, `public_data`, `cache_time=60` |
+| `editMessageWidgetData` | `chat_id`, `message_id`, `inline_message_id`, `public_data`, `chat_data` | not used (the shared-widget path edits by `widget_id`) |
+
+Type `Widget`: `id` (String, *optional* — "omitted if the widget isn't shared"),
+`width`, `height`, `html`, `public_data`, `chat_data`. The changelog also adds
+the field `widget` to `Message`, which is where `message.widget.id` comes from.
+
+Exact spellings matter: the parameter is **`public_data`**, the method is
+**`editSharedWidgetData`** (and `editMessageWidgetData`), and the period knob is
+**`cache_time`**. Method names are case-insensitive per the API page; the code
+sends the documented camelCase.
+
+### 1.2 How the widget block actually works (per the documentation)
+
+Yes — the widget block is **HTML content rendered from `public_data` state**.
+The documented mechanism is:
+
+* `sendWidget` stores the **HTML as fixed code**; the widgets page says "The
+  code, its HTML, is set when the widget is sent and never changes" and "no
+  method replaces it". The HTML we send is a small document whose JavaScript
+  reads `TelegramWidget.publicData`, parses the JSON and redraws itself.
+* `editSharedWidgetData` replaces the **shared state** (our compact JSON:
+  percent, counts, rate, ETA, WER, disk, spend) for every message showing the
+  shared widget. The message HTML is not resent and does not change.
+* The running widget learns about the change through
+  `publicDataChanged` after calling `TelegramWidget.watchPublicData()`; the docs
+  say the app then polls the shared widget at its refresh period, which is the
+  `cache_time` we set to 60 s. Clients that do not support widgets show the
+  caption instead.
+* If the real mechanism differs from this documentation, the live check in
+  §1.4 is what will reveal it.
+
+### 1.3 Fallback path, proven by tests
+
+If `sendWidget` returns an error (e.g. unknown method on the server), the bot
+creates exactly **one plain message per chat** and refreshes it with
+`editMessageText` every 60 s. The record in `state.json` changes `kind` from
+`widget` to `message` and keeps its `message_id`; later refreshes edit that same
+message.
+
+Existing tests (ran again for this report, all `ok`):
+
+```text
+tests.tg.test_bot.BotTests.test_widget_unavailable_falls_back_to_a_message ... ok
+tests.tg.test_bot.BotTests.test_message_fallback_edits_the_same_message ... ok
+tests.tg.test_client.ClientTests.test_widget_methods_use_documented_parameters ... ok
+```
+
+The first asserts the call sequence is exactly `sendWidget` → `sendMessage` and
+that the stored record is `kind="message"`; the second advances the fake clock
+61 s and asserts the only follow-up is `editMessageText` on the **same**
+`message_id` (no second `sendMessage`).
+
+### 1.4 Live behaviour is still unverified
+
+Nothing here has been exercised against the real production server, because no
+chat id was saved in `remote/tg/state.json`, so no `/status` was sent and
+`--ping` was skipped. The code is documented-API-correct but unproven in
+production. What would prove it:
+
+1. send `/status`; the Bot API response must be a `Message` carrying
+   `message.widget.id` (the `Widget.id` field is optional and present only for a
+   shared widget), and the bot must persist that id in `state.json`;
+2. one later `editSharedWidgetData` call for that `widget_id` must return `True`
+   with HTTP 200;
+3. on screen, the widget must visibly change within `cache_time` (60 s) while
+   the message HTML stays the same.
+
+If step 1 returns "unknown method" or another error, the fallback in §1.3 takes
+over automatically.
+
+**Correction to the earlier reading:** the widgets page is documentation. It is
+not proof that any widget is live, and this report does not claim otherwise.
+
 
 ## 2. What was implemented
 
@@ -82,10 +145,11 @@ Telegram request was made.
 
 ## 4. Not verified — needs a live chat
 
-* A real `sendWidget` / `editSharedWidgetData` round trip, and how the widget
-  actually renders on iOS/Android/Desktop. The docs' production rules were
-  followed; if the token's server rejects widgets, the bot automatically uses
-  the edited-message fallback (tested).
+See §1.4 for the exact live proof required. In short:
+
+* No real `sendWidget` / `editSharedWidgetData` round trip, and no view of the
+  widget on a real client. The documentation was followed, not exercised; the
+  fallback is tested.
 * `--ping` was **not** run: `remote/tg/state.json` does not exist here, so there
   is no saved chat id; per the brief it was skipped.
 * `hook.sh` was syntax-tested and its functions are unit-shaped through the
