@@ -88,10 +88,10 @@ else
 fi
 
 DISK_GB="$(df -Pk "$ROOT" | awk 'NR == 2 { print int($4 / 1024 / 1024) }')"
-if [ "${DISK_GB:-0}" -ge 100 ]; then
-  pass "free disk ${DISK_GB} GiB >= 100 GiB"
+if awk -v have="${DISK_GB:-0}" -v need="${DISK_REQUIRED_GB:-35}" 'BEGIN { exit !(have >= need) }'; then
+  pass "free disk ${DISK_GB} GiB >= ${DISK_REQUIRED_GB:-35} GiB (measured peak use ~21 GiB)"
 else
-  fail "free disk ${DISK_GB:-?} GiB < 100 GiB"
+  fail "free disk ${DISK_GB:-?} GiB < ${DISK_REQUIRED_GB:-35} GiB"
 fi
 
 if command -v "$PYTHON" >/dev/null 2>&1 \
@@ -220,10 +220,10 @@ fi
 # ---------------------------------------------------------------- 7. disk again
 step "7/8 disk after downloads"
 DISK_GB="$(df -Pk "$ROOT" | awk 'NR == 2 { print int($4 / 1024 / 1024) }')"
-if [ "${DISK_GB:-0}" -ge 100 ]; then
-  pass "free disk ${DISK_GB} GiB still >= 100 GiB (assets + smoke used ~8 GiB)"
+if awk -v have="${DISK_GB:-0}" -v need="${DISK_REQUIRED_GB:-35}" 'BEGIN { exit !(have >= need) }'; then
+  pass "free disk ${DISK_GB} GiB still >= ${DISK_REQUIRED_GB:-35} GiB (assets + smoke used ~8 GiB)"
 else
-  warn "free disk ${DISK_GB} GiB after downloads; the corpus itself needs ~6 GiB"
+  fail "free disk ${DISK_GB} GiB after downloads; the corpus needs ~6 GiB more"
 fi
 
 # ---------------------------------------------------------------- 8. summary
