@@ -264,6 +264,14 @@ def check_leakage(train, validation):
         raise ValueError("train/validation leakage; split by sentence/text_id across BOTH voices. Examples: " + json.dumps(collisions, ensure_ascii=False))
 
 
+def release_cache(device):
+    """MPS keeps freed blocks in its own cache: without this the allocation peaks
+    of validation and sampling accumulate until the 30 GiB driver ceiling (the
+    1k-step pilot died at step 460 with 22.8 GiB of "other allocations")."""
+    if str(device).startswith("mps") and torch.backends.mps.is_available():
+        torch.mps.empty_cache()
+
+
 @torch.no_grad()
 def validate(system, dataset, indices, device, weights=WEIGHTS, batch_size=8):
     """Held-out metrics on a fixed balanced subset.
@@ -556,6 +564,7 @@ def main():
                           learning_rate=optimizer.param_groups[0]["lr"])
             if save:
                 record.update(validate(system, validation, validation_indices, args.device, recipe["weights"]))
+                release_cache(args.device)
                 state = snapshot()
                 atomic_save(state, args.output / "last.pt")
                 export_model(system.model, args.output / "inference.pt", step, train.annotation)
@@ -563,6 +572,7 @@ def main():
                     atomic_save(state, args.output / f"step-{step:08d}.pt")
             if args.sample_every and step % args.sample_every == 0:
                 samples = save_samples(system, args.output, step, args.device)
+                release_cache(args.device)
                 if args.eval_every and step % args.eval_every == 0:
                     record["eval_wer"] = run_eval(samples, args.output, step, args.eval_backend, args.eval_device)
             with (args.output / "metrics.jsonl").open("a") as stream:
