@@ -204,6 +204,15 @@ def run_generate(*, rows, voices, batch_size, base_seed, out, teacher,
             voice, [r["stressed_text"] for r in item["rows"]], seed)
         wall_total += wall
         per_clip = wall / max(len(wavs), 1)
+        if len(wavs) != len(item["rows"]):
+            # The teacher can return fewer waveforms than prompts (2026-11-24:
+            # 643 clips lost on the longest male sentences). zip() would drop
+            # them silently, so name every lost id for the wave-2 ids file.
+            lost = [bc.clip_id(r, voice) for r in item["rows"][len(wavs):]]
+            print(f"[gen] batch {bi}: {len(wavs)} wavs for {len(item['rows'])} rows; "
+                  f"lost {len(lost)}: {' '.join(lost)}", flush=True)
+            with open(p["raw"] + ".lost", "a") as fh:
+                fh.write("".join(cid + "\n" for cid in lost))
         for row, wav in zip(item["rows"], wavs):
             cid = bc.clip_id(row, voice)
             if sr != SR:
