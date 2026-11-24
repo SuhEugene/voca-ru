@@ -5,6 +5,9 @@ Regenerates data/scripts-ru/batch1.jsonl, batch2.jsonl and SPLITS.sha256 from
 recorded sources. The build is seeded and byte-identical when the pinned source
 files are present in the cache (the pinned SHA-256 values below are checked).
 
+``--extra [N]`` additionally writes batch3.jsonl: N (default 2500) sentences
+from the unused Common Voice pool, never seen by batch1/batch2, train split.
+
 Sources:
   * Common Voice ru sentence-collector.txt (CC0-1.0)
   * ru.wikisource.org pages at pinned revisions (public-domain prose)
@@ -17,6 +20,7 @@ Nothing is written outside data/scripts-ru/ and the cache.
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import html
 import json
@@ -686,7 +690,26 @@ def dedupe(rows: list[dict]) -> list[dict]:
     return out
 
 
-def build() -> None:
+def build_extra(used: list[dict], count: int, cv: list[str]) -> list[dict]:
+    """`count` unused Common Voice sentences (batch 3, train only).
+
+    The pool is a fixed permutation, so a larger --extra keeps the earlier pick.
+    """
+    used_keys = {norm_key(row["text"]) for row in used}
+    pool = sorted(text for text in cv if norm_key(text) not in used_keys)
+    rng = random.Random(f"{SEED}:cv-extra")
+    rng.shuffle(pool)
+    rows = [make_row(text, "train", "conversation", "common_voice_sentence_collector",
+                     "cv-ru-sentence-collector", CV_LICENSE, CV_URL, 3)
+            for text in pool[:count]]
+    rows = dedupe(rows)
+    if len(rows) < count:
+        raise SystemExit(f"only {len(rows)} unused Common Voice sentences, need {count}")
+    rows.sort(key=lambda r: r["id"])
+    return rows
+
+
+def build(extra: int = 0) -> None:
     rows: list[dict] = []
 
     cv = common_voice_pool()
@@ -743,8 +766,12 @@ def build() -> None:
 
     write_jsonl(OUT_DIR / "batch1.jsonl", rows)
     write_jsonl(OUT_DIR / "batch2.jsonl", batch2)
-    write_splits(rows + batch2)
-    report(rows + batch2)
+    all_rows = rows + batch2
+    if extra:
+        all_rows += build_extra(rows + batch2, extra, cv)
+        write_jsonl(OUT_DIR / "batch3.jsonl", [r for r in all_rows if r["batch"] == 3])
+    write_splits()
+    report(all_rows)
 
 
 def own_category(text: str) -> str:
@@ -778,28 +805,35 @@ def write_jsonl(path: Path, rows: list[dict]) -> None:
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def write_splits(rows: list[dict]) -> None:
-    batch1 = (OUT_DIR / "batch1.jsonl").read_bytes()
-    batch2 = (OUT_DIR / "batch2.jsonl").read_bytes()
+def read_jsonl(path: Path) -> list[dict]:
+    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()
+            if line.strip()]
+
+
+def write_splits() -> None:
+    """Hash every batch file present; batch3 is optional (only after --extra)."""
+    paths = [p for p in (OUT_DIR / "batch1.jsonl", OUT_DIR / "batch2.jsonl",
+                         OUT_DIR / "batch3.jsonl") if p.exists()]
+    rows = [row for path in paths for row in read_jsonl(path)]
     manifest = "\n".join(f"{row['id']} {row['split']}" for row in sorted(rows, key=lambda r: r["id"]))
     counts = {}
     for row in rows:
         counts[(row["batch"], row["split"])] = counts.get((row["batch"], row["split"]), 0) + 1
     lines = [
         "# Frozen split manifest for the F2 Russian script corpus.",
-        "# Regenerate with: python3 scripts/text/build_ru_scripts.py",
-        f"batch1.jsonl sha256:{sha256_bytes(batch1)}",
-        f"batch2.jsonl sha256:{sha256_bytes(batch2)}",
+        "# Regenerate with: python3 scripts/text/build_ru_scripts.py [--extra N]",
+        *(f"{path.name} sha256:{sha256_bytes(path.read_bytes())}" for path in paths),
         f"split-manifest sha256:{sha256_bytes(manifest.encode())}",
         " ".join(f"batch{b}-{s}={counts.get((b, s), 0)}"
-                 for b in (1, 2) for s in ("train", "val", "test")),
+                 for b in sorted({row["batch"] for row in rows})
+                 for s in ("train", "val", "test")),
     ]
     (OUT_DIR / "SPLITS.sha256").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def report(rows: list[dict]) -> None:
     print(f"sentences: {len(rows)}")
-    for batch in (1, 2):
+    for batch in sorted({row["batch"] for row in rows}):
         chunk = [r for r in rows if r["batch"] == batch]
         print(f"batch{batch}: {len(chunk)}")
         for split in ("train", "val", "test"):
@@ -819,4 +853,9 @@ def report(rows: list[dict]) -> None:
 
 
 if __name__ == "__main__":
-    build()
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--extra", nargs="?", const=2500, default=0, type=int, metavar="N",
+                    help="also write batch3.jsonl with N unused Common Voice "
+                         "sentences, train only (default 2500)")
+    build(ap.parse_args().extra)
