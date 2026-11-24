@@ -1,6 +1,7 @@
 # Frozen split manifest for the F2 Russian script corpus.
-# Regenerate with: python3 scripts/text/build_ru_scripts.py
+# Regenerate with: python3 scripts/text/build_ru_scripts.py [--extra N]
 batch1.jsonl sha256:56fd25c31a4f3e7cbaf80cebd9911e5b454348a195ac7399c67b607e8db03c4f
 batch2.jsonl sha256:72d821353c6366b49d32bef34e81adb0cebb74ec06a95d409a67459151314adb
-split-manifest sha256:151a568d343ed5a2e08645e4a65f2447f8b9fecbf47c68d373bdb57cc0cf8d5b
-batch1-train=3870 batch1-val=315 batch1-test=315 batch2-train=3500 batch2-val=0 batch2-test=0
+batch3.jsonl sha256:23d4b08e0380c74f41d85eca2dbb13b7f20993756cad70c8573ddefb40a8aff9
+split-manifest sha256:2c4d377f3f5bc8a2aedc05274391a091385a60b2cc71f073fb263d7a24fd74b0
+batch1-train=3870 batch1-val=315 batch1-test=315 batch2-train=3500 batch2-val=0 batch2-test=0 batch3-train=2500 batch3-val=0 batch3-test=0

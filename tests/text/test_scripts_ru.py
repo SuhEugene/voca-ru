@@ -5,6 +5,8 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 
@@ -12,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data" / "scripts-ru"
 BATCH1 = DATA / "batch1.jsonl"
 BATCH2 = DATA / "batch2.jsonl"
+BATCH3 = DATA / "batch3.jsonl"
 SPLITS = DATA / "SPLITS.sha256"
 
 FIELDS = ["id", "text", "split", "category", "origin", "source_id",
@@ -49,6 +52,7 @@ class ScriptsRuTest(unittest.TestCase):
     def setUpClass(cls):
         cls.batch1 = load(BATCH1)
         cls.batch2 = load(BATCH2)
+        cls.batch3 = load(BATCH3) if BATCH3.exists() else []
         cls.rows = cls.batch1 + cls.batch2
 
     def test_counts_and_splits(self):
@@ -147,9 +151,57 @@ class ScriptsRuTest(unittest.TestCase):
         self.assertEqual(hashes["batch2.jsonl"],
                          hashlib.sha256(BATCH2.read_bytes()).hexdigest())
         manifest = "\n".join(f"{row['id']} {row['split']}"
-                             for row in sorted(self.rows, key=lambda r: r["id"]))
+                             for row in sorted(self.rows + self.batch3, key=lambda r: r["id"]))
         self.assertEqual(hashes["split-manifest"],
                          hashlib.sha256(manifest.encode()).hexdigest())
+
+
+class Batch3Test(unittest.TestCase):
+    """--extra: unused Common Voice sentences, train only, deterministic."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.batch1 = load(BATCH1)
+        cls.batch2 = load(BATCH2)
+        cls.batch3 = load(BATCH3)
+
+    def test_count_and_schema(self):
+        self.assertEqual(len(self.batch3), 2500)
+        for row in self.batch3:
+            self.assertEqual(list(row), FIELDS)
+            self.assertEqual(row["batch"], 3)
+            self.assertEqual(row["split"], "train")
+            self.assertEqual(row["origin"], "common_voice_sentence_collector")
+            self.assertEqual(row["source_license"], "cc0-1.0")
+            self.assertEqual(row["id"],
+                             hashlib.sha256(norm_key(row["text"]).encode()).hexdigest()[:16])
+            self.assertEqual(row["word_count"], len(row["text"].split()))
+            self.assertEqual(row["char_count"], len(row["text"]))
+        ids = [row["id"] for row in self.batch3]
+        self.assertEqual(len(ids), len(set(ids)))
+
+    def test_no_overlap_with_batch1_batch2(self):
+        older = self.batch1 + self.batch2
+        self.assertFalse({row["id"] for row in older} & {row["id"] for row in self.batch3})
+        self.assertFalse({norm_key(row["text"]) for row in older}
+                         & {norm_key(row["text"]) for row in self.batch3})
+
+    def test_splits_file_covers_batch3(self):
+        lines = SPLITS.read_text(encoding="utf-8").splitlines()
+        entry = [line for line in lines if line.startswith("batch3.jsonl ")]
+        self.assertEqual(len(entry), 1)
+        self.assertIn(hashlib.sha256(BATCH3.read_bytes()).hexdigest(), entry[0])
+        self.assertIn(f"batch3-train={len(self.batch3)}", lines[-1])
+
+    def test_rebuild_is_byte_identical(self):
+        before = {path: path.read_bytes() for path in (BATCH1, BATCH2, BATCH3)}
+        for _ in range(2):
+            result = subprocess.run(
+                [sys.executable, "scripts/text/build_ru_scripts.py", "--extra"],
+                cwd=ROOT, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr[-2000:])
+            for path, data in before.items():
+                self.assertEqual(path.read_bytes(), data, path.name)
 
 
 if __name__ == "__main__":

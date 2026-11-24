@@ -64,9 +64,20 @@ PILOT_PLAN = {"number": 4, "date": 4, "money": 3, "name": 3, "question": 3, "pro
 
 # ---------------------------------------------------------------- data loading
 
+RETIRED = os.path.join(REPO, "data/scripts-ru", "retired.jsonl")
+
+
+def retired_ids():
+    """Sentences with no usable audio (scripts/gen/retire.py); never generated again."""
+    if not os.path.exists(RETIRED):
+        return set()
+    with open(RETIRED) as f:
+        return {json.loads(line)["id"] for line in f if line.strip()}
+
+
 def load_rows(sources):
     rows = []
-    seen = set()
+    seen = retired_ids()
     for source in sources:
         path = source if os.path.isabs(source) else os.path.join(REPO, "data/scripts-ru", source)
         with open(path) as f:
