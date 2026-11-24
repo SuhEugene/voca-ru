@@ -1,0 +1,589 @@
+{"id": "011731ce72037ca3", "text": "Магазин работает с девяти до восьми.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "012185c06deb5bcd", "text": "Не буду спорить, безопасности это помогает.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5", "wer 0.333 > 0.15"]}
+{"id": "012a52131c29d31f", "text": "Мы призываем все государства-члены поддержать эту просьбу Совещания государств-участников и Генеральной Ассамблеи.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8", "stress 1/9"]}
+{"id": "01d21f1df5bceeaa", "text": "Часто кто-нибудь срывается и с ревом и руганью летит под трамвайные колеса.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8"]}
+{"id": "02463bc73bdbc4f5", "text": "Эта тенденция заметна даже среди постоянных членов Совета Безопасности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "024af5f6df01bfe1", "text": "Артём и Софья поедут в Псков.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "02d57c4f701eb558", "text": "Это возможно, т. е. совершенно безопасно.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "0389bad6c63721db", "text": "Я сейчас не говорю об общей реформе Совета Безопасности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "05629d388bca6fe3", "text": "Большой потенциал имеют финансирование по линии частного сектора и новаторские источники финансирования.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "062a8be16f630871", "text": "Во-первых, они находятся на подъеме.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/4"]}
+{"id": "065814fe6b655732", "text": "И действительно, он покраснел от досады и что-то сказал неприятное.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/6"]}
+{"id": "067addc7b4f94b60", "text": "Липутин развел руками в виде угнетенной невинности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15"]}
+{"id": "0694f52f4c21b903", "text": "Ольга и Павел поедут в Псков.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "073b39c0ca81136e", "text": "О, если б я нищ был!", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "07c9b4dcd3a99084", "text": "Предсказание Марьи Николаевны было верно.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "07d7b29b15d5df99", "text": "Электричка уходит в два пятьдесят с третьей платформы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.375 > 0.15"]}
+{"id": "07e624461857b3ac", "text": "Гость соглашается, садится к столу, пьет чай и что-то рассказывает.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5"]}
+{"id": "082baa0618fc8310", "text": "Или зуб революций ступился о короны?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "091dd556eb679949", "text": "Ноябрь - сентябрев внук, октябрев сын, зиме родной брат.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15", "wer 0.375 > 0.15"]}
+{"id": "098b11c8086516a4", "text": "Экзамен перенесли на одиннадцатое ноября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "09992ce3158d2506", "text": "А мы, мы – стоим.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["duration ratio 1.86 outside 0.6-1.6", "wer 0.500 > 0.15"]}
+{"id": "09d4653f9832e9e8", "text": "Ответственность государств за международно-противоправные деяния.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/4"]}
+{"id": "0ca6752215e310b4", "text": "В аквариуме у Харитона четыре рака да три тритона.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "0d6760427e1b971f", "text": "Она повторила это семьдесят два раза.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "0da1baaf8526012b", "text": "Вероятно, ругательство или что-нибудь в этом смысле.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5", "wer 0.250 > 0.15"]}
+{"id": "0e6eb536fc6c0d3f", "text": "Всё-таки что-то ужасное есть в этом после всего, что было.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 2/7"]}
+{"id": "100c673f8589186e", "text": "Ах, неправда! – вскрикнула Марья Ивановна.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "107c65e11f70fc42", "text": "Мистер Коллинс не пришел на встречу.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.500 > 0.15"]}
+{"id": "116d750e0b6e75db", "text": "Экзамен перенесли на шестнадцатое апреля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "11d71321ca2ad390", "text": "Верстах в двух от города Л. находились остатки феодального замка.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "1263811a4499c40e", "text": "Улица была заставлена экипажами, кареты одна за другою катились к освещенному подъезду.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "126bfc3e06bb4426", "text": "Эта страна по-прежнему является нашим самым близким и важнейшим партнером.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9"]}
+{"id": "129e7e2d7197b309", "text": "Электричка уходит в три пятьдесят пять с третьей платформы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "12bfdbaccdb6f3d6", "text": "Оставьте его, Гаврила Андреич, — промолвил Степан, — он сделает, коли обещал.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "132fe1a9485f2f4d", "text": "Встреча назначена на семнадцатое октября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "145f626d30951caf", "text": "Наталья купила подарок маме на юбилей.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "150486d6e2580b13", "text": "Экзамен перенесли на двадцать пятое ноября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "1507593a4b54bb93", "text": "Долли холодно посмотрела на Анну.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "15101ec65fb06e41", "text": "И еще десяток мальчишек рванулись с тылу и с фланга.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "15be92b6aeb15e73", "text": "Обеспечение устойчивого развития по-прежнему требует большого напряжения сил.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7"]}
+{"id": "167e0053e758279d", "text": "Перед утреннею зарей всё затихло.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "16922c256b0768e2", "text": "Электричка уходит в шесть пятьдесят пять с третьей платформы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "16df22e40aba47de", "text": "И вот в это-то время у Кириллова успели побывать Верховенский и Липутин.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "176c1730f6d43580", "text": "Долли, Чириков и Степан Аркадьич выступили вперед поправить их.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "17a94e37e4d07bb4", "text": "Встреча назначена на шестнадцатое февраля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "17c788da673541ca", "text": "Обзор и осуществление Заключительного документа двенадцатой специальной сессии Генеральной Ассамблеи.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "17fb43e88ae26924", "text": "Решения, принятые Советом Безопасности в этой связи, не содействуют решению проблемы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15"]}
+{"id": "181cd85b61b2a631", "text": "СанМарино признательно этим группам за роль, которую они сегодня играют.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15", "wer 0.300 > 0.15"]}
+{"id": "1833c39a79bbc4ce", "text": "Поэтом ислам провозглашает, чтоб все люди равны, как зубья гребня в руках ткача.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9", "wer 0.154 > 0.15"]}
+{"id": "189ff8f0cfbf600f", "text": "Мы взяли напрокат машину и объехали весь остров.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "18c4acc4a256cd82", "text": "Так, Салюстий, Сапфо и Аристипп были распущенны до разврата.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "19d7714d8414188f", "text": "Брат слушал, но, очевидно, не интересовался этим.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15"]}
+{"id": "1a212d4ae7848025", "text": "Пятое мая у нас выходной день.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "1a5675d61dcdf799", "text": "Экзамен перенесли на двадцатое октября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15", "wer 0.400 > 0.15"]}
+{"id": "1a7e72e773810b85", "text": "Поездка за грибами и купанье.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "1ae76378d77d4fa7", "text": "Встреча назначена на первое апреля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "1b09aa4f4c454be8", "text": "Этим нечего шутить, — возразил сердито Германн.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "1b732e61bdc941fd", "text": "Экзамен перенесли на одиннадцатое апреля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "1b89274e90f503a6", "text": "Испания придает огромное значение конструктивному взаимодействию между Советом Безопасности и Генеральной Ассамблеей.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "1c1de233fe9b3f0b", "text": "В-третьих, здесь упоминалось об угрозе ядерных испытаний международному миру и безопасности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "1cb587750af8411d", "text": "Экзамен перенесли на двадцать шестое августа.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "1cbdf5436a559116", "text": "Экзамен перенесли на четырнадцатое июня.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "1cc40aec5996fc8f", "text": "Созвон назначен на шестнадцать часов утра.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "1cc822de4799354e", "text": "Экзамен перенесли на девятое мая.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "1dbc80597171729a", "text": "Мы долго копили на поездку всемером.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "1e1769f4026e59f9", "text": "Экзамен перенесли на двенадцатое октября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "1e96f03bf460cd0a", "text": "Поезд опоздал на семь тысяч минут.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "1ea1510546737397", "text": "Убьет, Гаврила Андреич, беспременно убьет.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5", "wer 0.200 > 0.15"]}
+{"id": "1ebe8c7ce61799ac", "text": "Ее Директор-исполнитель госпожа Мишель Бачелет сумеет активизировать эти усилия.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9"]}
+{"id": "1f35b5ff7f99cd1e", "text": "Однако, как отметил Его Превосходительство президент Науру, изменить образ жизни людей не просто.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "1f3a688d87416434", "text": "Ольга купила три билета на вечерний сеанс.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5"]}
+{"id": "1f7abbdf98fc2a5f", "text": "Мне нужно купить лекарства по рецепту.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "1f8a50c0cb65f53b", "text": "С самого утра меня стала мучить какая-то удивительная тоска.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8"]}
+{"id": "1f996e5548af3946", "text": "Затем Настасья стала на стул и полезла зажигать в углу лампадку пред образом.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.231 > 0.15", "wer 0.308 > 0.15"]}
+{"id": "207e3edee7faa9cc", "text": "Постойте, ведь вы, кажется, господин Н.?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "21411072c7933742", "text": "В поле Фрося полет просо, сорняки выносит Фрося.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "218002a150cd0725", "text": "Поэтому мы считаем, что главное в данном процессе — это проверка на благонадежность.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8"]}
+{"id": "21a4346df0a35d20", "text": "Она поднялась, чтоб опомниться, откинула плед и сняла пелерину теплого платья.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15"]}
+{"id": "228b18c3d99465f2", "text": "Заторможенные в смысле цели сексуальные влечения имеют большое функциональное преимущество перед незаторможенными.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "22a4531bb76b3a06", "text": "Экзамен перенесли на восемнадцатое апреля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "233f92ba116b6c98", "text": "Именно так необходимо добиваться счастье.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "23e39085280cd884", "text": "О! как несносен счастливый человек в иную минуту!", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5", "wer 0.250 > 0.15"]}
+{"id": "248e4a139454dc5e", "text": "Поезд опоздал на семь минут.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "2497726466db3ff8", "text": "Степан Аркадьич взглянул на часы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "24e337b9074ea40d", "text": "Привет, Максим! Как прошёл твой день?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "24f31740ff2bca5e", "text": "В зале собралось девяносто два человека.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "2521237e84cee482", "text": "Экзамен перенесли на девятнадцатое июня.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "252735b89854ddee", "text": "Возвращение кн. Щербацкого из поездки в Карлсбад.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.429 > 0.15", "wer 0.571 > 0.15"]}
+{"id": "252a1156c3f5aa4d", "text": "Она пришла на встречу ровно в десять.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15"]}
+{"id": "2566de52f01d8edb", "text": "Встреча назначена на двадцать третье февраля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "25e6c7ad55cc7808", "text": "Созвон назначен на шесть часов утра.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "26148ad4cee8c979", "text": "Экзамен перенесли на девятнадцатое октября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "26521dd56b4bfa4c", "text": "А теперь раздень-ка меня и положи, — сказал я жене.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/6", "wer 0.200 > 0.15"]}
+{"id": "2737c14ac26b1249", "text": "Экзамен перенесли на восьмое января.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "27ed5d8f2a29c9a1", "text": "Ситуация требует от всех государств-членов повторного подтверждения политической приверженности и свежего мышления.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9"]}
+{"id": "2857feeaaabb7245", "text": "Что посмотреть в Санкт-Петербурге за один день?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/3"]}
+{"id": "29553c625909475f", "text": "В зале стояло семьдесят два стола.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "2a60ab893df3d25a", "text": "Ирина принесла на встречу свежие ягоды.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "2bdf1ea0593df9e1", "text": "Господи владыко! – простонал мой Савельич.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "2c6233062a5104fb", "text": "Встреча назначена на двадцать второе октября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "2d2cc1e57447d033", "text": "Экзамен перенесли на девятое января.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "2d606e2e2bcd89ea", "text": "По состоянию на данный момент мы практически завершили рассмотрение четвертого кластера «Обычные вооружения».", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "2dad391997740ec9", "text": "Германн взбежал по лестнице, отворил двери в переднюю, и увидел слугу, спящего под лампой, в старинных, запачканных креслах.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "2defe18e460a6566", "text": "Он насчитал их сорок два человека.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "2e35f569eeb9c64d", "text": "Ведь и вы считаете себя не бесполезным.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15", "wer 0.429 > 0.15"]}
+{"id": "2ea2e1af05450d8d", "text": "Международное управление попрежнему является фрагментарным и неэффективным.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.429 > 0.15"]}
+{"id": "2eb9fda464e32a7b", "text": "Зная упрямство дядьки моего, я вознамерился убедить его лаской и искренностию.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9", "wer 0.182 > 0.15"]}
+{"id": "2eeb8de75dbb7680", "text": "Встреча назначена на четырнадцатое августа.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "2fb9d21bd2a25e62", "text": "Зарплату перечисляют пятого и двадцатого числа.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "2fd6e9e7203c7fac", "text": "Экзамен перенесли на восьмое сентября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "304547e08025bf6f", "text": "Правительство Шри-Ланки ежегодно выделяет значительные средства непосредственно для борьбы с неинфекционными заболеваниями.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15", "wer 0.231 > 0.15"]}
+{"id": "31095ff02a2b82fe", "text": "Мы встретимся у метро, т. е. у выхода номер семнадцать.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "315d4181e08eba8d", "text": "Господи владыко, до чего мы дожили!", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "317e96e351d789b9", "text": "Я пошел в сени и отворил дверь в переднюю.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "31d4ed1b40eabb31", "text": "Встреча назначена на двадцать седьмое апреля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "32621a3b89cbbf52", "text": "Экзамен перенесли на второе февраля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "328dba7c59ff5ccf", "text": "Импресарио Марио за Марию пел арию.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/4", "wer 0.333 > 0.15"]}
+{"id": "32b8193a6eef9f1f", "text": "Рейс задержали из-за сильного ветра.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/4", "wer 0.333 > 0.15"]}
+{"id": "334947a261cce0b8", "text": "Что-то явно не так с этой классификацией.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/4"]}
+{"id": "33cbdcdef21b8d2d", "text": "Эти проблемы зачастую связаны с существующими в государствах-членах социально-экономическими и экологическими факторами.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9", "stress 2/9"]}
+{"id": "34ee5c2f84ff79f1", "text": "Он нашел печень значительно увеличенною, питание уменьшенным и действия вод никакого.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15"]}
+{"id": "350b2798a5db859e", "text": "Австралия уже давно стремится к проведению реформы Совета Безопасности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "352f1ba7f98244ff", "text": "Электричка уходит в два сорок пять с третьей платформы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "3551990510e51213", "text": "О нет, видеть-то вижу, — а все-таки я один.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 2/4"]}
+{"id": "35524a4e4450f80a", "text": "Хорош якут. Ви удивлены? Я чшлен экспедиции изучений Арктики Английски королевски географически общества.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.385 > 0.15", "wer 0.462 > 0.15"]}
+{"id": "35a61e33ab43d512", "text": "Встреча назначена на девятое марта.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "362b7045b2ac2d70", "text": "И Сергей Иванович подал брату записку из-под преспапье.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7"]}
+{"id": "379e20ab8056c921", "text": "Члены Совета Безопасности соблюдают минуту молчания.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/6", "wer 0.333 > 0.15", "wer 0.500 > 0.15"]}
+{"id": "37e584a6080e54b3", "text": "Степан Аркадьич рассказывал свояченице свой каламбур о разводе.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "381e15e9baf86fad", "text": "Всё, во взгляде, в румянце, в опущенных глазах Вареньки, показывало болезненное ожидание.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "383895361e727489", "text": "Германн вздрогнул: в самом деле, вместо туза у него стояла пиковая дама.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "3890049475e6c4da", "text": "Зеленью ляг, луг, выстели дно дням.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.500 > 0.15"]}
+{"id": "394b5a4ad42ad20b", "text": "Разве молнии велишь не литься?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.600 > 0.15"]}
+{"id": "3a53ea8ec84f0b38", "text": "Экзамен перенесли на семнадцатое февраля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "3b2dcd2b910578eb", "text": "Экзамен перенесли на четырнадцатое октября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "3b95ed62c9364a72", "text": "Созвон назначен на два часов утра.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "3bb4aedbfced0288", "text": "А нельзя было задания полегче сделать?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "3bbb3ece0e13e985", "text": "Я, должно быть, выгляжу смешной?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "3c6833bd3112a7af", "text": "Государь! – закричал он в исступлении.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "3d33a58f968cb243", "text": "Созвон назначен на пятнадцать часов утра.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "3e05a60f68e61276", "text": "Но он всегда хотел быть хорошим.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "3e478b34667928d6", "text": "Мы будем и впредь заниматься этим.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "3e8cecb4e75f7fe5", "text": "Африканские страны попрежнему привержены курсу на выполнение своих обязательств по многосторонним договоренностям.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "3ecfea94bc278a05", "text": "Ты уже купил билет в Владимир?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "3f7166c273d6077d", "text": "Встреча назначена на двадцать шестое июля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "40bdb230d90c6a53", "text": "Решим, что все по-своему правы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/3"]}
+{"id": "41c3313af4b8ba8a", "text": "После дождя воздух становится свежим.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "424b016c5ac7a10d", "text": "Поезд опоздал на шестьсот пятьдесят минут.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "434c4f237de3a0ce", "text": "Поезд опоздал на тысяча восемьсот минут.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "43d873b787606a85", "text": "И мы настоятельно призываем делегации-члены подвергнуть это предложение вдумчивому рассмотрению.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8"]}
+{"id": "43dd277610fba804", "text": "Экзамен перенесли на тринадцатое декабря.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "441422590deeedc6", "text": "Молока не надо ли, молока?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "4488307c9d11d022", "text": "Экзамен перенесли на двадцать первое января.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "44ff7d4f0d58432e", "text": "Слушайте ж: все, чем владеет моя душа, – а ее богатства пойдите смерьте ей!", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "45479117c6b9b604", "text": "Вначале слово имеет представительница Соединенных Штатов Америки.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.429 > 0.15"]}
+{"id": "4586ce4b334d0844", "text": "Церковь и войско суть искусственные массы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "466cbdf6987b8f48", "text": "Конь копытом бьет, удила грызет.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "46873cf0d0159215", "text": "Совету Безопасности пора ввести санкции против сирийского режима и поддержать сирийский народ.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.500 > 0.15"]}
+{"id": "46c24f9c8bfaa4e4", "text": "Мне нужно купить средство от насекомых.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "46f79574a75c4515", "text": "У этих у самых гроздьев шашлы — совсем поцелуйная сладость.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "4766dae523a3d10b", "text": "На столе лежало сто два яблока.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "47852c4cfe1c3bc6", "text": "По заявлению студии, рисовавшей вышеназванное аниме, у онгоинга будет двенадцать серий.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15"]}
+{"id": "47b859db166cc65f", "text": "Во-первых, кто создал ядерный вопрос на Корейском полуострове?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/6"]}
+{"id": "481bce68f46d2e9e", "text": "Встреча назначена на одиннадцатое ноября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "48f7c06ba7ec08d1", "text": "Эти испытания позволили нам проверить только — я подчеркиваю только — материально-технические характеристики.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9", "stress 2/9"]}
+{"id": "4996838520b94363", "text": "Экзамен перенесли на седьмое апреля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "49e8d8131a9c7d98", "text": "Я сообщил результаты голосования Председателю Совета Безопасности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15"]}
+{"id": "4ad492db7a03a870", "text": "На него нашел страх и сомнение, сомнение во всем.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "4b30f627c0d22482", "text": "Что-то происходит в нашем мире.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/4", "wer 0.167 > 0.15"]}
+{"id": "4b3e18d5caccecb5", "text": "Точно сон, а я даже и во сне не гадал, что когда-нибудь буду говорить хоть с какой-нибудь женщиной.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 2/8"]}
+{"id": "4b560c0f2387548f", "text": "Сколько времени займёт дорога до Санкт-Петербурга?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5"]}
+{"id": "4b801fa02ec37333", "text": "Экзамен перенесли на двадцать пятое января.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "4bdc4ff7e2afe49f", "text": "Экзамен перенесли на четвёртое мая.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "4c0b3c13acb92f0d", "text": "Экзамен перенесли на десятое апреля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "4c48a943fbe68859", "text": "Татарина гоняют за побег, — сердито сказал кузнец, взглядывая в дальний конец рядов.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "4c4abccd97d55577", "text": "Экзамен перенесли на двадцать восьмое декабря.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "4d57980b94b6d6c6", "text": "Сергей отказался из-за работы в субботу.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5"]}
+{"id": "4ee691ad532660bd", "text": "Физическая же безопасность означает правопорядок.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/4", "wer 0.200 > 0.15"]}
+{"id": "4ef93eb125076c3a", "text": "Белым быком возрос над землей: Муууу!", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15", "wer 0.500 > 0.15"]}
+{"id": "4f1a9793760848a9", "text": "Она повторила это сорок два раза.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "4f1dff1248a05790", "text": "Хлебушка не принесть ли еще?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "4fa999df6939a295", "text": "Мы встретимся у метро, т. е. у выхода номер сорок.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "504367bd103aa7df", "text": "Экзамен перенесли на двенадцатое декабря.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15", "wer 0.400 > 0.15"]}
+{"id": "51aff59a0614f1fc", "text": "Истинно то, что Генеральная Ассамблея и Совет Безопасности наделены разными полномочиями.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8", "wer 0.273 > 0.15", "wer 0.364 > 0.15"]}
+{"id": "51f84479fe086394", "text": "Давай просто посидим и помолчим.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "5223b37ab33967ca", "text": "В настоящее время мы переживаем период серьезных противоречий в области международного мира и безопасности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9", "wer 0.214 > 0.15"]}
+{"id": "5304484ca43ede94", "text": "Я освобожусь после девятнадцать часов.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "5375275e6c951e3f", "text": "Сенатор Шэй, это генерал Винтер.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "5453954682e7a02a", "text": "Через тысяча дней начнётся отпуск.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "5597905076b529d1", "text": "Командиры, слышно, им довольны; а у Василисы Егоровны он как родной сын.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.250 > 0.15"]}
+{"id": "55bddb6f848967b7", "text": "В этой связи мы полностью солидарны с Королевством Саудовская Аравия.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "561ea3d4df8aada3", "text": "Я освобожусь после двадцать часов.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "57333caa867a948b", "text": "Экзамен перенесли на двадцать первое мая.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "57a3c88f3c0add58", "text": "Мы часто включаем что-нибудь фоном во время ужина.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/6"]}
+{"id": "57b96b6ca976fcb9", "text": "Понимание этого становится частью широкой общественно-политической дискуссии.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7"]}
+{"id": "57da644d9fe76c32", "text": "Магниты стоили по сто рублей.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "5803dc1b1ba13a6d", "text": "А из-под потолочка верещала оголтелая канареица.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5"]}
+{"id": "58174cdf88e31375", "text": "Экзамен перенесли на четвёртое ноября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "584a537e6ea8f373", "text": "Краса небес в зияющий просвет;.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "58a66934ec89f8bd", "text": "Так надо, и жаловаться мне не на кого и не за что.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "58ae1fca7327e126", "text": "Но поэзия — пресволочнейшая штуковина: существует — и ни в зуб ногой.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15", "wer 0.300 > 0.15"]}
+{"id": "5936d329435c8a61", "text": "Экзамен перенесли на двадцать третье апреля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "59e48d4ebe1974ca", "text": "Поднялся ропот, и я услышал явственно слово «молокосос», произнесенное кем-то вполголоса.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "59e69661014f8b86", "text": "Послушайте: вы прекрасно рассказываете, но нельзя ли рассказывать как-нибудь не так прекрасно?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7", "wer 0.231 > 0.15"]}
+{"id": "5a20b58d7fce8ace", "text": "Ни какая другая организация не обладает такими же глобальным охватом и легитимностью.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "5a2e7c4bedc4dca2", "text": "Это наш завод! – прокричал Ольге Георгий.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "5a7df2b1c8fad5a8", "text": "Встреча назначена на седьмое августа.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "5a993b6d32d42f3d", "text": "А теперь ты, Котик, сыграй что-нибудь, — сказал Иван Петрович дочери.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8"]}
+{"id": "5b03c9c836f2e1c3", "text": "Встреча назначена на двадцать восьмое мая.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "5b39ebbb6a4632ae", "text": "Республика Корея принимает активное участие в дискуссиях по реформе Совета Безопасности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15", "wer 0.273 > 0.15"]}
+{"id": "5c4189911300e9a7", "text": "Ты не знаешь, где живёт Борис?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "5cac85b063945a91", "text": "В Дурбане государства-члены согласились начать работу над новым глобальным договором.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8"]}
+{"id": "5cdd685077d4744e", "text": "Электричка уходит в семь пятьдесят с третьей платформы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.375 > 0.15"]}
+{"id": "5d724d119e9cb8fc", "text": "Многие пользуются напостовской тряскою, с тем чтоб себя обозвать получше.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "5d869a6380d0b969", "text": "Город встречал нас ярким солнцем.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "5e7fe7507f361d18", "text": "См. примечание на странице тридцать три.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "5f330c66f6d502e9", "text": "Но вслед затем в лице Анны произошла перемена, которая была уже положительно неприлична.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15", "wer 0.231 > 0.15"]}
+{"id": "5f3c6ef5d2b7ed2d", "text": "Именно эти вопросы мы хотели бы задать государствам-членам Организации Объединенных Наций.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9"]}
+{"id": "5ff1d8c29c75bd54", "text": "Необходимо прилагать всяческие усилия, чтобы сделать Совет Безопасности более демократичным, представительным и подотчетным.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "5ff68909699caa42", "text": "Кучка солдат, вахмистр и несколько унтер-офицеров подошли вместе с Вронским к балкону.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9", "wer 0.154 > 0.15"]}
+{"id": "60dfffc0fba562d2", "text": "Поэтому мир попрежнему переживает огромные и растущие проблемы, связанные с этой эпидемии.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9", "wer 0.250 > 0.15"]}
+{"id": "6128186f6a2b739c", "text": "Именно оттого, что знаю вас, и приглашаю вас завтра, — сказала смеясь девушка.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "613766829a2b55fe", "text": "Экзамен перенесли на двадцать четвёртое апреля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "621081a8298f67d8", "text": "Поезд опоздал на триста пятьдесят минут.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "62da46d0aba7d065", "text": "Кто-нибудь знает, во сколько открывается бассейн?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5"]}
+{"id": "63b13397ecc7a57a", "text": "Экзамен перенесли на тринадцатое января.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "63c8be9e7e206aa4", "text": "Встреча назначена на двадцать пятое февраля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "63d8d586c96c43c6", "text": "Это были Кити и няня.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "643d4d0ba3cef8d1", "text": "Экзамен перенесли на двадцать первое февраля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "64a047097e2759ee", "text": "Совет Безопасности безотлагательно нуждается во всеобъемлющей реформе.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15"]}
+{"id": "65068e92914d3055", "text": "Часов в двенадцать он лёг спать.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "65cd2501b8b04769", "text": "Мои плечи, как восходящие солнца!", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "667b5cea5a73bb93", "text": "Встреча назначена на четвёртое февраля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "670f93d611e197cf", "text": "Графиня молчала; Германн стал на колени.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "67151bf237af60a3", "text": "Совет Безопасности не смог принять резолюцию в поддержку осуществления арабского плана.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15"]}
+{"id": "69189a9cdc3f523c", "text": "Слушаю-с, — обратился он к жене садясь.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15"]}
+{"id": "6a8333baab0d6abe", "text": "Мы оба стоим и молчим.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15", "wer 0.400 > 0.15"]}
+{"id": "6ae47df5b009efbd", "text": "И они пошли с Вронским.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "6bc43a8f64c33a43", "text": "Он хотел в открытых игрецких домах Парижа вынудить клад у очарованной фортуны.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "6bcf9f5af93ad8bd", "text": "Встреча назначена на девятнадцатое августа.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "6c96fc9698f1d471", "text": "Дома я нашел записку от Гагина.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/4", "wer 0.167 > 0.15", "wer 0.500 > 0.15"]}
+{"id": "6d3944f782cdd32a", "text": "Электричка уходит в двадцать два двадцать с третьей платформы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "6d3acb4286017dcb", "text": "Напротив, явился какой-то новый тон, что-то победоносное и легкомысленное.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7", "stress 2/7"]}
+{"id": "6d3ca9a1d54e11e4", "text": "Пусть это будет покамест тайной.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "6de46d5dd3797219", "text": "Встреча назначена на двадцать пятое сентября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "6ef3c1267d0562a4", "text": "Экзамен перенесли на двадцать третье октября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "6ef3f1e7af2c7960", "text": "Левин с радостью подошел к ним.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "6fe0081d52a305df", "text": "Встреча назначена на двадцать восьмое декабря.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "709f0aa93cd10fdc", "text": "Австрия приветствует выбор Председателем ан-Насером темы для общих прений в этом году.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "70e2526138b0bb25", "text": "Есть ли наших золот небесней?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "72b647e3cc08e936", "text": "Мы готовы проинформировать о результатах всех заинтересованных государств-членов.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5"]}
+{"id": "735072bb0e2201bf", "text": "Семинар перенесли на четырнадцатое марта.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "735877fd16cc4edc", "text": "Пакистан присоединяется к консенсусу в Совете Безопасности в поддержку Лондонского коммюнике.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8", "wer 0.273 > 0.15", "wer 0.364 > 0.15"]}
+{"id": "7402e1c6cb3275a1", "text": "Но есть страны, в которых прогресс был не столь впечатляющим.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "7552daf86b5f6a46", "text": "Экзамен перенесли на пятое августа.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "75eae18da3e69852", "text": "Развивающиеся страны, такие как наша, по-прежнему признательны за эту поддержку.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8"]}
+{"id": "75eb03c9dbb81d28", "text": "Это также задача обеспечения национальной безопасности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "771e315d6757c2f2", "text": "Степан Аркадьич поспешил перебить зятя.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "77e1e8a394452ad0", "text": "Экзамен перенесли на второе июня.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "781e5a2ac572baeb", "text": "Экзамен перенесли на двенадцатое июня.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "78a67ae3dfe0c7fc", "text": "Благодарю посла Мьянмы за его заявление и за его добрые слова.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8", "wer 0.182 > 0.15"]}
+{"id": "791775759f2afa57", "text": "Оне полагают, что ты остепенишься женившись.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "794f483f7197fe59", "text": "Направления его я не знаю, но одно — он отличный малый, — отвечал Степан Аркадьич.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "7a943c74d642487e", "text": "Встреча назначена на шестнадцатое августа.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "7abbb6ff30f8d76d", "text": "На пути международного процесса ядерного разоружения попрежнему возникают серьезные проблемы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "7ade9b0fc11eab12", "text": "Поезд опоздал на семьдесят минут.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "7b3ffdd2cf06062e", "text": "Привет, Борис! Как прошёл твой день?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "7b80bb66c0b223cb", "text": "Мы благодарим все государства-члены и все группы, которые поддержали наше предложение.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7"]}
+{"id": "7c153c4d633a7a2d", "text": "Благодаря им Совет станет более гибким пред лицом новых и изменяющихся реалий.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "7c6322b5382eb4b2", "text": "В Тимирязевке его называли «Химичка».", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/4", "wer 0.200 > 0.15"]}
+{"id": "7cdad53b65e1ed98", "text": "Не годна обработка земли, культура растений.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "7d18587026fa1f59", "text": "Он испытывал почти чувство человека неодетого в обществе.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "7d4430add9169eba", "text": "Поезд опоздал на сто пять минут.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "7e2785d5a5a971c6", "text": "Новый сон — новое счастие!", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "7eb45917582e3ec4", "text": "Вот я вас! – закричал Иван Кузмич.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "7ee7ec09df030e5c", "text": "Филиппины по-прежнему твердо поддерживают реформу Совета Безопасности и намерены содействовать ее проведению.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "7fc59664a3026803", "text": "Встреча назначена на шестое сентября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "8066209664af3ecb", "text": "Встреча назначена на двадцать второе декабря.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "8098cfc8384e6856", "text": "Прежде всего заслуживает сохранения правило консенсуса, однако его реализация сопряжена с отклонениями.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "821da45a7020ee42", "text": "Меня зовут Андрей Волков, я живу в Санкт-Петербурге.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/6"]}
+{"id": "8322856d6326816a", "text": "Встреча назначена на семнадцатое ноября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "83950985c85318e9", "text": "Пушкин очень слабо успевал в Лицее и плакал на уроках арифметики.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8"]}
+{"id": "83b4dbe3c9149fb9", "text": "Разумеется, мы попрежнему готовы принять любой щедрый вклад.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15", "wer 0.375 > 0.15"]}
+{"id": "83bd78491a9c9def", "text": "Осуществление резолюций Ассамблеи не должно быть выборочным или дискриминационным.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "83cabb4ac38f0192", "text": "Намерение братьев посетить Долли в Ергушове.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "83d60ee26971ea65", "text": "Германн подбежал, поднял его, и вошел в кандитерскую лавку.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "83e13da3bc7c548f", "text": "Затейлива, – отвечал я ему.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "8424e75c2a4cba13", "text": "Электричка уходит в двадцать тридцать с третьей платформы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "845453caaa37a4ff", "text": "Для Конференции большая честь приветствовать министра иностранных дел Кубы Его Превосходительство Бруно Родригеса Паррилью.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15", "wer 0.357 > 0.15"]}
+{"id": "84be7bd24171f762", "text": "Мы встретимся у метро, т. е. у выхода номер одиннадцать.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "84d07b62ab7792a7", "text": "Отвечаю, он в тя втюрился, инфа сотка.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.429 > 0.15"]}
+{"id": "85701875fc1ed56d", "text": "Экзамен перенесли на девятое июня.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "857131fd32f3471e", "text": "Но труд поэтов – почтенный паче — людей живых ловить, а не рыб.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/6", "wer 0.182 > 0.15"]}
+{"id": "85dc9d78a4f3cfb4", "text": "Германн долго не мог опомниться.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "862f1e2704e31a8a", "text": "Мне нужно согласовать смету с бухгалтерией.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "863b5640f352a91c", "text": "Искусно, Ася, искусно, — промолвил Гагин вполголоса.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "8682ed46857779e8", "text": "Только вот, как Стива приедет, мы на охоту уедем, тогда уж пропустим.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "86a99df33366de61", "text": "Полетела птица синица за тридевять земель, за синее море-окиян.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7", "wer 0.300 > 0.15"]}
+{"id": "880ad49cad512433", "text": "Семейные осложнения между Анной и Вронским.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "89eee44bd85f849f", "text": "Экзамен перенесли на тринадцатое февраля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "8a044e6e61987986", "text": "Он приехал на встречу на десять минут раньше.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "8a3442ecf4aba98a", "text": "Пакет из-под попкорна, из-под попкорна пакет.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 2/5", "stress 2/6"]}
+{"id": "8a34b1e902b585ac", "text": "Экзамен перенесли на шестое мая.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "8a8712216d0cd63a", "text": "Подняли у рояля крышку, раскрыли ноты, лежавшие уже наготове.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "8b9a50295a89eaae", "text": "Экзамен перенесли на двадцать второе ноября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "8c1df96f06f8c398", "text": "Встреча назначена на двенадцатое июня.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "8c4d849cc594bcb5", "text": "Что же, она особенно как-нибудь плавает?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/4"]}
+{"id": "8d3534375eb06bbd", "text": "Степан Аркадьич внимательно слушал Левина.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "8e4bf075f279e65b", "text": "Погода в горах менялась каждые полчаса.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "8f4df81ddfce4fa2", "text": "Летом - пыль, зимою снег одолевает.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.800 > 0.15"]}
+{"id": "905d652fbdd99996", "text": "В зале стояло девяносто два стола.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "91188aa68f1ddcae", "text": "Встреча назначена на шестое октября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "912755af9afb0177", "text": "Электричка уходит в восемь пятьдесят пять с третьей платформы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "93a3fca8151c1070", "text": "Электричка уходит в четыре двадцать с третьей платформы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.375 > 0.15"]}
+{"id": "9405f694074241e9", "text": "Поезд опоздал на десять минут.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "94981d00e7e67fb5", "text": "Маше здесь оставаться не гоже.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "96103c701c02c54f", "text": "См. примечание на странице шесть.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "96225df6c2810064", "text": "Поэтому наша делегация возражает против созыва этого заседания.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8"]}
+{"id": "964540618eab66c3", "text": "Не побоев я боюсь, Гаврила Андреич.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "96528c1267bb964b", "text": "Встреча назначена на первое марта.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "9664df3e35b94bc7", "text": "Родительское собрание назначено на седьмое ноября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "99622961be44e283", "text": "Экзамен перенесли на двадцать пятое июля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "9967d6f282028b4a", "text": "Месяц и звезды ярко сияли, освещая площадь и виселицу.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "99b6dac2e6de1beb", "text": "В коробке осталось тридцать два карандаша.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "9a1e07c611bbe3f5", "text": "Старина Мик за свободное государство!", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15", "wer 0.400 > 0.15"]}
+{"id": "9a1f6cb1cf646f51", "text": "С вишен галок поп, пугая, в саду увидел попугая, мимо Пахом ехал верхом.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "9ab5c29ac5af7db8", "text": "Он улыбнулся своею холодною улыбкой.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "9aedbb5b62fcd9ca", "text": "Если бы кто-нибудь мог объяснить мне, но никто не может.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5"]}
+{"id": "9b6871262cd6d01d", "text": "Да, чудесное местечко в Доннибруке.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "9ba55a52192730ed", "text": "Поскольку замечаний нет, мы так и поступим.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15"]}
+{"id": "9c6a7652ae98db14", "text": "В коробке осталось семьдесят два карандаша.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "9c9940a484fa3a75", "text": "Члены Совета заслушали сообщение представителя Иордании.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "9ccde852e1823d1c", "text": "Однако нас беспокоит то, что некоторые государства-члены остаются за рамками Конвенции.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7"]}
+{"id": "9e09119cac130285", "text": "Благое управление — основополагающее условие для обеспечения права на безопасную питьевую воду и санитарию.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15", "wer 0.231 > 0.15"]}
+{"id": "9e6a7b2fc8788293", "text": "Электричка уходит в семь пятьдесят пять с третьей платформы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "9e80f3e09ee836ae", "text": "Послушайте, Иван Кузмич! – сказал я коменданту.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "9ee30cfb35ebef1d", "text": "Поезд опоздал на одиннадцать минут.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "9ef23d94f0031c03", "text": "Нет, брат, это все распущенность, пустота!", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "9f99de91e4eb5223", "text": "На столе лежало сорок два яблока.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "a12b9d53b4a915a9", "text": "Себялюбие не только грех, но и порок.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/3", "wer 0.286 > 0.15"]}
+{"id": "a13a4f2f57cc39dc", "text": "Проблема в браузере, попробой установить другой.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "a147b8a290c71232", "text": "Экзамен перенесли на двенадцатое июля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "a1a2eb987a9ab643", "text": "Встреча назначена на четвёртое июня.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "a1db08dfc83d3931", "text": "Он ждал от Левина какой-нибудь странной выходки.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/4"]}
+{"id": "a2687701ceb14921", "text": "Какой-то математик сказал, что наслаждение не в открытии истины, но в искании ее.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7", "stress 1/8"]}
+{"id": "a2b832949ad7b524", "text": "Встреча назначена на двадцать первое декабря.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "a2c7719b59901a9e", "text": "Я, невиноватый человек, жертва — убит или ранен.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15"]}
+{"id": "a37dd01510742fd0", "text": "По указанию премьер-министра мы применяем двойную стратегию.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5"]}
+{"id": "a405bccd499ead6a", "text": "Благодарю посла Звекича за его заявление.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "a47d397bc0f6f3c0", "text": "Гагин велел принести бутылку рейнвейна; мы ее роспили не спеша.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "a4f732c9f97d09fb", "text": "Она повторила это сто два раза.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "a51debf793cd2b9c", "text": "Гароуэ убедительно свидетельствуют о решимости сомалийцев достичь мира в стране.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "a5f2258550db0f04", "text": "Любовь Любимовна отправилась в Гаврилину комнату.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "a6ba43391dd8c149", "text": "Экзамен перенесли на седьмое января.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "a72e6f5845de1a6e", "text": "А между тем говорила без умолку.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "a7619eee3841acf6", "text": "Дополнительный персонал будет направляться по мере обеспечения жилья и других материально-технических средств.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9"]}
+{"id": "a7c252b43fd2cf76", "text": "Экзамен перенесли на восьмое мая.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "a7ce716888b04447", "text": "Для этого необходимы более конкретные действия.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "a7efad5949c49922", "text": "Ну да, я, мол, я.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["duration ratio 1.63 outside 0.6-1.6", "duration ratio 1.79 outside 0.6-1.6"]}
+{"id": "a8db837887fdbe88", "text": "И действительно, командир полка утонул.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "a9208b5376ecee80", "text": "Однако на горизонте попрежнему облачно.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "aa9c5baca323f0f0", "text": "До пятнадцатого октября нужно сдать документы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "aaa519b5b9bd34ff", "text": "Встреча назначена на двадцать четвёртое мая.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "aac2895b7a3eff27", "text": "Встреча назначена на восьмое ноября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "aad22f861dcde25a", "text": "Да, приятной, говорю, наружности бабушка!» А бабушка говорит: «Ах! наказанье, наказанье!", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.364 > 0.15"]}
+{"id": "ac095c8987792d03", "text": "Экзамен перенесли на пятнадцатое мая.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "ac502fde4a5f1091", "text": "По крайней мере, насколько я понимаю, какого-то консенсуса, необходимого для ее изменения, нет.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8"]}
+{"id": "ac7d92302d036c9b", "text": "Давай просто погуляем и поговорим.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "acd03e017383b245", "text": "И все же многие тысячи единиц ядерного оружия попрежнему находятся в состоянии боеготовности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "acf01d9f0e53d1e8", "text": "Спасибо Вам за ваши наблюдения.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "ad31c534cfe3bc2e", "text": "Сегодня продовольственная безопасность — это неотложный вопрос.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "ad8ef4317d620b19", "text": "Нам хватит трёх тысяч рублей на ужин?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15"]}
+{"id": "adc7f41e510eb80e", "text": "Женщины и девушки более уязвимы для заражения и для социально-экономических последствий эпидемии.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8"]}
+{"id": "aec18c49e01f69e0", "text": "Международное сообщество защитило и поддерживало их.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "af1a96e2a147806c", "text": "Скидка в магазине составила двадцать процентов.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "af1d4cf048324a34", "text": "Экзамен перенесли на двадцать пятое декабря.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "af2152ea7194024a", "text": "Я спрашивал: двадцать два человека привезли.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "affdde1cdf186b90", "text": "Обеим органам отведена соответствующая роль в поддержании международного мира и безопасности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15", "wer 0.273 > 0.15"]}
+{"id": "b035afbb010e595b", "text": "Голова его уже начинала седеть.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "b08edb1789b00986", "text": "А бабушке все бы в старину!", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "b0f8ea19de0af05b", "text": "Изменение климата по-прежнему должно быть мобилизующим фактором, несмотря на очевидные препятствия.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9"]}
+{"id": "b15b639931214711", "text": "Предлагаю без лишних фраз универсальный ответ — всем зараз.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "b193d6b50ab396e1", "text": "Встреча назначена на двадцать шестое октября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "b1ab23a6853ae777", "text": "Потрёпанному пледу, который вы видите, уже больше пятидесяти лет.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "b1b13c88dfefe843", "text": "Ах, ты негодяй! Ах, ты сука!", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["duration ratio 1.71 outside 0.6-1.6", "wer 0.167 > 0.15"]}
+{"id": "b22f890c0e3daa17", "text": "Встреча назначена на восемнадцатое июня.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "b246c6d00abd19df", "text": "Встреча назначена на второе января.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "b2be1f0192d8cf86", "text": "Важно адекватно отразить в составе и деятельности Совета Безопасности структуру современного мира.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "b2d574c859ef5e75", "text": "Варенька на вечере у кн. Щербацкой.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "b302efcef0b930f2", "text": "Встреча назначена на девятое июля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "b3dd02a2e428812b", "text": "Вылит колокол, да не по-колоколовски.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/3", "wer 0.167 > 0.15"]}
+{"id": "b4de0d6ed8851b77", "text": "Поезд опоздал на сто восемьдесят минут.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "b58782f0af232152", "text": "Вот что он сказал мне и назавтра уехал.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "b5caf33409997441", "text": "Картина зимняя давно душе моей знакома.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "b63a85d6cbda2448", "text": "Вронский представил гостье доктора и управляющего.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "b6c3cdc90ef955af", "text": "Встреча назначена на двадцать первое марта.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "b71e2cea97ec339d", "text": "Так что сделка нужна нам обоим.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "b7607d1455b7098d", "text": "Встреча назначена на двадцать восьмое июня.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "b79237b68fe4656c", "text": "Она повторила это тридцать два раза.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "b7c9fc292d411468", "text": "И это несчастие постигло меня.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "b7eaef96b123ea5d", "text": "Однажды вечером, подходя к винограднику, где жили Гагины, я нашел калитку запертою.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "b7fe10c27991b8f5", "text": "Встреча назначена на девятое декабря.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "b89a6235b188b172", "text": "Созвон назначен на семь часов утра.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "b90f46f92ccb6ea4", "text": "Встреча назначена на первое декабря.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "b989ee58e27718a2", "text": "Долли внимательно осмотрела это простое платье.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "b9f962364660e807", "text": "На этом Совет Безопасности завершает нынешний этап рассмотрения данного пункта повестки дня.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "ba00897dffc92eab", "text": "Международного мира и безопасности никак не достичь при существовании такого оружия.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8", "wer 0.545 > 0.15", "wer 0.636 > 0.15"]}
+{"id": "ba86dc62a2a4009e", "text": "А у Ариадны росла араукария, а у американца на Арагве виноградник.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/6"]}
+{"id": "bab71f6c7d382a46", "text": "Как мне думается, вовсе нет: что бы Вы ни говорили, факты не поддаются интерпретации.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.214 > 0.15"]}
+{"id": "bb96b366f732fdac", "text": "Я освобожусь после шестнадцать часов.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "bb9a579f15afbf5a", "text": "Для довершения сходства она принялась напевать вполголоса «Матушку, голубушку».", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "bba53e4282d7b47a", "text": "Встреча назначена на двадцатое ноября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "bbe3e03ef97793d3", "text": "Что-нибудь мы не так делаем.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/2"]}
+{"id": "bcf68644ea2b075f", "text": "Она чувствовала, что какая-то невидимая сила помогала ей и поддерживала ее.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7", "stress 1/8"]}
+{"id": "bd0544f03526ccea", "text": "В зале собралось пятьдесят два человека.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "bd6d376bea865627", "text": "Председатель: Я благодарю Прокурора Морено Окампо за его брифинг.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "bd860cacf8d6b3e8", "text": "Весь истыканный в дымы и в пальцы, переваливаю года.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "be92b49dfe0a58b3", "text": "Около кола колокола, около ворот коловорот.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "bed51edc5be6a3a8", "text": "Даже по поводу договора о расщепляющемся материале мнения государств-членов сильно разнятся.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9"]}
+{"id": "bfc57d76a1c75e90", "text": "Но к чему мне знакомства?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "c054ae9f98a082b6", "text": "Это не я. Но это, наверное, кто-нибудь из наших.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5"]}
+{"id": "c11d106f4d2ecd41", "text": "Встреча назначена на двадцать четвёртое сентября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "c1a2467ab588950d", "text": "Я пытаюсь научиться готовить что-нибудь новое каждую неделю.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7"]}
+{"id": "c20177d205f6164c", "text": "Ни слова — об «Аль-Каиде».", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/2", "wer 0.200 > 0.15"]}
+{"id": "c2aaf59bcdec750c", "text": "Израиль, Маршалловы Острова, Соединенные Штаты Америки.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "c33d6810c25335a4", "text": "На столе лежало пятьдесят два яблока.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "c435399ebd118fc0", "text": "Вот эта кафедра четвертой стала.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "c45e38ca0a03f35d", "text": "Передай, пожалуйста, Дарье эту книгу.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "c4728d2a95281d1f", "text": "Клара строго карала Карла за кражу коралла.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15"]}
+{"id": "c4761e24fa4d1b92", "text": "В зале стояло сто два стола.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "c4ad38caf83b557d", "text": "Алексей Александрович промычал что-то и хотел уйти.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/6"]}
+{"id": "c50d0373dfe0de25", "text": "Электричка уходит в восемь пятьдесят с третьей платформы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.375 > 0.15"]}
+{"id": "c53a6d7721828cde", "text": "В отворенном деннике Фру-Фру уже была оседлана.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/6", "wer 0.375 > 0.15", "wer 0.500 > 0.15"]}
+{"id": "c594e04e8573df7c", "text": "Встреча назначена на восемнадцатое марта.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "c5b524767148ae45", "text": "Премьер-министра Государства Израиль господина Биньямина Нетаньяху сопровождают на трибуну.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8", "wer 0.200 > 0.15"]}
+{"id": "c635ede76ffbd910", "text": "Аргентина, Армения, Чили, Коста-Рика, Мексика, Перу.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["duration ratio 1.67 outside 0.6-1.6", "wer 0.429 > 0.15"]}
+{"id": "c6576c66587efad0", "text": "Совет Безопасности заслушал заявление представителя Украины.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "c66a7825394d9932", "text": "Нам очень неловко было обоим.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "c76e5f3cae179157", "text": "Наша страна считает, что эти два инструмента являются незаменимыми в арсенале Совета Безопасности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "c785154cafdd6dc9", "text": "Поскольку возражений нет, мы так и поступим.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15"]}
+{"id": "c7e8171630ead914", "text": "Спор Облонского с Левиным о любви и о женщинах.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "c82950472f187942", "text": "Я предоставляю слово господину Михелю фон дер Шуленбургу.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "c8e775d29bd50e8b", "text": "Мы купили билеты в кино на последний сеанс.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5"]}
+{"id": "ca401442fe0629b6", "text": "Экзамен перенесли на пятнадцатое июня.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "cbb8d17a5c198ab3", "text": "На столе стояло более тридцати карт.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "ccddcd58925b48db", "text": "В зале стояло один стол.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "cceac0fea2c2e939", "text": "Ты не знаешь, где живёт Максим?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "cd2353fabafa1733", "text": "Старичок был военный, делавший две кампании.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "cd3bce7c71da4a64", "text": "Государства-члены, и большие, и малые, объединяют свои усилия в этой коллективной деятельности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9"]}
+{"id": "cd6ebe4234a6f9f1", "text": "Электричка уходит в четыре сорок с третьей платформы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15", "wer 0.375 > 0.15"]}
+{"id": "cd80306091f81d1d", "text": "Какие были, те не закрывались и сами открывались, когда проходили мимо их.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "ce061e8dc1096e47", "text": "Ядерное разоружение должно по-прежнему оставаться самой приоритетной задачей.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8"]}
+{"id": "ce5542027793a806", "text": "А полно, нет ли тут каких-нибудь шашней?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/3"]}
+{"id": "ceaefbaed8e5cf61", "text": "Экзамен перенесли на пятнадцатое июля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "cec16911d2c714f7", "text": "Ремонт обошёлся в три с половиной тысячи.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.429 > 0.15"]}
+{"id": "cf0f3252c7f2bed6", "text": "Встреча назначена на пятое июля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "cf62e28b976d6984", "text": "Германия будет продолжать настаивать на резолюции Совета Безопасности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7", "wer 0.250 > 0.15"]}
+{"id": "cfb0694c226e0dbb", "text": "Она дурно спала и капризна нынче ужасно, — сказала Долли.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "cfcd862dfc141d73", "text": "Я хотел бы также призвать государства-члены вносить взносы в Фонд.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/6"]}
+{"id": "d020139e0d57ab37", "text": "Шестой комитет завершил рассмотрение этих пунктов повестки дня без принятия решения.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15", "wer 0.364 > 0.15"]}
+{"id": "d05fd9fafd34405b", "text": "Встретилось в одном пикаперском тексте.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15", "wer 0.400 > 0.15"]}
+{"id": "d0c938019fa9722e", "text": "Экскурсия начинается в десять ноль ноль.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "d0cdcdb2c6227967", "text": "Потом он открыл дверь и протянул мне новую красную тридцатирублевку.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "d10ea36f13e216b0", "text": "Случается, что отъезжающий посол высказывает на этом форуме кое-какие личные размышления.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9"]}
+{"id": "d1f391a34b3b5408", "text": "Экзамен перенесли на двадцать восьмое октября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "d22ef24ec4e8b70a", "text": "Дмитрий, позвони Ирине до семи часов.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "d269ad4a5ebb3fa5", "text": "Тихо! Здесь стоит уж слишком гробовая тишина, что-то явно не так.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7"]}
+{"id": "d29f0e82078f6bb6", "text": "Это требования народов мира, и Боливарианское правительство Венесуэлы присоединяется к ним.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.273 > 0.15", "wer 0.455 > 0.15"]}
+{"id": "d2d2ae5fad9c4bf2", "text": "Нашли извозчика и поехали в Ореанду.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "d31155adceade30a", "text": "Было не ясно, что думает он.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "d34025accce12d73", "text": "На столе лежало девяносто два яблока.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "d368d7f37ac4effd", "text": "Встреча назначена на первое января.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "d3b7f28cb9f589cb", "text": "И, как-то угловато сдвинув плечи, точно приготовившись к прыжку, появилась Женя.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9"]}
+{"id": "d51d44b2d82ca55a", "text": "Встреча назначена на восемнадцатое января.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "d52f8b00b3e75cd7", "text": "Мы проявляем понимание, толерантность и уважение к нашим соседям, друзьям и всем остальным.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "d558f988eb7fba34", "text": "См. примечание на странице двадцать один.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "d5980951b1f19478", "text": "Чьи-то руки подхватили его за плечи, за ноги и уволокли прочь.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7"]}
+{"id": "d5fd8695889f138c", "text": "Израиль стремится к достижению мира и безопасности для всех народов Ближнего Востока.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8", "wer 0.250 > 0.15"]}
+{"id": "d71c5d329922092b", "text": "Встреча назначена на восьмое февраля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "d727d5bb864f1c48", "text": "В коробке осталось сорок два карандаша.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "d7dfe6ca1b483b62", "text": "Мисс Суини удалось расшифровать перехваченные сообщения.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "d7ed9e8cece1d554", "text": "Нет, – отвечал он, – поздно мне каяться.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "d872b1f65f6c99a7", "text": "Воспользуйся каким-нибудь форумом. Где-нибудь, да ответят.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5", "stress 2/5"]}
+{"id": "d89a962b4239ce32", "text": "Не диковина полубрату сказать про Поликарпа.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "d8ada58d21329686", "text": "Он является отражением приоритетов и действий государств-членов.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5"]}
+{"id": "d8c956fab80f89ba", "text": "Вовторых, в этом году в проекте резолюции отражается долгосрочная приверженность международного сообщества.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "d8d7a7086a657876", "text": "Голос Африки должен быть громче слышан на международной арене.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "d91ee160e5024b4c", "text": "Настенька, — сказал я вполголоса, — кто это, Настенька?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15"]}
+{"id": "d96c48ba2520886c", "text": "По имеющимся сообщениям, население направляется из Куффы в Бундж, столицу округа.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15"]}
+{"id": "d9879ddb0f4b9a21", "text": "Пусть же Организация Объединенных Наций оправдает чаяния миллионов людей на свободу, равенство и процветание.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.214 > 0.15"]}
+{"id": "d9d7f3369b4efeba", "text": "Алексей Александрович прошел во внутрение комнаты.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "dba5e237e7e65df9", "text": "Продолжаются социально-политические столкновения, если не в Гренаде, то в других частях мира.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8"]}
+{"id": "dbb11796bd795b57", "text": "Но всё это было первое время.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "dbcba83ad178dcea", "text": "Он не мог лечь, чувствуя, что ему прежде необходимо обдумать вновь возникшее обстоятельство.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "dda407342f344564", "text": "Огорчение Кити после прочтения дневника Левина.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "ddccad3f1971ce87", "text": "Аркадий Николаич, ведь это смешно?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "df073bc67a01354a", "text": "Да и потом, не правда, что оно нейдет.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.500 > 0.15"]}
+{"id": "e07b884dab09b166", "text": "Поезд опоздал на двадцать одна минута.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "e1aeda50469af07f", "text": "Не должно быть места поспешным или навязываемым решениям.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "e1b17891feb0ee6e", "text": "С этой буквицею явно что-то не так, её вид слишком пугает.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7", "wer 0.167 > 0.15"]}
+{"id": "e232760cf9acab50", "text": "Германия по-прежнему привержена этому принципу.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5"]}
+{"id": "e2a14da6f7def41c", "text": "Нигер поощряет частные инвестиции, прежде всего прямые иностранные инвестиции.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "e30048bf8e67a713", "text": "Левин вернулся домой только тогда, когда послали звать его к ужину.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9"]}
+{"id": "e305cb1d73cba924", "text": "Свадьба назначена на четырнадцатое сентября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "e37944757d5ca6b4", "text": "Поезд опоздал на тысяча пятьсот минут.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "e3e70c056cb16fd8", "text": "Встреча назначена на двенадцатое февраля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15", "wer 0.400 > 0.15"]}
+{"id": "e444a54df1415782", "text": "Поезд опоздал на тысяча двести минут.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.333 > 0.15"]}
+{"id": "e45ba28f7b16ea27", "text": "Кофе оказался на удивление хорошим.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "e49a7dd4046fb93c", "text": "Одним словом, у каждого члена семьи был какой-нибудь свой талант.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7", "wer 0.182 > 0.15"]}
+{"id": "e4a08245b7dd0fb0", "text": "Слова Гагина «свиданье вам назначить» кольнули меня в сердце.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "e4a38ecfa8d551fb", "text": "Эту никому ненужную деревушку стоит снести.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "e55f2d75492a53ac", "text": "И, действительно, кротости брата Николая хватило не надолго.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "e5838783711177ea", "text": "Экзамен перенесли на шестое декабря.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "e5fa45568c3a5159", "text": "Встреча назначена на пятнадцатое июня.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "e6d226b41a1afd8e", "text": "Денщик его спал на полу; Германн насилу его добудился.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "e70cc968b1fcce93", "text": "До урожаев мы доживаем, а они последние дожевали мильончики!", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15"]}
+{"id": "e76279c856935f5b", "text": "С каждою неделей он всё реже вспоминал о Кити.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15", "wer 0.444 > 0.15"]}
+{"id": "e7c4b96c74ba5eaf", "text": "Экзамен перенесли на двадцать пятое мая.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "e7efda82095ea198", "text": "Состав Совета Безопасности является несправедливым и неравноправным.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/6", "wer 0.429 > 0.15"]}
+{"id": "e82a58c924ed4ea6", "text": "Важнейший компонент обновления Организации — реформа ее Совета Безопасности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7", "wer 0.250 > 0.15"]}
+{"id": "e855dc350878c58c", "text": "Приживалка тотчас порхнула в переднюю.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.400 > 0.15"]}
+{"id": "e8562485ab317a88", "text": "Экзамен перенесли на десятое октября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "e92365bf1f62f523", "text": "Какое не по нраву, Гаврила Андреич!", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "e9436d6dbba1e292", "text": "По-моему, его надо просто удавить.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5"]}
+{"id": "e96857b1387ef4a3", "text": "Сколько стоит билет на поезд до Санкт-Петербурга?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5"]}
+{"id": "e99ff394384ef63e", "text": "Встреча назначена на седьмое сентября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "e9a5b3fad7741b57", "text": "Совет Безопасности и страны, предоставляющие воинские и полицейские контингенты, заслушали сообщение господина Муле.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.308 > 0.15", "wer 0.385 > 0.15"]}
+{"id": "e9c9703b4a1c7d04", "text": "В Осло предметом дискуссии является серьезная проблема.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15", "wer 0.429 > 0.15"]}
+{"id": "e9dc90fa4416f59e", "text": "Никто не расслышал того, что он сказал, одна Кити поняла.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "e9ec5d87ef432956", "text": "Экзамен перенесли на седьмое марта.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "ea5ab56864309b39", "text": "Центральноафриканская Республика приветствует новую волну интереса международного сообщества к вопросу разоружения.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15"]}
+{"id": "ea7e13bff53467ca", "text": "Человек, вышедший принять лошадь, объявил, что Парфен Денисыч умирает и присылал за ним.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15", "wer 0.231 > 0.15"]}
+{"id": "eb20247233076106", "text": "Экзамен перенесли на восьмое марта.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "eb86325cf22eaa54", "text": "Встреча назначена на восемнадцатое октября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "ebab7153d422b541", "text": "Лесото готово сыграть свою роль в выполнении этого плана действий.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "ebba70d47073a64c", "text": "Понятно, что эти цели будет нереально достичь без адекватного финансирования развития.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.273 > 0.15"]}
+{"id": "ebc752bfb40f5aff", "text": "Встреча назначена на четвёртое июля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "ebd7e7a4d244bc29", "text": "Экзамен перенесли на четвёртое сентября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "ec77bd25c78ded53", "text": "При этом генерал-майор Темперли высоко оценивает радушие и гостеприимство жителей Женевы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9"]}
+{"id": "ec8bc68db6be354f", "text": "Включение в ежегодный доклад главы, посвященной методам работы, является шагом в правильном направлении.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "ecda82be57a131dc", "text": "Выступление президента и главы правительства Федеративных Штатов Микронезии господина Имманьюэла Мори.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15"]}
+{"id": "ee22b0ec2c4442b3", "text": "И вот врага, где предку туда отправила шпаги логика.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/6"]}
+{"id": "ee356a2a26ce661a", "text": "Юлай, отведи башкирца в анбар.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/4", "wer 0.200 > 0.15"]}
+{"id": "eead32a9eacb44a1", "text": "Посмотри-ка, не положил ли он в них какой-нибудь любовной записочки?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 2/5"]}
+{"id": "eec64d5d7d5e7696", "text": "Мы считаем, что реформа Совета Безопасности должна придать работе Совета более демократичный характер.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "ef22b8376e11bc46", "text": "Экзамен перенесли на девятнадцатое апреля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "ef333f31051db6ee", "text": "Им от страха небо в овчину?", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15", "wer 0.500 > 0.15"]}
+{"id": "ef7686122b5b582b", "text": "Поэтому, пока не поздно, мы должны незамедлительно предпринять шаги в правильном направлении.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/9"]}
+{"id": "ef876db6bb1dab18", "text": "Процесс перехода и достижения устойчивой безопасности тесно взаимосвязан с политическим процессом.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["duration ratio 0.41 outside 0.6-1.6", "stress 1/9", "wer 0.545 > 0.15"]}
+{"id": "ef996d205edbb5af", "text": "Встреча назначена на шестое мая.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "efc888b9e41fb368", "text": "Савельич слушал с видом большого неудовольствия.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "f006ee16b168139c", "text": "То солнечный жар, то ущелий тоска, — не верь ни единой версийке.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15", "wer 0.364 > 0.15"]}
+{"id": "f0b29293217fa8f9", "text": "Необходимо восстановить ведущую роль Генеральной Ассамблеи и реформировать Совет Безопасности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8", "wer 0.200 > 0.15"]}
+{"id": "f0b7c59d5267f3bd", "text": "Он должен мне тысячу двести рублей.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "f11823879e34e84f", "text": "Человек также, по-видимому, увидал нас и начал размахивать руками.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7"]}
+{"id": "f15239daddcc5a9d", "text": "Самое лучшее — это использовать морфина гидрохлорид пятипроцентный раствор.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.375 > 0.15", "wer 0.500 > 0.15"]}
+{"id": "f157191c955c58eb", "text": "Они недалеко от него навивали копну.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "f1dc96721eb3e26c", "text": "Встреча назначена на двенадцатое марта.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "f203483f7bdd5534", "text": "Пять групп основных вопросов, касающихся реформы Совета Безопасности, взаимосвязаны.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.222 > 0.15", "wer 0.444 > 0.15"]}
+{"id": "f2967eb72558d657", "text": "Да ты меня за руки не тяни, а возьми под мышки.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15"]}
+{"id": "f2d8a30d0501bea8", "text": "Экзамен перенесли на пятнадцатое сентября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "f4745e82ef521ae3", "text": "Впервые в истории женщина-президент открыла общие прения с этой трибуны.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8", "wer 0.182 > 0.15"]}
+{"id": "f4c1494ea1383f7c", "text": "В зале собралось сто два человека.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "f5756e050018707b", "text": "Экзамен перенесли на тринадцатое апреля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "f5df2da808c72e7e", "text": "С учетом вышеупомянутого понимания корейская делегация полностью поддерживает австралийско-австрийско-американско-японское предложение.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/8", "stress 1/9"]}
+{"id": "f670eab4247d7eb8", "text": "Я погрузился в размышления, большею частию печальные.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/5", "wer 0.286 > 0.15"]}
+{"id": "f6fa43474891eda8", "text": "Маршалловы Острова больше не могут ждать.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "f73815048b91e005", "text": "По-прежнему немало проблем в области здравоохранения и с правами трудящихся.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["stress 1/7"]}
+{"id": "f8400e507f470d57", "text": "Совет обороны заключил соглашения о создании механизма укрепления доверия и региональной безопасности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "f8a6b67937a90219", "text": "Она слыла девушкой гордой и неприступной.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "f94d783c67e34049", "text": "Прежде всего позвольте мне остановиться на вопросах, касающихся внутреннего функционирования Совета.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15", "wer 1.091 > 0.15"]}
+{"id": "fa973d4d479f0f45", "text": "Встреча назначена на восемнадцатое июля.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "fadac98cde4de02a", "text": "На третий день после отъезда брата и Левин уехал за границу.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15"]}
+{"id": "faf3b80c3b7f98d9", "text": "Ам, а я таких не знаю. В деревне нет никого с фамилией Прохоров.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "faf941defe79459e", "text": "Мне очень легко и просто было с ним.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.250 > 0.15"]}
+{"id": "fb12d756610c4179", "text": "См. примечание на странице пятьдесят один.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "fb3231c2d99659d6", "text": "Поезд опоздал на сто десять минут.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "fb5e93d8440d2a5c", "text": "С такими амбициями непозволительно и даже опасно стремиться к членству в Совете Безопасности.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.154 > 0.15"]}
+{"id": "fc48a81ac01fa509", "text": "Экзамен перенесли на десятое сентября.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "fc49b10382480ecf", "text": "В зале собралось сорок два человека.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "fc7ace13a76e5140", "text": "Ну, мол, Бог с ним!", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "fce0a253ad33e124", "text": "В зале собралось тридцать два человека.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
+{"id": "fd5e2eaa6da4d3a2", "text": "Это правомочие принадлежит ему в соответствии с правилами процедуры Конференции.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["duration ratio 0.48 outside 0.6-1.6", "wer 0.200 > 0.15", "wer 0.300 > 0.15"]}
+{"id": "fd98c314112fa655", "text": "Электричка уходит в двадцать один пятьдесят с третьей платформы.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.333 > 0.15"]}
+{"id": "fdb88761347f00ee", "text": "Я освобожусь после три часов.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "fdefe063f4d25428", "text": "Самые последние сообщения с мест действуют отрезвляюще.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.286 > 0.15"]}
+{"id": "fe040554bf8cf394", "text": "В Совете Безопасности должна быть лучше отражена нынешняя обстановка в мире.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.182 > 0.15"]}
+{"id": "fe7c8e98bf2f3f19", "text": "Экзамен перенесли на шестнадцатое декабря.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.200 > 0.15"]}
+{"id": "ffb38c07e4860647", "text": "Венесуэла всецело выступает за установление климата доверия и безопасности между всеми странами.", "voices_rejected": ["f_neutral", "m_neutral"], "reasons": ["wer 0.167 > 0.15"]}
