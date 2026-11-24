@@ -25,6 +25,8 @@ configs:
         path: annotations/validation-*.parquet
       - split: test
         path: annotations/test-*.parquet
+  - config_name: texts
+    data_files: texts/*.parquet
 dataset_info:
   default:
     features:
@@ -64,6 +66,21 @@ dataset_info:
       - {name: source_license, dtype: string}
       - {name: source_url, dtype: string}
       - {name: teacher_model, dtype: string}
+  texts:
+    features:
+      - {name: id, dtype: string}
+      - {name: text, dtype: string}
+      - {name: split, dtype: string}
+      - {name: category, dtype: string}
+      - {name: origin, dtype: string}
+      - {name: source_license, dtype: string}
+      - {name: source_url, dtype: string}
+      - {name: word_count, dtype: int32}
+      - {name: char_count, dtype: int32}
+      - {name: batch, dtype: int32}
+      - {name: clips, dtype: int32}
+      - {name: voices, dtype: string}
+      - {name: retired, dtype: bool}
 ---
 
 # voca-ru — synthetic Russian speech corpus (two voices)
@@ -147,6 +164,26 @@ alignment, 225 unvoiced vowels, 8 overlong phone.
 Acoustic features (log-mel, pitch, energy) are deliberately **not** published:
 they are ~8.8 GB of tensors that `prepare.py` recomputes from the FLAC in
 minutes and that are tied to one frontend configuration.
+
+## Source sentences
+
+`texts/` (config `texts`) is the sentence list the corpus was generated from:
+**10 500 sentences**, one row each, with the split it is frozen into, the
+licence and URL of its origin, and how many accepted clips it produced
+(`clips`, 0–2 — one per voice).
+
+| | |
+|---|---|
+| sentences | 10 500 (batch1 4 500, batch2 3 500, batch3 2 500) |
+| with both voices | 9 306 |
+| with one voice only | 605 |
+| retired (0 clips) | 589 |
+| sentence splits | train 9 870, validation 315, test 315 |
+| licences | CC0-1.0 (9 600) and public domain (900) |
+
+Retired sentences produced no clip that passed screening; they are kept here
+for provenance but were excluded from training. `batch` is a bookkeeping column
+(generation wave), not a split — every batch3 sentence went to `train`.
 
 ## Numbers
 
