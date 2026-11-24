@@ -1,0 +1,10 @@
+{
+  "mcp": {
+    "servers": {
+      "runpod": {
+        "type": "remote",
+        "url": "https://mcp.runpod.io/"
+      }
+    }
+  }
+}
