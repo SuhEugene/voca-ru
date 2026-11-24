@@ -18,7 +18,7 @@ output directory, which is how stale tokens/durations are invalidated.
 
 import argparse
 from collections import Counter, defaultdict
-import concurrent.futures
+
 import hashlib
 import json
 from pathlib import Path
@@ -68,8 +68,12 @@ def phonemize_texts(rows, cache, workers=16, log=print):
             todo[row["text_hash"]] = row["text"]
     if todo:
         log(f"phonemizing {len(todo)} distinct texts")
-        with cache.open("a", encoding="utf-8") as stream, concurrent.futures.ThreadPoolExecutor(workers) as pool:
-            for key, result in zip(todo, pool.map(phonemize, todo.values())):
+        # espeak-ng keeps global state and is not thread-safe: concurrent calls
+        # corrupt its dictionary loading and return phones for the wrong text
+        # (2026-11-24: 98 % of the alignments then failed low_confidence).
+        with cache.open("a", encoding="utf-8") as stream:
+            for key, text in todo.items():
+                result = phonemize(text)
                 known[key] = result
                 append(stream, {"text_hash": key, "symbols": list(result.symbols), "stress": list(result.stress),
                                 "unknown": list(result.unknown)}, sync=False)
