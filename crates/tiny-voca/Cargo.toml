@@ -3,7 +3,7 @@ name = "tiny-voca"
 version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
-description = "Rust port of tiny-voca, a 4.5M-parameter English text-to-speech model"
+description = "Rust port of tiny-voca, a 4.5M-parameter Russian text-to-speech model"
 
 [features]
 default = ["accelerate"]
@@ -11,7 +11,7 @@ default = ["accelerate"]
 accelerate = []
 
 [dependencies]
-dizione = { path = "../dizione" }
+voca-ru-text = { path = "../voca-ru-text" }
 matrixmultiply = "0.3"
 rayon = "1"
 realfft = "3"

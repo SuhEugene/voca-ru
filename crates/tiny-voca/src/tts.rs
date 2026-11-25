@@ -1,15 +1,13 @@
-//! Text to speech: sentence splitting, the dizione phonemizer and the model.
+//! Text to speech: Russian sentence splitting, the embedded `voca-ru-text`
+//! frontend and the model.
 
 use std::path::Path;
 use std::time::{Duration, Instant};
-
-use dizione::{Phonemized, Phonemizer};
 
 use crate::model::{Options, TinyVoca};
 
 pub struct Tts {
     pub model: TinyVoca,
-    pub phonemizer: Phonemizer,
 }
 
 /// One synthesized utterance (a sentence, or part of a very long one).
@@ -27,12 +25,30 @@ pub struct Speech {
     pub model_time: Duration,
 }
 
+/// Frontend output in the shape the model wants: ids and stress levels.
+struct Phones {
+    symbols: Vec<&'static str>,
+    ids: Vec<u32>,
+    stress: Vec<u8>,
+}
+
+fn phonemize(text: &str) -> Result<Phones, String> {
+    let analysis = voca_ru_text::analyze(text).map_err(str::to_string)?;
+    Ok(Phones {
+        symbols: analysis.phonemes,
+        ids: analysis.tokens.into_iter().map(|id| id as u32).collect(),
+        stress: analysis.stress,
+    })
+}
+
 impl Tts {
-    /// `weights` is the safetensors file from `scripts/convert_weights.py`;
-    /// `phonemizer_data` the directory with lexicon.tsv, g2p.npz and the rest.
+    /// `weights` is the safetensors file from `scripts/convert_weights.py`.
+    /// The Russian frontend data is embedded in the binary, so
+    /// `phonemizer_data` is accepted for compatibility with the installer
+    /// layout and ignored.
     pub fn load(weights: &Path, phonemizer_data: &Path) -> Result<Self, String> {
-        let (model, phonemizer) = rayon::join(|| TinyVoca::load(weights), || Phonemizer::load(phonemizer_data));
-        Ok(Self { model: model?, phonemizer: phonemizer? })
+        let _ = phonemizer_data;
+        Ok(Self { model: TinyVoca::load(weights)? })
     }
 
     /// Speak text of any length: it is split into sentences, and sentences
@@ -45,7 +61,7 @@ impl Tts {
     /// does (an error if it is too long for one).
     pub fn speak_whole(&self, text: &str, voice: &str, options: &Options) -> Result<Speech, String> {
         let started = Instant::now();
-        let phones = self.phonemizer.phonemize(text)?;
+        let phones = phonemize(text)?;
         if phones.ids.len() > self.model.config.max_tokens {
             return Err("text is too long for one utterance; split it into sentences".into());
         }
@@ -92,8 +108,8 @@ impl Tts {
     }
 
     /// Phonemize a sentence, cutting it until every piece fits one utterance.
-    fn fit(&self, sentence: &str, out: &mut Vec<(String, Phonemized)>) -> Result<(), String> {
-        let phones = self.phonemizer.phonemize(sentence)?;
+    fn fit(&self, sentence: &str, out: &mut Vec<(String, Phones)>) -> Result<(), String> {
+        let phones = phonemize(sentence)?;
         if phones.ids.len() <= self.model.config.max_tokens.saturating_sub(12) {
             out.push((sentence.to_string(), phones));
             return Ok(());
@@ -130,38 +146,41 @@ fn split_after(text: &str, mark: impl Fn(char) -> bool) -> Vec<String> {
     parts
 }
 
-const ABBREVIATIONS: [&str; 16] = ["mr", "mrs", "ms", "dr", "prof", "sr", "jr", "st", "vs", "etc", "no", "inc", "ltd", "co", "e.g", "i.e"];
-const ABBREVIATIONS_DOTTED: [&str; 2] = ["a.m", "p.m"];
+// Russian titles, abbreviations and dotted short forms whose full stop does
+// not close a sentence.
+const ABBREVIATIONS: [&str; 22] = [
+    "г", "гг", "др", "им", "ул", "пр", "см", "рис", "стр", "напр", "проф", "акад", "тыс", "млн",
+    "млрд", "руб", "коп", "т.е", "т.д", "т.п", "т.к", "т.н",
+];
 
 fn is_word(c: char) -> bool {
-    c.is_ascii_alphanumeric() || c == '_'
+    c.is_alphanumeric() || c == '_'
 }
 
 /// True when the text ends with a title, an initial or a known abbreviation
 /// and its full stop, so the stop does not close a sentence.
 fn ends_with_abbreviation(text: &str) -> bool {
     let Some(body) = text.strip_suffix('.') else { return false };
-    let lower = body.to_ascii_lowercase();
+    let lower = body.to_lowercase();
     let boundary = |start: usize| lower[..start].chars().next_back().is_none_or(|c| !is_word(c));
-    if ABBREVIATIONS.iter().chain(&ABBREVIATIONS_DOTTED).any(|a| lower.ends_with(a) && boundary(lower.len() - a.len())) {
+    if ABBREVIATIONS.iter().any(|a| lower.ends_with(a) && boundary(lower.len() - a.len())) {
         return true;
     }
-    lower.chars().next_back().is_some_and(|c| c.is_ascii_alphabetic()) && boundary(lower.len() - 1)
+    lower.chars().next_back().is_some_and(|c| c.is_alphabetic() && boundary(lower.len() - c.len_utf8()))
 }
 
-/// Sentences, without breaking after titles, initials or inside numbers
-/// (the rules of the reference web demo).
+/// Sentences, without breaking after titles, initials or inside numbers.
 pub fn sentences(text: &str) -> Vec<String> {
     let text: Vec<char> = text.split_whitespace().collect::<Vec<_>>().join(" ").chars().collect();
     let closes = |c: char| matches!(c, '.' | '!' | '?' | '…');
-    let opens_sentence = |c: char| c.is_ascii_uppercase() || c.is_ascii_digit();
+    let opens_sentence = |c: char| c.is_uppercase() || c.is_numeric();
     let at = |i: isize| if i >= 0 { text.get(i as usize).copied() } else { None };
     let mut pieces = Vec::new();
     let mut current = String::new();
     for (i, &c) in text.iter().enumerate() {
         let i = i as isize;
-        let after_end = at(i - 1).is_some_and(closes) || (at(i - 1).is_some_and(|c| matches!(c, '"' | '\'' | ')' | ']')) && at(i - 2).is_some_and(closes));
-        let before_start = at(i + 1).is_some_and(opens_sentence) || (at(i + 1).is_some_and(|c| matches!(c, '"' | '\'' | '(' | '[')) && at(i + 2).is_some_and(opens_sentence));
+        let after_end = at(i - 1).is_some_and(closes) || (at(i - 1).is_some_and(|c| matches!(c, '"' | '\'' | ')' | ']' | '»')) && at(i - 2).is_some_and(closes));
+        let before_start = at(i + 1).is_some_and(opens_sentence) || (at(i + 1).is_some_and(|c| matches!(c, '"' | '\'' | '(' | '[' | '«')) && at(i + 2).is_some_and(opens_sentence));
         if c == ' ' && after_end && before_start {
             pieces.push(std::mem::take(&mut current));
         } else {
@@ -190,15 +209,32 @@ pub fn sentences(text: &str) -> Vec<String> {
 #[cfg(test)]
 mod tests {
     use super::sentences;
+    use voca_ru_text::symbols::{self, is_phone, is_vowel};
 
     #[test]
-    fn splits_sentences() {
-        assert_eq!(sentences("Hello there.  How are you? Fine!"), ["Hello there.", "How are you?", "Fine!"]);
-        assert_eq!(sentences("Dr. Smith met Mr. J. Jones at 3.5 p.m. They talked."), ["Dr. Smith met Mr. J. Jones at 3.5 p.m. They talked."]);
-        assert_eq!(sentences("He said \"Go.\" Then he left. ... \"Why?\" she asked."), ["He said \"Go.\"", "Then he left. ...", "\"Why?\" she asked."]);
-        assert_eq!(sentences("It costs $3.50. 20 people came."), ["It costs $3.50.", "20 people came."]);
+    fn splits_russian_sentences() {
+        assert_eq!(sentences("Привет, как дела? Хорошо! Спасибо."), ["Привет, как дела?", "Хорошо!", "Спасибо."]);
+        assert_eq!(sentences("Др. Иванов пришёл в 3.5 часа. Потом ушёл."), ["Др. Иванов пришёл в 3.5 часа.", "Потом ушёл."]);
+        assert_eq!(sentences("Он сказал «Иди.» Затем ушёл."), ["Он сказал «Иди.»", "Затем ушёл."]);
+        assert_eq!(sentences("Это стоит 3,5 рубля. 20 человек пришли."), ["Это стоит 3,5 рубля.", "20 человек пришли."]);
         assert!(sentences(" ... ").is_empty());
-        assert_eq!(sentences("I said no. Then I left. See e.g. Table 2. OK? (Yes.) [No.] 'Maybe.' Sure… Right."),
-                   ["I said no. Then I left.", "See e.g. Table 2.", "OK?", "(Yes.)", "[No.]", "'Maybe.'", "Sure…", "Right."]);
+    }
+
+    #[test]
+    fn frontend_ids_fit_the_model_layout() {
+        let analysis = voca_ru_text::analyze("Мой коллега уходит в отпуск на две недели.").unwrap();
+        assert_eq!(analysis.tokens.first(), Some(&symbols::symbol_id("<bos>").unwrap()));
+        assert_eq!(analysis.tokens.last(), Some(&symbols::symbol_id("<eos>").unwrap()));
+        assert!(analysis.tokens.iter().all(|&id| id < symbols::COUNT));
+        assert!(analysis.stress.iter().all(|&level| level <= 2));
+        for (symbol, &id) in analysis.phonemes.iter().zip(&analysis.tokens) {
+            assert_eq!(id, symbols::symbol_id(symbol).unwrap());
+            if is_phone(symbol) {
+                assert!(id >= symbols::FIRST_PHONE);
+            }
+            if is_vowel(symbol) {
+                assert!(id >= symbols::FIRST_VOWEL);
+            }
+        }
     }
 }

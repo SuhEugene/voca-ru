@@ -289,11 +289,11 @@ dependencies = [
 name = "tiny-voca"
 version = "0.1.0"
 dependencies = [
- "dizione",
  "matrixmultiply",
  "rayon",
  "realfft",
  "serde_json",
+ "voca-ru-text",
 ]
 
 [[package]]

@@ -50,8 +50,8 @@ fi
 
 echo "Installed $bin/voca"
 case ":$PATH:" in
-    *":$bin:"*) echo "Try it: voca hello there" ;;
+    *":$bin:"*) echo "Try it: voca \"Привет, как дела?\"" ;;
     *) echo "Add it to your PATH, then try it:"
        echo "  export PATH=\"$bin:\$PATH\""
-       echo "  voca hello there" ;;
+       echo "  voca \"Привет, как дела?\"" ;;
 esac

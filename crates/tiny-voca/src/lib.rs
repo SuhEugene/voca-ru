@@ -1,4 +1,4 @@
-//! Rust port of tiny-voca, a small English text-to-speech model.
+//! Rust port of tiny-voca, a small Russian text-to-speech model.
 
 pub mod fastmath;
 pub mod model;

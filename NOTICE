@@ -10,3 +10,13 @@ rewritten in Rust, the training code was removed, and the `voca` command, the
 installer and the Claude Code skill were added.
 
 The phonemizer data derives from CMUdict; its licence files ship with the data.
+
+---
+
+Russian fork (voca-ru): the model is the Russian checkpoint
+https://huggingface.co/SuhEugene/voca-ru (same tiny-voca architecture,
+Apache-2.0). The English dizione frontend is replaced by
+`crates/voca-ru-text`, whose stress dictionary derives from RUAccent and whose
+pronunciation lexicon was generated offline with eSpeak NG (GPL-3.0, used as a
+build-time tool only). The English frontend crate remains in the workspace
+unchanged for reference.

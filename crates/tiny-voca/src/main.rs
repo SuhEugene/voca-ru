@@ -1,6 +1,6 @@
 //! Command-line text to speech.
 //!
-//!     tiny-voca --text "Hello! This is tiny voca." --voice F2 --output hello.wav
+//!     tiny-voca --text "Привет! Это tiny voca." --voice F2 --output privet.wav
 
 use std::path::PathBuf;
 use std::time::Instant;
@@ -23,7 +23,7 @@ Options:
   --pitch-range X      Scale pitch movement around the mean, 0 to 3 (default 1)
   --seed N             Seed of the noise source (default 0)
   --model FILE         Weights (default: $TINY_VOCA_MODEL or weights/tiny-voca.safetensors)
-  --data DIR           Phonemizer data (default: $DIZIONE_DATA or weights/phonemizer)
+  --data DIR           Frontend data (default: $VOCA_RU_DATA; embedded in the binary)
   --threads N          Worker threads (default 1; more helps long sentences)
   --no-split           Speak the text as one utterance, like the reference CLI
   --pcm16              Write 16-bit PCM instead of 32-bit float
@@ -49,7 +49,7 @@ fn parse() -> Result<Arguments, String> {
     let env = |name: &str, default: &str| PathBuf::from(std::env::var_os(name).unwrap_or_else(|| default.into()));
     let mut a = Arguments {
         text: None, text_file: None, output: None, voice: "F2".into(), options: Options::default(),
-        model: env("TINY_VOCA_MODEL", "weights/tiny-voca.safetensors"), data: env("DIZIONE_DATA", "weights/phonemizer"),
+        model: env("TINY_VOCA_MODEL", "weights/tiny-voca.safetensors"), data: env("VOCA_RU_DATA", "weights/phonemizer"),
         threads: 1, pcm16: false, quiet: false, whole: false,
     };
     let mut args = std::env::args().skip(1);

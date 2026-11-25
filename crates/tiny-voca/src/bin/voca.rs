@@ -1,8 +1,8 @@
-//! Speak text from the terminal.
+//! Speak Russian text from the terminal.
 //!
-//!     voca hello there, this is tiny voca
-//!     echo "Read this aloud." | voca
-//!     voca -o hello.wav "Save this instead of playing it."
+//!     voca привет, это tiny voca
+//!     echo "Прочитай это вслух." | voca
+//!     voca -o privet.wav "Сохрани это в файл."
 
 use std::io::IsTerminal;
 use std::path::PathBuf;
@@ -12,7 +12,7 @@ use tiny_voca::tts::Tts;
 use tiny_voca::Options;
 
 const USAGE: &str = "\
-Speak text aloud with tiny-voca.
+Speak Russian text aloud with tiny-voca.
 
 Usage: voca [options] TEXT...
        echo TEXT | voca [options]
@@ -20,7 +20,7 @@ Usage: voca [options] TEXT...
 Options:
   -v, --voice NAME     F2 (default) or M2
   -s, --speed X        Speaking rate, 0.25 to 4 (default 1)
-  -p, --pitch X        Pitch shift in semitones (default 0)
+  -p, --pitch X        Pitch shift in semitones (default 0; try -2)
   -o, --output FILE    Write a WAV file instead of playing
   -f, --file FILE      Read the text from a file
       --seed N         Seed of the noise source (default 0)
@@ -97,7 +97,7 @@ fn run() -> Result<(), String> {
     let home = home()?;
     let model = home.join("tiny-voca.safetensors");
     if !model.exists() {
-        return Err(format!("{} not found; reinstall from https://github.com/sultson/voca, or set VOCA_HOME", model.display()));
+        return Err(format!("{} not found; reinstall from https://huggingface.co/SuhEugene/voca-ru, or set VOCA_HOME", model.display()));
     }
     // The matrix products run on our own threads, not the BLAS library's.
     std::env::set_var("VECLIB_MAXIMUM_THREADS", "1");

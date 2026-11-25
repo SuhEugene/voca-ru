@@ -9,6 +9,7 @@ use rayon::prelude::*;
 use crate::ops::{self, LayerNorm, Linear};
 use crate::vocoder::SourceFilter;
 use crate::weights::Archive;
+use voca_ru_text::symbols;
 
 #[derive(Clone, Debug)]
 pub struct Config {
@@ -86,12 +87,12 @@ impl Config {
     }
 }
 
-// Inventory layout of `tiny_voca.text.SYMBOLS`: 5 specials, 12 punctuation
-// marks, 26 consonants, 33 vowels.
-const SYMBOL_COUNT: usize = 76;
+// Inventory layout is owned by `voca-ru-text::symbols` and checked against the
+// checkpoint metadata: 5 specials, 23 punctuation, 36 consonants, 12 vowels.
+const SYMBOL_COUNT: usize = symbols::COUNT;
 const UNKNOWN: u32 = 4;
-const FIRST_PHONE: u32 = 17;
-const FIRST_VOWEL: u32 = 43;
+const FIRST_PHONE: u32 = symbols::FIRST_PHONE as u32;
+const FIRST_VOWEL: u32 = symbols::FIRST_VOWEL as u32;
 
 fn is_phone(token: u32) -> bool {
     token >= FIRST_PHONE || token == UNKNOWN
@@ -99,6 +100,20 @@ fn is_phone(token: u32) -> bool {
 
 fn is_vowel(token: u32) -> bool {
     token >= FIRST_VOWEL
+}
+
+/// The checkpoint carries its symbol table; refuse weights laid out for a
+/// different inventory, so ids can never silently mean other phonemes.
+fn check_symbols(archive: &Archive) -> Result<(), String> {
+    let text = archive.metadata.get("symbols").ok_or("weights file has no symbols metadata")?;
+    let listed: Vec<String> = serde_json::from_str(text).map_err(|e| format!("symbols: {e}"))?;
+    if !listed.iter().map(String::as_str).eq(symbols::inventory()) {
+        return Err(format!(
+            "weights file has a {}-symbol inventory that does not match the Russian frontend",
+            listed.len()
+        ));
+    }
+    Ok(())
 }
 
 struct Attention {
@@ -373,6 +388,7 @@ impl TinyVoca {
     pub fn load(path: &Path) -> Result<Self, String> {
         let mut archive = Archive::open(path)?;
         let config = Config::from_json(archive.metadata.get("config").ok_or("weights file has no config metadata")?)?;
+        check_symbols(&archive)?;
         let c = &config;
         let (ch, p) = (c.channels, c.predictor_channels);
         let voices = c.speakers.len();

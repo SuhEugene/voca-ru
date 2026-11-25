@@ -20,6 +20,7 @@ pub const VOWELS: [&str; 12] = ["ʌ", "a", "ɑ", "ɪ", "i", "ɛ", "e", "ə", "o"
 pub const FIRST_PUNCTUATION: usize = 5;
 pub const FIRST_PHONE: usize = 28;
 pub const FIRST_VOWEL: usize = 64;
+pub const COUNT: usize = SPECIALS.len() + PUNCTUATION.len() + CONSONANTS.len() + VOWELS.len();
 
 pub const BOS: &str = "<bos>";
 pub const EOS: &str = "<eos>";
@@ -27,6 +28,16 @@ pub const SP: &str = "<sp>";
 pub const UNK: &str = "<unk>";
 
 pub const STRESS: char = '\u{0301}';
+
+/// Every symbol in id order (the checkpoint's `symbols` metadata).
+pub fn inventory() -> impl Iterator<Item = &'static str> {
+    SPECIALS
+        .iter()
+        .chain(PUNCTUATION.iter())
+        .chain(CONSONANTS.iter())
+        .chain(VOWELS.iter())
+        .copied()
+}
 
 /// Index of a symbol in the 76-symbol table.
 pub fn symbol_id(symbol: &str) -> Option<usize> {
