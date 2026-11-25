@@ -86,3 +86,13 @@ Newest last. Every decision that constrains future work goes here, not only in m
 | 2026-11-19 | Adding a voice later = new VoiceDesign ref + corpus + **retrain** | Speaker set is compile/config time (`nn.Embedding`); accepted cost |
 | 2026-11-19 | Batch corpus by length, not corpus order | 1.64× vs 3.0× realtime measured by G1 |
 | 2026-11-19 | Big HF files via `hf download` or `fetch-hf-file.sh` (no `curl --retry` + append) | `--retry` restarts ranges and silently corrupts |
+
+## Release artifacts (2026-11-26)
+
+| what | where |
+|---|---|
+| Model, three checkpoints (104k / 134k / 164k) | https://huggingface.co/SuhEugene/voca-ru — `voca-ru.onnx`, `gguf/voca-ru-js.gguf`, `variants/` |
+| Corpus | https://huggingface.co/datasets/SuhEugene/voca-ru-corpus |
+| Browser demo | https://tiny-voca.fnnk.dev — Dokploy app `tiny-voca` in project VL Self-Host, server `[Hoster] VLab`, built from GitHub `SuhEugene/voca-ru` branch `original` (Dockerfile → nginx:alpine serving `js/`), auto-deploy on push |
+| Rust inference | branch `master` (Russian frontend inside the binary, 349× real time) |
+| Upstream source | branch `original` (Russian JS frontend, Russian-first page) |
