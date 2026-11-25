@@ -1,166 +1,157 @@
-# tiny-voca in plain JavaScript
+# voca-ru на чистом JavaScript
 
-An experiment: the model and its phonemizer in plain scripts, with no
-libraries. No ONNX Runtime, no WebAssembly, no Pyodide, no npm packages. It
-reads one GGUF file of 8 MB, turns text into phonemes and makes sound.
+Русский синтез речи из одного файла GGUF: модель на 4,5 млн параметров и
+русский текстовый фронтенд, без npm, сборки, ONNX и WebAssembly.
 
-- `tiny-voca.js`: the GGUF reader and the model. Open it and read from the top.
-- `dizione/`: the phonemizer, a port of [dizione](https://github.com/n4ze3m/dizione). See below.
-- `say.mjs`: the same from the command line, with Node or Bun. No browser.
-- `text.js`: cuts a text into sentences and writes the WAV; the page and `say.mjs` share it.
-- `index.html`: the page. Type a text, pick a voice, press Play.
-  Each sentence plays as soon as it is made, and the whole clip can be saved as a WAV file.
-- `pack.mjs`: makes the one file the page reads, `tiny-voca.gguf`.
-- `test/`: the checks against PyTorch and against Python dizione.
+- Модель и голоса: [SuhEugene/voca-ru](https://huggingface.co/SuhEugene/voca-ru),
+  файл [`gguf/voca-ru-js.gguf`](https://huggingface.co/SuhEugene/voca-ru/resolve/main/gguf/voca-ru-js.gguf) (23,5 МБ, float32).
+- Голоса: `F2` (женский, по умолчанию) и `M2` (мужской).
+- Частота 24 кГц, шаг 256, 76 символов, до 512 токенов на предложение.
+- Внутри GGUF уже лежат `phonemizer/stress_dict.tsv` (100 000 форм) и
+  `phonemizer/g2p_lexicon.tsv` (14 492 слова) — отдельных файлов не нужно.
 
-## Try it
+## Страница
 
 ```
 cd js
 python3 -m http.server 8000
 ```
 
-Open http://localhost:8000. The page downloads one file,
-[`gguf/tiny-voca-js.gguf`](https://huggingface.co/n4ze3m/tiny-voca/tree/main/gguf),
-from Hugging Face and nothing else.
+Откройте http://localhost:8000. Страница скачает один файл с Hugging Face и
+больше ничего. Поле ввода, выбор голоса, «Произнести», «Измерить скорость» и
+сохранение в WAV.
 
-To make that file yourself and use your own copy:
+- `?file=<url|путь>` — другой GGUF.
+- `?script=<url|путь>` — другой `tiny-voca.js` (движок модели).
 
-```
-node js/pack.mjs tiny-voca-orig.gguf path/to/dizione/src/dizione/data js/tiny-voca.gguf
-```
-
-It is made from the float32 file on Hugging Face and the small tables of
-dizione. Open the page with `?file=tiny-voca.gguf` to read it.
-
-## From the command line
+Например, с локальной копией:
 
 ```
-node js/say.mjs "Hello! This is tiny voca." --voice M2 --output hello.wav
-bun js/say.mjs "Hello! This is tiny voca." --voice F2 --output hello.wav
+http://localhost:8000/?file=../out/voca-ru-js.gguf
 ```
 
-No browser and no packages to install. It reads `js/tiny-voca.gguf` if it is
-there, or downloads the file from Hugging Face; `--file` takes another path or
-address. Node and Bun write the same WAV, byte for byte.
+Текст режется на предложения по `[.!?…]` перед заглавной буквой или цифрой
+(`js/text.js`), каждая фраза синтезируется отдельно и играет сразу.
 
-Speed on an Apple M5, one thread, over the 20 test utterances (79 s of audio):
+## Как устроен русский фронтенд
 
-| | Times real time | Ready after | Peak memory |
-|---|---|---|---|
-| Node 24 | 9.7 | 192 ms | 238 MB |
-| Bun 1.3 | 13.4 | 104 ms | 518 MB |
-
-In your own code:
+`js/ru/` — ES-модули без зависимостей. Точка входа — `fromGGUF(file)`:
+она читает `config.json` и обе таблицы прямо из загруженного GGUF.
 
 ```js
-import { readFileSync } from "node:fs";
 import { readGGUF, TinyVoca } from "./tiny-voca.js";
-import { fromGGUF } from "./dizione/engine.js";
+import { fromGGUF } from "./ru/index.js";
 
-const file = readGGUF(new Uint8Array(readFileSync("tiny-voca.gguf")).buffer);
+const file = readGGUF(buffer);
 const voca = new TinyVoca(file);
-const phonemizer = await fromGGUF(file);
+const text = fromGGUF(file);
 
-const { ids, stress } = phonemizer.phonemize("Hello! This is tiny voca.");
-const { audio } = voca.synthesize(ids, stress, { voice: "M2" });
+const { ids, stress } = text.phonemize("Привет, как дела?");
+const { audio } = voca.synthesize(ids, stress, { voice: "F2" });
 ```
 
-`audio` is a Float32Array at 24 kHz. One call reads one sentence; `say.mjs`
-shows how a longer text is cut.
+`text.analyze(s)` возвращает те же поля, что Python-функция
+`voca_ru.text.analyze`: `plain_text`, `stressed_text`, `phonemes`, `stress`,
+`tokens`, `oov`, `phone_count`.
 
-## Check against PyTorch
+Конвейер:
 
-```
-python js/test/reference.py --checkpoint tiny-voca.pt --output reference
-node js/test/check.mjs tiny-voca-orig.gguf reference
-```
+1. `normalize.js` — числа, даты, время, деньги, проценты, ординалы, единицы,
+   сокращения, латиница, «ё», типографика. Порт
+   `training/voca_ru/text/normalize.py`; таблицы числительных — в `numbers.js`.
+2. `stress.js` — словарь `word<TAB>уда́рение` из GGUF, затем правила
+   (суффиксы, «ё», предпоследний гласный) для слов вне словаря. Ударение
+   хранится как U+0301 внутри строки, а в модель уходит флаг 0/1 на токен.
+3. `g2p.js` — лексикон `слово<TAB>телефоны` из GGUF; для незнакомых слов —
+   буквенные правила (палатализация, редукция гласных, `ь`/`ъ`). Затем
+   токенизация: `<bos>`, `<sp>`, паузы, `<eos>`; id берутся из `vocab` в
+   `config.json`, второй копии таблицы символов нет.
 
-The first line writes what PyTorch gives for the test sentences. The second
-runs the same phonemes and the same noise through the JavaScript model and
-prints, for each sentence and voice, whether the lengths are equal and how far
-the waveform is.
+Чего нет по сравнению с Python: ONNX-модели ударения для OOV-слов и
+eSpeak (GPL) для их фонем. Такие слова получают правило-фолбэк, поэтому на
+них возможно расхождение — см. цифры ниже.
 
-## The phonemizer
+## Паритет с Python
 
-`dizione/` turns text into phoneme ids and a stress value for each id. It must
-give exactly what the Python dizione gives. It follows dizione with the two
-fixes for letters with full stops ("U.S.A", "Ph.D.", "J. R. R. Tolkien") and
-for a page after a number ("Chapter 3, p. 45").
+Фикстура `js/ru/test/fixtures/parity.json` — 380 предложений: 350 из
+`data/scripts-ru/batch{1,2}.jsonl` (детерминированная выборка) и 30
+синтетических с числами, датами, деньгами, «ё» и пунктуацией. Для каждого
+хранятся `plain`, `stressed`, `tokens`, `stress` из Python.
 
-- `normalize.js`: text to words: numbers, money, dates, units, abbreviations, signs.
-- `pyre.js`: Python regular expressions and string methods, so `normalize.js` can stay line by line next to `normalize.py`.
-- `engine.js`: the phonemizer: dictionary, endings, names, phrases, homographs, unknown words. `fromGGUF` builds it from the file.
-- `g2p.js`: the small model that guesses unknown words.
-- `align.js`, `convert.js`: letters lined up with phonemes, and ARPAbet turned into the phoneme set.
-- `morphology.js`, `homographs.js`, `sentence.js`: endings, words with two readings, sentence stress.
-- `symbols.js`: the symbols and their ids.
-- `lexicon.js`: the packed dictionary.
-- `tables.js`: reads the ten small tables (abbreviations, units, exceptions and so on).
-
-All its data comes from the GGUF: the dictionary, the alignment table, the
-homograph data, the unknown-word model and the ten small tables. The float32
-file on Hugging Face has no tables, so the phonemizer needs a file made by
-`pack.mjs`.
+Пересобрать фикстуру (из главного дерева репозитория, где есть `data/` и
+`training/`) и прогнать сравнение:
 
 ```
-node js/test/vectors.mjs js/tiny-voca.gguf path/to/dizione/tests/vectors
+. scripts/cache-env.sh
+VOCA_CACHE=$PWD/.cache .cache/venvs/r4/bin/python \
+    worktrees/original/js/ru/test/make_fixture.py
+cd worktrees/original
+node js/ru/test/parity.mjs
 ```
 
-This reads the test vectors of dizione (texts with the ids and stress they
-must give) and prints how many texts differ. Today: 0 of 13,973. The vector
-files are not copied here; give the folder.
+Результат на этой фикстуре (`node js/ru/test/parity.mjs`):
 
-`node js/test/dizione.mjs ids model.gguf texts.txt out.txt` writes the ids and
-stress for a file with one text on each line.
+| Выборка | Предложений | Совпали id | Совпали id и ударение |
+|---|---|---|---|
+| все | 380 | 368 (96,84 %) | 366 (96,32 %) |
+| все слова в обоих словарях GGUF | 155 | **155 (100 %)** | **155 (100 %)** |
+| есть слова вне словарей (OOV) | 225 | 213 (94,67 %) | 211 (93,78 %) |
 
-`node js/test/dictionary.mjs js/tiny-voca.gguf path/to/vectors` measures the
-sizes of the dictionary in several forms and what the unknown-word model does
-at 16 and 8 bits. It runs the model over all 124,926 words and takes about 40
-minutes on one core.
+Нормализованный текст (`plain_text`) совпадает с Python на 379 из 380
+предложений; после исправления десятичной дроби — на 380 из 380 (проверено
+отдельным прогоном, в `parity.mjs` печатаются только id). Оставшиеся
+расхождения — только OOV-слова: у Python для них работает RUAccent/ONNX и
+eSpeak, у JS — правило-фолбэк.
 
-## The one file
+Проверка страницы без браузера:
 
-`pack.mjs` turns the float32 file of 23.57 MB into `tiny-voca.gguf` of 7.99 MB.
-It is an ordinary GGUF: the `gguf` Python package lists it. Three things
-change.
+```
+node js/ru/test/page-smoke.mjs
+```
 
-The weights. The 44 large matrices of the transformer blocks are stored with
-8 bits a weight, in the Q8_0 form of GGUF: every 32 weights share one scale
-(16-bit float), and each weight is a whole number from -127 to 127 times that
-scale. The scale is the largest weight of the 32, divided by 127. These are
-the same numbers as in `tiny-voca-q8_0.gguf` on Hugging Face. Everything else
-stays float32. On the 20 test utterances 19 keep the durations of PyTorch. An
-earlier try with one scale for a whole row was 0.2 MB smaller but kept only
-14 of 20: a row has weights of very different sizes, and one scale is too
-coarse for the small ones.
+Она загружает локальный GGUF (`VOCA_GGUF` или аргумент, по умолчанию
+`out/voca-ru-js.gguf` главного дерева), режет русский текст на 4 предложения,
+фонемизирует и синтезирует голосом `F2`, проверяя непустое аудио разумной
+длины.
 
-The dictionary. In the float32 file it is a text of 3.45 MB, one word and its
-phonemes on each line. `pack.mjs` stores it as `phonemizer/lexicon.packed.gz`
-in 0.55 MB. The words are sorted, so each word is stored as the number of
-bytes it shares with the word before and then the rest. The phonemes are
-stored the same way, with one byte for each phoneme and its stress. The
-result is gzipped, and the page reads it with `DecompressionStream`. Every
-word and every pronunciation comes back the same.
+## Из командной строки
 
-The tables. The ten small text tables of dizione are put inside as they are.
+```
+node js/say.mjs "Привет! Это voca-ru." --voice F2 --output privet.wav
+node js/say.mjs "Привет!" --file ../out/voca-ru-js.gguf
+```
 
-`node js/test/clips.mjs file.gguf folder label 1 2` writes sentences 1 and 2
-as WAV files.
+Читает `js/tiny-voca.gguf`, если он есть, иначе скачивает файл с Hugging Face;
+`--file` задаёт другой путь или адрес. Node и Bun дают одинаковый WAV.
 
-## Memory
+## Движок модели (upstream tiny-voca)
 
-Once loaded, the model holds about 25 MB and the phonemizer about 21 MB.
-Two things keep the peak near that.
+`tiny-voca.js` — порт английской tiny-voca: чтение GGUF, трансформер,
+предсказание длительностей, просодия, гармонический вокодер и шум. Один
+вызов `synthesize` озвучивает одно предложение; более длинный текст режет
+`text.js`. Скорость — единицы-десятки раз быстрее реального времени на одном
+ядре; рабочие массивы переиспользуются, поэтому пик памяти близок к размеру
+модели.
 
-The dictionary is unpacked one entry at a time into one small buffer that is
-used again for every entry, so loading it makes no pile of short-lived arrays.
+`pack.mjs` — упаковка float32 в Q8_0 для **английской** модели
+(`tiny-voca-js.gguf`, 8 МБ). Русский файл уже собран и лежит на Hugging Face;
+для страницы `pack.mjs` не нужен.
 
-In `tiny-voca.js` the working arrays of a sentence are used again. `floats`
-hands out an array and remembers it; `giveBack` puts the arrays made since a
-mark on a spare list, where the next `floats` call of the same size finds
-them. A transformer block gives its arrays back when it ends, and so does
-each attention head. One long sentence asks for 116 MB of arrays this way and
-only 13 MB are really made. Every array from `floats` is written in full
-before it is read, so old numbers in it do not matter, and the sound is the
-same sample for sample.
+## Английский фронтенд `dizione/`
+
+`js/dizione/` — порт [dizione](https://github.com/n4ze3m/dizione) для
+английского языка. Он **не используется страницей** и не подходит для
+русского: другие символы, другие правила чтения. Оставлен как часть
+upstream-эксперимента и для английской модели; проверки к нему —
+`node js/test/vectors.mjs` и `node js/test/dizione.mjs` — требуют данные
+dizione, которых в репозитории нет.
+
+## Ограничения
+
+- Слова вне `g2p_lexicon.tsv` читаются правилами: это может звучать хуже
+  eSpeak-эталона, на котором обучалась модель.
+- Омографы и слова с «ё» вне словаря ударения не разрешаются по контексту.
+- Одно предложение — до 512 токенов; `text.js` дробит длинные фразы по
+  запятым и словам.
+- В браузере нужен `AudioContext`; страница не работает из `file://` —
+  поднимите локальный HTTP-сервер.

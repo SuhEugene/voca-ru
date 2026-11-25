@@ -1,9 +1,9 @@
-const ABBREVIATIONS = /(?:\b(?:mr|mrs|ms|dr|prof|sr|jr|st|vs|etc|no|inc|ltd|co|e\.g|i\.e|a\.m|p\.m)|\b[A-Z])\.$/i;
+const ABBREVIATIONS = /(?:\b(?:mr|mrs|ms|dr|prof|sr|jr|st|vs|etc|no|inc|ltd|co|e\.g|i\.e|a\.m|p\.m)|\b[A-Z]|(?:^|\s)(?:т\.\s*[дкеп]|г|ул|стр|рис|табл|проф|тел|руб|коп|см|др|им|кв|тов|пр))\.$/i;
 
 function sentences(text) {
   const parts = [];
   let current = "";
-  for (const piece of text.replace(/\s+/g, " ").trim().split(/(?<=[.!?…]["')\]]?)\s+(?=["'(\[]?[A-Z0-9])/)) {
+  for (const piece of text.replace(/\s+/g, " ").trim().split(/(?<=[.!?…]["')\]]?)\s+(?=["'(\[]?[\p{Lu}\p{N}])/u)) {
     current = current ? current + " " + piece : piece;
     if (!ABBREVIATIONS.test(current)) { parts.push(current); current = ""; }
   }

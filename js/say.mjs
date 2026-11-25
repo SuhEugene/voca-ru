@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { readGGUF, TinyVoca } from "./tiny-voca.js";
-import { fromGGUF } from "./dizione/engine.js";
+import { fromGGUF } from "./ru/index.js";
 import { utterancesOf, limited, wav } from "./text.js";
 
 const options = { voice: "M2", output: "tiny-voca.wav", file: "" };
@@ -13,18 +13,18 @@ for (let args = process.argv.slice(2); args.length; ) {
 }
 const text = words.join(" ");
 if (!text) {
-  console.log('node say.mjs "Hello! This is tiny voca." [--voice M2] [--output tiny-voca.wav] [--file tiny-voca.gguf]');
+  console.log('node say.mjs "Привет! Это voca-ru." [--voice F2] [--output voca-ru.wav] [--file voca-ru-js.gguf]');
   process.exit(1);
 }
 
 const local = fileURLToPath(new URL("tiny-voca.gguf", import.meta.url));
-const source = options.file || (existsSync(local) ? local : "https://huggingface.co/n4ze3m/tiny-voca/resolve/main/gguf/tiny-voca-js.gguf");
+const source = options.file || (existsSync(local) ? local : "https://huggingface.co/SuhEugene/voca-ru/resolve/main/gguf/voca-ru-js.gguf");
 const started = performance.now();
 const buffer = /^https?:/.test(source) ? await (await fetch(source)).arrayBuffer() : new Uint8Array(readFileSync(source)).buffer;
 const fetched = performance.now();
 const file = readGGUF(buffer);
 const voca = new TinyVoca(file);
-const phonemizer = await fromGGUF(file);
+const phonemizer = fromGGUF(file);
 const ready = performance.now();
 
 const chunks = utterancesOf(text, phonemizer, voca.config.max_tokens - 12)
