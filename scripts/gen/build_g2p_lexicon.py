@@ -61,11 +61,24 @@ def main(argv=None):
         yo_words = {}
 
     g2p = G2P()
+    stressor = None
+    try:
+        stressor = Stressor().load()
+    except Exception as error:  # no dictionary: bare spellings only
+        print(f"warning: no stressor for the lexicon ({error})", file=sys.stderr)
     entries = {}
     for source in sorted(words):
         # Python resolves yo per hyphen part (stress.py splits on "-").
         yo = "-".join(yo_words.get(part, part) for part in source.split("-"))
-        phones = g2p.word(yo)
+        # Phonemise the acute-marked form, exactly like the corpus pipeline
+        # (pipeline.analyze: correct stress -> phonemize).  Without the marks
+        # eSpeak falls back to the stress in its own dictionary, which is wrong
+        # for words like "берег" (it reads the verb "берёг").
+        marked = yo
+        if stressor is not None:
+            marked = "-".join(
+                stressor.stressed(part)[0] for part in yo.split("-"))
+        phones = g2p.word(marked)
         rendered = " ".join(
             f"{symbol}:{level}" if level else symbol for symbol, level in phones)
         entries[source] = rendered

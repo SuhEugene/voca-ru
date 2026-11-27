@@ -149,6 +149,27 @@ def parse_word(ipa_word, target_index=None, drop=None):
     return [(symbol, stress) for symbol, stress in phones]
 
 
+def _fix_ere(phones):
+    """Undo eSpeak's own dictionary reading for "берег"-like words.
+
+    For a handful of words eSpeak ignores the acute and uses its dictionary
+    entry of the verb ("берег" read as "берёг": i:1 rʲ e instead of e:1 rʲ i).
+    The lexicon lists 7 such words; the same rewrite runs in the Rust and JS
+    frontends so all four paths agree.
+    """
+    out = list(phones)
+    for index in range(len(out) - 2):
+        symbol, level = out[index]
+        consonant = out[index + 1][0]
+        vowel, vowel_level = out[index + 2]
+        if (symbol == "i" and level == 1 and consonant in ("rʲ", "lʲ", "ɭʲ")
+                and vowel == "e"):
+            out[index] = ("e", 1)
+            out[index + 2] = ("i", vowel_level)
+            break
+    return out
+
+
 class G2P:
     """Word-level cache around one espeak handle."""
 
@@ -190,6 +211,7 @@ class G2P:
                 slots = sum(1 for symbol, _ in phones if is_vowel(symbol))
                 if target >= slots:
                     self.transfer_misses += 1
+        phones = _fix_ere(phones)
         self._cache[key] = phones
         return phones
 
