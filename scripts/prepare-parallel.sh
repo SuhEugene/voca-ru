@@ -9,15 +9,15 @@
 #   bash prepare-parallel.sh [workers]
 set -euo pipefail
 cd /workspace/voca
-OUT=data/ru-corpus
+OUT=${OUT:-data/ru-corpus}
 WORKERS=${1:-12}
 PYTHON=${PYTHON:-python}
 export OMP_NUM_THREADS=2 MKL_NUM_THREADS=2
 
 $PYTHON - "$WORKERS" <<'EOF'
-import json, pathlib, sys
+import json, os, pathlib, sys
 workers = int(sys.argv[1])
-root = pathlib.Path("data/ru-corpus")
+root = pathlib.Path(os.environ.get("OUT", "data/ru-corpus"))
 shards = root / "shards"
 shards.mkdir(exist_ok=True)
 for split in ("train", "validation", "test"):
@@ -44,7 +44,7 @@ wait
 
 $PYTHON <<'EOF'
 import json, pathlib, shutil
-root = pathlib.Path("data/ru-corpus")
+root = pathlib.Path(os.environ.get("OUT", "data/ru-corpus"))
 target = root / "prepared"
 target.mkdir(exist_ok=True)
 rows = {"train": [], "validation": [], "test": []}
