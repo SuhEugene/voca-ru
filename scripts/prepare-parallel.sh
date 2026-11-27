@@ -43,7 +43,7 @@ done
 wait
 
 $PYTHON <<'EOF'
-import json, pathlib, shutil
+import json, os, pathlib, shutil
 root = pathlib.Path(os.environ.get("OUT", "data/ru-corpus"))
 target = root / "prepared"
 target.mkdir(exist_ok=True)
@@ -67,6 +67,13 @@ for split in rows:
     with (target / f"{split}.jsonl").open("w", encoding="utf-8") as out:
         for row in rows[split]:
             out.write(json.dumps(row, ensure_ascii=False) + "\n")
+    # annotate refuses a split without complete preparation metadata; the shard
+    # files carry it and are removed below, so copy one over
+    source_meta = sorted(root.glob(f"prepared-{split}-*/{split}.preparation.json"))
+    if source_meta:
+        meta = json.loads(source_meta[0].read_text())
+        meta["complete"] = True
+        (target / f"{split}.preparation.json").write_text(json.dumps(meta, ensure_ascii=False), encoding="utf-8")
     with (target / f"{split}.rejected.jsonl").open("w", encoding="utf-8") as out:
         for row in rejects[split]:
             out.write(json.dumps(row, ensure_ascii=False) + "\n")

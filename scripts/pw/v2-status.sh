@@ -32,11 +32,12 @@ screen)
     awk -v d="$done_" -v r="$raw" 'BEGIN{ if(r==0){printf "0.0 screen\n"; exit} p=d*98/r; if(p>98)p=98; printf "%.1f screen\n", p }'
     ;;
 prepare)
-    rows=0; feats=0
+    rows=0
     for split in train validation test; do
         rows=$((rows + $(lines "$WORK/inputs/$split.jsonl")))
-        feats=$((feats + $(find "$WORK/prepared/$split" -name '*.pt' 2>/dev/null | wc -l)))
     done
+    # shard directories hold the files until the merge moves them into prepared/<split>
+    feats=$(find "$WORK" -path '*prepared*' -name '*.pt' 2>/dev/null | wc -l)
     if [ "$rows" -gt 0 ] && [ "$feats" -eq "$rows" ]; then echo "100 prepare"; exit 0; fi
     awk -v f="$feats" -v r="$rows" 'BEGIN{ if(r==0){printf "0.0 prepare\n"; exit} p=f*98/r; if(p>98)p=98; printf "%.1f prepare\n", p }'
     ;;

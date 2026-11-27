@@ -15,7 +15,7 @@ PY=${PY:-python}
 mkdir -p "$ART"
 
 eval_wer() {
-    $PY scripts/wer_test.py runs/v2/inference.pt 40 2>&1 | tee "$ART/wer.txt"
+    $PY scripts/wer_test.py runs/v2/inference.pt 40 "$WORK" 2>&1 | tee "$ART/wer.txt"
 }
 
 export_onnx() {
@@ -31,7 +31,9 @@ pack() {
     cp runs/v2/inference.pt runs/v2/metrics.jsonl runs/v2/config.json "$ART/"
     cp runs/v2/eval-*.json "$ART/" 2>/dev/null || true
     [ -d runs/v2/samples ] && cp -r runs/v2/samples "$ART/"
-    ( cd "$ART" && sha256sum * > SHA256SUMS )
+    # directories (samples) cannot be hashed; a file list keeps the step honest
+    ( cd "$ART" && find . -maxdepth 1 -type f ! -name SHA256SUMS -printf '%P\n' \
+        | sort | xargs sha256sum > SHA256SUMS )
     tar -C "$ART" -cf /workspace/voca-ru-v2.tar .
     sha256sum /workspace/voca-ru-v2.tar
 }

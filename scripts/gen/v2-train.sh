@@ -10,6 +10,7 @@ cd /workspace/voca
 export VOCA_CACHE=/workspace/voca/.cache
 export VOCA_MODELS=$VOCA_CACHE/models
 export VOCA_ASR_DEVICE=cuda
+export HF_HOME=/workspace/voca/.cache/huggingface
 export OMP_NUM_THREADS=2 MKL_NUM_THREADS=2
 OUT=data/corpus-v2
 WORK=data/ru-corpus-v2
@@ -28,13 +29,14 @@ prepare() {
 
 annotate() {
     $PY training/annotate.py --features "$WORK/prepared" --output "$WORK/annotations" \
+        --aligner-dir .cache/models/wav2vec2-espeak \
         --splits train validation test --device cuda --resume
 }
 
 train() {
     local steps=${1:-104000}
     local resume=""
-    [ -f runs/v2/last.pt ] && resume="--resume"
+    [ -f runs/v2/last.pt ] && resume="--resume runs/v2/last.pt"
     $PY training/train.py --train "$WORK/annotations/train.jsonl" \
         --validation "$WORK/annotations/validation.jsonl" \
         --output runs/v2 --config configs/base.yaml --device cuda \

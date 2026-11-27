@@ -50,8 +50,8 @@ prepare() {
     local rows=0 features=0 expected ok=1
     for split in train validation test; do
         rows=$((rows + $(lines "$WORK/inputs/$split.jsonl")))
-        features=$((features + $(find "$WORK/prepared/$split" -name '*.pt' 2>/dev/null | wc -l)))
     done
+    features=$(find "$WORK" -path '*prepared*' -name '*.pt' 2>/dev/null | wc -l)
     expected=${rows:-0}
     [ "$expected" -gt 0 ] || ok=0
     [ "${features:-0}" -eq "$expected" ] || ok=0

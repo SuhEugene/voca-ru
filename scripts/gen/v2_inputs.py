@@ -17,6 +17,8 @@ from pathlib import Path
 
 SPEAKERS = {"female": "F2", "male": "M2"}
 SPLITS = ("train", "validation", "test")
+# scripts carry "val", the released corpus carries "validation"
+SPLIT_ALIAS = {"val": "validation", "validation": "validation", "test": "test", "train": "train"}
 
 
 def rows_from(manifest: Path, voice: str, speaker: str, audio_root: Path, prefix: str) -> list[dict]:
@@ -27,10 +29,10 @@ def rows_from(manifest: Path, voice: str, speaker: str, audio_root: Path, prefix
         row = json.loads(line)
         if row.get("voice") != voice:
             continue
-        row = {**row, "speaker": speaker}
+        row = {**row, "speaker": speaker, "split": SPLIT_ALIAS[row["split"]]}
         # inputs carry an absolute audio path; rewrite it for the target host
         name = Path(row["audio"]).name
-        row["audio"] = str(audio_root / "audio" / voice / name)
+        row["audio"] = str(Path(audio_root).resolve() / "audio" / voice / name)
         rows.append(row)
     print(f"{prefix}: {len(rows)} rows for {voice} -> {speaker}")
     return rows
@@ -49,8 +51,9 @@ def main() -> None:
     parser.add_argument("--male-audio", type=Path)
     args = parser.parse_args()
 
-    female_audio = args.female_audio or (args.female / "audio").parent
-    male_audio = args.male_audio or (args.male / "audio").parent
+    # absolute paths: prepare resolves relative audio against its shard directory
+    female_audio = Path(args.female_audio or (args.female / "audio").parent).resolve()
+    male_audio = Path(args.male_audio or (args.male / "audio").parent).resolve()
 
     female = rows_from(args.female / "manifest.jsonl", args.female_voice, SPEAKERS["female"],
                        female_audio, "female")
@@ -59,7 +62,7 @@ def main() -> None:
     if args.male_extra:
         # clips regenerated with context-resolved stress outrank the released ones
         extra = rows_from(args.male_extra / "manifest.jsonl", args.male_voice, SPEAKERS["male"],
-                          args.male_extra / "..", "male-new")
+                          args.male_extra.resolve(), "male-new")
         replaced = {row["text_id"] for row in extra}
         male = [row for row in male if row["text_id"] not in replaced] + extra
         print(f"male: {len(extra)} regenerated clips replace released ones")

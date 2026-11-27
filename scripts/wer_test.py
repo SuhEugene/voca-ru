@@ -17,13 +17,14 @@ from voca_ru.train.model import TinyVoca
 
 def main() -> None:
     checkpoint, limit = Path(sys.argv[1]), int(sys.argv[2])
+    root = Path(sys.argv[3]) if len(sys.argv) > 3 else Path("data/ru-corpus")
     state = torch.load(checkpoint, map_location="cpu", weights_only=True)
     config = Config.from_dict(state["config"])
     model = TinyVoca(config).eval()
     model.load_state_dict(state["model"], strict=True)
 
-    dataset = AnnotatedDataset(Path("data/ru-corpus/annotations/test.jsonl"), config,
-                               acoustic_root=Path("data/ru-corpus/prepared"), cache=False)
+    dataset = AnnotatedDataset(root / "annotations/test.jsonl", config,
+                               acoustic_root=root / "prepared", cache=False)
     rows = dataset.rows[:limit]
     out = Path("/tmp/wer-samples")
     out.mkdir(exist_ok=True)
