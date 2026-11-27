@@ -16,11 +16,11 @@ import { Stressor } from "./stress.js";
 const decoder = new TextDecoder();
 
 export class RussianText {
-  constructor({ vocab, stressDict, g2pLexicon }) {
+  constructor({ vocab, stressDict, g2pLexicon, stressEndings }) {
     const symbols = Object.entries(vocab).sort((a, b) => a[1] - b[1]).map(([symbol]) => symbol);
     this.symbols = symbols;
     this.ids = new Map(symbols.map((symbol, id) => [symbol, id]));
-    this.stressor = new Stressor(stressDict);
+    this.stressor = new Stressor(stressDict, stressEndings);
     this.g2p = new G2P(g2pLexicon, symbols, this.ids);
   }
 
@@ -52,6 +52,9 @@ export function fromGGUF(file) {
   return new RussianText({
     vocab: settings.vocab,
     stressDict: decoder.decode(file.files["phonemizer/stress_dict.tsv"]),
+    stressEndings: file.files["phonemizer/stress_endings.tsv"] === undefined
+      ? ""
+      : decoder.decode(file.files["phonemizer/stress_endings.tsv"]),
     g2pLexicon: decoder.decode(file.files["phonemizer/g2p_lexicon.tsv"]),
   });
 }
