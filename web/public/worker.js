@@ -13,7 +13,7 @@ const status = (text, progress) => postMessage({ type: "status", text, progress 
 
 // The model is kept in the browser's cache: a second visit does not touch the network.
 async function download(url, label) {
-  const store = await caches.open("voca-ru-v2").catch(() => null);
+  const store = await caches.open("voca-ru-v3").catch(() => null);
   if (store) {
     const hit = await store.match(url);
     if (hit) { status(label, 1); return new Uint8Array(await hit.arrayBuffer()); }
