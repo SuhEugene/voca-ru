@@ -43,6 +43,8 @@ def main() -> None:
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--female-voice", default="f_storyteller")
     parser.add_argument("--male-voice", default="m_neutral")
+    parser.add_argument("--male-extra", type=Path,
+                        help="regenerated male clips that replace the released ones")
     parser.add_argument("--female-audio", type=Path, help="audio root on the target host")
     parser.add_argument("--male-audio", type=Path)
     args = parser.parse_args()
@@ -54,6 +56,13 @@ def main() -> None:
                        female_audio, "female")
     male = rows_from(args.male / "manifest.jsonl", args.male_voice, SPEAKERS["male"],
                      male_audio, "male")
+    if args.male_extra:
+        # clips regenerated with context-resolved stress outrank the released ones
+        extra = rows_from(args.male_extra / "manifest.jsonl", args.male_voice, SPEAKERS["male"],
+                          args.male_extra / "..", "male-new")
+        replaced = {row["text_id"] for row in extra}
+        male = [row for row in male if row["text_id"] not in replaced] + extra
+        print(f"male: {len(extra)} regenerated clips replace released ones")
 
     args.out.mkdir(parents=True, exist_ok=True)
     for split in SPLITS:

@@ -22,6 +22,10 @@ while ! grep -q 'GEN_DONE=0' /workspace/gen.log 2>/dev/null; do
 done
 log "generation done: $(wc -l < data/corpus-v2/raw.jsonl) rows"
 
+log "homographs: regenerating the clips whose reading the context changes"
+bash scripts/gen/v2-corpus.sh fix >> /workspace/fix.log 2>&1 || { log "fix failed"; exit 1; }
+log "after fix: female raw $(wc -l < data/corpus-v2/raw.jsonl), male raw $(wc -l < data/corpus-v2-male/raw.jsonl 2>/dev/null || echo 0)"
+
 log "screening"
 bash scripts/gen/v2-corpus.sh screen >> /workspace/screen.log 2>&1 || { log "screen failed"; exit 1; }
 log "screened: accepted $(wc -l < data/corpus-v2/manifest.jsonl), rejected $(wc -l < data/corpus-v2/review.jsonl)"

@@ -116,6 +116,8 @@ class Stressor:
         self.yo_words = {}
         self.yo_homographs = {}
         self.model = None
+        self.omograph_model = None
+        self._chosen = {}
         self._last_oov = False
         self.stats = {"dictionary": 0, "omograph": 0, "model": 0, "fallback": 0}
 
@@ -142,7 +144,50 @@ class Stressor:
 
                 self.model = AccentModel()
                 self.model.load(nn_dir)
+            # The omograph classifier reads the whole sentence and picks one of the
+            # two readings the dictionary knows for a form like замок. Without it
+            # homographs are stuck on whichever reading accents.json happens to hold.
+            base = os.path.dirname(directory)
+            omograph_dir = os.path.join(base, "nn", "nn_omograph", "tiny")
+            if os.path.exists(os.path.join(omograph_dir, "model.onnx")):
+                from ruaccent.omograph_model import OmographModel
+
+                self.omograph_model = OmographModel()
+                self.omograph_model.load(omograph_dir)
+            else:
+                self.omograph_model = None
         return self
+
+    def _resolve_omographs(self, text):
+        """Sentence -> {position: chosen variant} for every homograph in it."""
+        if not (self.omographs and self.omograph_model):
+            return {}
+        words = text.split()
+        positions, variants = [], []
+        for index, word in enumerate(words):
+            plain = re.sub(r"[^а-яёa-z-]", "", word.lower())
+            options = self.omographs.get(plain)
+            if options and len(options) > 1:
+                positions.append(index)
+                variants.append(options)
+        if not positions:
+            return {}
+        marked = list(words)
+        for index in positions:
+            marked[index] = " <w>" + marked[index] + "</w> "
+        sentence = " ".join(marked)
+        # classify() compares one sentence against one word's readings at a time:
+        # it wants the text repeated once per hypothesis of that single word.
+        resolved = {}
+        for index, options in zip(positions, variants):
+            try:
+                resolved[index] = self.omograph_model.classify(
+                    [sentence] * len(options), list(options), [len(options)]
+                )[0]
+            except Exception:
+                resolved[index] = options[0]
+        self.stats["omograph"] = self.stats.get("omograph", 0) + len(positions)
+        return resolved
 
     def _model_accent(self, word):
         import numpy as np
@@ -168,6 +213,10 @@ class Stressor:
             return _plus_to_acute(CONTEXT_OVERRIDES[word])
         if word in self.yo_words:
             word = self.yo_words[word]
+        # A homograph resolved by the sentence's context outranks the single
+        # reading accents.json stores for the same form.
+        if self._chosen.get(word):
+            return _plus_to_acute(self._chosen[word])
         marked = self.accents.get(word)
         if marked is not None:
             self.stats["dictionary"] += 1
@@ -197,6 +246,13 @@ class Stressor:
             return _ensure_one_mark(text), True
         oov = False
         self.stats = {"dictionary": 0, "omograph": 0, "model": 0, "fallback": 0}
+        resolved = self._resolve_omographs(text)
+        # key by the plain form so _word can look it up after stripping punctuation
+        words = text.split()
+        self._chosen = {}
+        for index, variant in resolved.items():
+            plain = re.sub(r"[^а-яёa-z-]", "", words[index].lower())
+            self._chosen.setdefault(plain, variant)
 
         def repl(match):
             nonlocal oov
