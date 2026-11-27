@@ -103,6 +103,7 @@ def main() -> None:
     parser.add_argument("output", type=Path)
     parser.add_argument("--stress", type=Path, help="stress dictionary shipped inside the file")
     parser.add_argument("--lexicon", type=Path, help="word -> phonemes lexicon shipped inside the file")
+    parser.add_argument("--endings", type=Path, help="ending -> stress position table for unknown words")
     parser.add_argument("--name", default="voca-ru")
     args = parser.parse_args()
 
@@ -118,6 +119,8 @@ def main() -> None:
         files["phonemizer/stress_dict.tsv"] = args.stress.read_bytes()
     if args.lexicon:
         files["phonemizer/g2p_lexicon.tsv"] = args.lexicon.read_bytes()
+    if args.endings:
+        files["phonemizer/stress_endings.tsv"] = args.endings.read_bytes()
 
     tensors = [(name, value.float().contiguous()) for name, value in state["model"].items()]
     tensor_infos, blobs, offset = [], [], 0
