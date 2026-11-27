@@ -78,13 +78,15 @@ export class Stressor {
 
   // Lowercase normalised text -> { text with acute marks, oov flag }.
   stressed(text) {
-    text = stripStress(text);
+    text = plusToAcute(text);  // "+" before a vowel is a hand-written mark
     let oov = false;
-    const marked = text.replace(WORD_RE, (word) => {
-      for (const part of word.split("-")) {
+    const marked = text.replace(MARKED_WORD_RE, (word) => {
+      const plain = stripStress(word);
+      if (plain !== word) return word;  // the user marked this word by hand
+      for (const part of plain.split("-")) {
         if (part.length > 1 && !this.dictionary.has(part) && !(part in CONTEXT_OVERRIDES)) oov = true;
       }
-      return CLITICS.has(word) ? word : this.word(word);
+      return CLITICS.has(plain) ? plain : this.word(plain);
     });
     const ensured = marked.replace(MARKED_WORD_RE, (word) => {
       if (word.includes(ACUTE) || word.includes("+")) return plusToAcute(word);

@@ -46,7 +46,8 @@ const INS_PREPS = new Set(["с", "между", "над", "под", "перед"]
 function clean(text) {
   return text.normalize("NFC")
     .replace(/[\u00a0\u202f\u2009]/g, " ")
-    .replace(/\u0301/g, "")
+    // "+" before a vowel is how a user marks stress by hand; keep both forms
+    .replace(/\+([аеёиоуыэюяАЕЁИОУЫЭЮЯ])/g, (all, vowel) => vowel + "\u0301")
     .toLowerCase()
     .replace(/[\u200b\u200c\u200d\ufeff\t\r\n]/g, " ");
 }
@@ -296,7 +297,7 @@ function punctuation(text) {
     .replace(/–/g, "—").replace(/−/g, "-").replace(/’/g, "'").replace(/`/g, "'");
   let open = true;
   out = out.replace(/"/g, () => ((open = !open) ? "»" : "«"));
-  const allowed = new Set("абвгдеёжзийклмнопрстуфхцчшщъыьэюя ,.!?;:\"'()—…«»-–№%[]{}");
+  const allowed = new Set("абвгдеёжзийклмнопрстуфхцчшщъыьэюя\u0301 ,.!?;:\"'()—…«»-–№%[]{}");
   return [...out].map((char) => (allowed.has(char) ? char : " ")).join("");
 }
 
