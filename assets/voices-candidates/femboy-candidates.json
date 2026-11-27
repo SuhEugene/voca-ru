@@ -1,0 +1,110 @@
+[
+ {
+  "name": "fb01_soft_light",
+  "seed": 8102,
+  "short": "мягкий светлый, почти шёпот",
+  "instruct": "A soft, gentle young man's voice, Russian native speaker, light and airy rather than deep; warm, shy and friendly, slightly feminine timbre without sounding like a child or a woman; clear articulation, conversational pace, close to the microphone. He speaks quietly and gently, with a lot of breath in the voice.",
+  "ref": "fb01_soft_light.ref.wav",
+  "clone": "fb01_soft_light.clone.wav",
+  "seconds": 6.72
+ },
+ {
+  "name": "fb02_airy_youth",
+  "seed": 8102,
+  "short": "воздушный юношеский",
+  "instruct": "A soft, gentle young man's voice, Russian native speaker, light and airy rather than deep; warm, shy and friendly, slightly feminine timbre without sounding like a child or a woman; clear articulation, conversational pace, close to the microphone. Youthful and airy, as if smiling while talking, very light delivery.",
+  "ref": "fb02_airy_youth.ref.wav",
+  "clone": "fb02_airy_youth.clone.wav",
+  "seconds": 7.36
+ },
+ {
+  "name": "fb03_shy",
+  "seed": 8103,
+  "short": "застенчивый, тёплый",
+  "instruct": "A soft, gentle young man's voice, Russian native speaker, light and airy rather than deep; warm, shy and friendly, slightly feminine timbre without sounding like a child or a woman; clear articulation, conversational pace, close to the microphone. Shy and warm, hesitating slightly at commas, kind and disarming.",
+  "ref": "fb03_shy.ref.wav",
+  "clone": "fb03_shy.clone.wav",
+  "seconds": 5.52
+ },
+ {
+  "name": "fb04_androgynous",
+  "seed": 8104,
+  "short": "андрогинный, нейтральный",
+  "instruct": "A soft, gentle young man's voice, Russian native speaker, light and airy rather than deep; warm, shy and friendly, slightly feminine timbre without sounding like a child or a woman; clear articulation, conversational pace, close to the microphone. Androgynous: neither clearly male nor female to the listener, smooth and even, calm.",
+  "ref": "fb04_androgynous.ref.wav",
+  "clone": "fb04_androgynous.clone.wav",
+  "seconds": 7.2
+ },
+ {
+  "name": "fb05_velvet_high",
+  "seed": 8105,
+  "short": "бархатный, но высокий",
+  "instruct": "A soft, gentle young man's voice, Russian native speaker, light and airy rather than deep; warm, shy and friendly, slightly feminine timbre without sounding like a child or a woman; clear articulation, conversational pace, close to the microphone. A high, velvet timbre with soft edges, unhurried and confiding.",
+  "ref": "fb05_velvet_high.ref.wav",
+  "clone": "fb05_velvet_high.clone.wav",
+  "seconds": 6.88
+ },
+ {
+  "name": "fb06_playful",
+  "seed": 8106,
+  "short": "игривый, с улыбкой",
+  "instruct": "A soft, gentle young man's voice, Russian native speaker, light and airy rather than deep; warm, shy and friendly, slightly feminine timbre without sounding like a child or a woman; clear articulation, conversational pace, close to the microphone. Playful and smiling, a little teasing, still soft and gentle.",
+  "ref": "fb06_playful.ref.wav",
+  "clone": "fb06_playful.clone.wav",
+  "seconds": 5.68
+ },
+ {
+  "name": "fb07_whisper_close",
+  "seed": 8107,
+  "short": "вполголоса у самого уха",
+  "instruct": "A soft, gentle young man's voice, Russian native speaker, light and airy rather than deep; warm, shy and friendly, slightly feminine timbre without sounding like a child or a woman; clear articulation, conversational pace, close to the microphone. Almost a whisper, very close to the microphone, intimate and calm.",
+  "ref": "fb07_whisper_close.ref.wav",
+  "clone": "fb07_whisper_close.clone.wav",
+  "seconds": 7.12
+ },
+ {
+  "name": "fb08_gentle_smile",
+  "seed": 8108,
+  "short": "нежный, улыбчивый",
+  "instruct": "A soft, gentle young man's voice, Russian native speaker, light and airy rather than deep; warm, shy and friendly, slightly feminine timbre without sounding like a child or a woman; clear articulation, conversational pace, close to the microphone. Tender and smiling, warm low-volume delivery, no sharp consonants.",
+  "ref": "fb08_gentle_smile.ref.wav",
+  "clone": "fb08_gentle_smile.clone.wav",
+  "seconds": 7.84
+ },
+ {
+  "name": "fb09_clear_soft",
+  "seed": 8109,
+  "short": "чёткий, но мягкий",
+  "instruct": "A soft, gentle young man's voice, Russian native speaker, light and airy rather than deep; warm, shy and friendly, slightly feminine timbre without sounding like a child or a woman; clear articulation, conversational pace, close to the microphone. Clean, well-articulated but soft, like a careful audiobook reader.",
+  "ref": "fb09_clear_soft.ref.wav",
+  "clone": "fb09_clear_soft.clone.wav",
+  "seconds": 5.6
+ },
+ {
+  "name": "fb10_dreamy",
+  "seed": 8110,
+  "short": "мечтательный, медленный",
+  "instruct": "A soft, gentle young man's voice, Russian native speaker, light and airy rather than deep; warm, shy and friendly, slightly feminine timbre without sounding like a child or a woman; clear articulation, conversational pace, close to the microphone. Dreamy and slow, slightly detached, gentle melodic intonation.",
+  "ref": "fb10_dreamy.ref.wav",
+  "clone": "fb10_dreamy.clone.wav",
+  "seconds": 6.56
+ },
+ {
+  "name": "fb11_bright_kid",
+  "seed": 8111,
+  "short": "звонкий, но не детский",
+  "instruct": "A soft, gentle young man's voice, Russian native speaker, light and airy rather than deep; warm, shy and friendly, slightly feminine timbre without sounding like a child or a woman; clear articulation, conversational pace, close to the microphone. Brighter and lighter than average, energetic yet soft; explicitly an adult, not a child.",
+  "ref": "fb11_bright_kid.ref.wav",
+  "clone": "fb11_bright_kid.clone.wav",
+  "seconds": 7.76
+ },
+ {
+  "name": "fb12_low_soft",
+  "seed": 8112,
+  "short": "низкий, но нежный",
+  "instruct": "A soft, gentle young man's voice, Russian native speaker, light and airy rather than deep; warm, shy and friendly, slightly feminine timbre without sounding like a child or a woman; clear articulation, conversational pace, close to the microphone. Lower than the others but still soft and tender, calm and grounded.",
+  "ref": "fb12_low_soft.ref.wav",
+  "clone": "fb12_low_soft.clone.wav",
+  "seconds": 7.44
+ }
+]
