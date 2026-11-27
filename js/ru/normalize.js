@@ -174,8 +174,31 @@ function expandTime(text) {
   });
 }
 
+function decimalMoney(match, whole, minor, unit, offset, text) {
+  const value = parseInt(whole, 10);
+  const fraction = parseInt(minor.padEnd(2, "0"), 10);  // ".1" is ten cents
+  if (unit === "$" || unit === "€") {
+    const words = [...numbers.cardinal(value, numbers.NOM, numbers.M)];
+    words.push(unit === "$" ? numbers.agree(value, "доллар", "доллара", "долларов") : "евро");
+    if (fraction) {
+      words.push(...numbers.cardinal(fraction, numbers.NOM, numbers.M), numbers.agree(fraction, "цент", "цента", "центов"));
+    }
+    return words.join(" ");
+  }
+  const c = caseFor(text, offset, false);
+  const words = [...numbers.cardinal(value, c, numbers.M), numbers.agree(value, "рубль", "рубля", "рублей")];
+  if (fraction) {
+    words.push(...numbers.cardinal(fraction, numbers.NOM, numbers.F), numbers.agree(fraction, "копейка", "копейки", "копеек"));
+  }
+  return words.join(" ");
+}
+
 function expandMoney(text) {
-  let out = text.replace(WORD(String.raw`(?<!\d)(\d{1,9})\s*(?:₽|руб(?:\.|ль|ля|лей)?${WB})`), (all, digits, offset) => {
+  let out = text.replace(new RegExp(String.raw`(?<!\d)(\d{1,9})[.,](\d{1,2})\s*([$€₽])`, "g"),
+    (all, whole, minor, unit, offset) => decimalMoney(all, whole, minor, unit, offset, text));
+  out = out.replace(new RegExp(String.raw`(?<!\d)(\d{1,9})[.,](\d{1,2})\s*(руб(?:\.|ль|ля|лей)?)(?![а-яё])`, "gu"),
+    (all, whole, minor, unit, offset) => decimalMoney(all, whole, minor, unit, offset, text));
+  out = out.replace(WORD(String.raw`(?<!\d)(\d{1,9})\s*(?:₽|руб(?:\.|ль|ля|лей)?${WB})`), (all, digits, offset) => {
     const value = parseInt(digits, 10);
     const c = caseFor(text, offset, false);
     return [...numbers.cardinal(value, c, numbers.M), numbers.agree(value, "рубль", "рубля", "рублей")].join(" ");
@@ -187,8 +210,10 @@ function expandMoney(text) {
   });
   out = out.replace(WORD(String.raw`(?<!\d)(\d{1,9})\s*€`), (all, digits) =>
     [...numbers.cardinal(parseInt(digits, 10), numbers.NOM, numbers.M), "евро"].join(" "));
-  out = out.replace(WORD(String.raw`(?<!\d)(\d{1,9})\s*\$`), (all, digits) =>
-    [...numbers.cardinal(parseInt(digits, 10), numbers.NOM, numbers.M), "долларов"].join(" "));
+  out = out.replace(WORD(String.raw`(?<!\d)(\d{1,9})\s*\$`), (all, digits) => {
+    const value = parseInt(digits, 10);
+    return [...numbers.cardinal(value, numbers.NOM, numbers.M), numbers.agree(value, "доллар", "доллара", "долларов")].join(" ");
+  });
   return out;
 }
 
