@@ -46,6 +46,16 @@ class StressTest(unittest.TestCase):
         self.assertTrue(oov)
         self.assertEqual(text, "красо́та")
 
+    def test_manual_mark_wins(self):
+        # the dictionary says з+амок; a hand-written acute must survive
+        text, oov = self.stressor.stressed("замо́к")
+        self.assertEqual(text, "замо́к")
+        self.assertFalse(oov)
+
+    def test_plus_before_vowel_marks_stress(self):
+        text, _ = self.stressor.stressed("зам+ок")
+        self.assertEqual(text, "замо́к")
+
     def test_hyphenated_word(self):
         text, _ = self.stressor.stressed("когда-нибудь")
         self.assertIn("-", text)

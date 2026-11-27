@@ -117,8 +117,23 @@ fn clean(text: &str) -> String {
     for ch in ['\u{00a0}', '\u{202f}', '\u{2009}'] {
         out = out.replace(ch, " ");
     }
-    out = out.replace('\u{0301}', "");
-    out = out.to_lowercase();
+    // "+" before a vowel is a hand-written stress mark; it becomes the acute
+    let mut marked = String::with_capacity(out.len());
+    let mut chars = out.chars().peekable();
+    while let Some(ch) = chars.next() {
+        if ch == '+' {
+            if let Some(next) = chars.peek().copied() {
+                if "аеёиоуыэюяАЕЁИОУЫЭЮЯ".contains(next) {
+                    marked.push(next);
+                    marked.push('\u{0301}');
+                    chars.next();
+                    continue;
+                }
+            }
+        }
+        marked.push(ch);
+    }
+    out = marked.to_lowercase();
     for bad in [
         '\u{200b}', '\u{200c}', '\u{200d}', '\u{feff}', '\t', '\r', '\n',
     ] {
@@ -645,7 +660,7 @@ fn punctuation(text: &str) -> String {
             "«".into()
         }
     });
-    let allowed = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя ,.!?;:\"'()—…«»-–№%[]{}";
+    let allowed = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя\u{0301} ,.!?;:\"'()—…«»-–№%[]{}";
     out.chars()
         .map(|c| if allowed.contains(c) { c } else { ' ' })
         .collect()

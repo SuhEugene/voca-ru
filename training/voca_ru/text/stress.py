@@ -208,6 +208,10 @@ class Stressor:
 
     def _word(self, word):
         """One lowercase word -> marked word, updating stats."""
+        if STRESS in word:
+            # the user marked this word by hand; that outranks every table
+            self.stats["manual"] = self.stats.get("manual", 0) + 1
+            return word
         if word in CONTEXT_OVERRIDES:
             self.stats["omograph"] += 1
             return _plus_to_acute(CONTEXT_OVERRIDES[word])
@@ -239,8 +243,11 @@ class Stressor:
         return self._word(word)
 
     def stressed(self, text):
-        """Lowercase normalised text -> (stressed text, oov flag)."""
-        text = strip_stress(text)
+        """Lowercase normalised text -> (stressed text, oov flag).
+
+        Acute marks already present are the user's own choice and survive.
+        """
+        text = _plus_to_acute(text)  # "+" before a vowel is a hand-written mark
         if self.accents is None:
             self._last_oov = True
             return _ensure_one_mark(text), True
@@ -258,6 +265,8 @@ class Stressor:
             nonlocal oov
             word = match.group(0)
             for part in word.split("-"):
+                if STRESS in part:
+                    continue
                 if len(part) > 1 and part not in self.accents \
                         and part not in self.omographs and part not in CONTEXT_OVERRIDES:
                     oov = True
@@ -265,7 +274,7 @@ class Stressor:
                 return word
             return self._mark_word(word)
 
-        marked = WORD_RE.sub(repl, text)
+        marked = MARKED_WORD_RE.sub(repl, text)
         self._last_oov = oov
         return _ensure_one_mark(marked), oov
 

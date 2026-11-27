@@ -96,11 +96,6 @@ fn dict() -> &'static HashMap<&'static str, &'static str> {
     })
 }
 
-fn word_re() -> &'static Regex {
-    static RE: OnceLock<Regex> = OnceLock::new();
-    RE.get_or_init(|| Regex::new(r"[а-яё]+(?:-[а-яё]+)*").unwrap())
-}
-
 fn marked_word_re() -> &'static Regex {
     static RE: OnceLock<Regex> = OnceLock::new();
     RE.get_or_init(|| Regex::new(r"[а-яё\u{0301}]+(?:-[а-яё\u{0301}]+)*").unwrap())
@@ -202,6 +197,10 @@ fn context_override(word: &str) -> Option<&'static str> {
 }
 
 fn mark_part(word: &str) -> String {
+    if word.contains(STRESS) {
+        // the user marked this word by hand; that outranks every table
+        return word.to_string();
+    }
     if let Some(marked) = context_override(word) {
         return plus_to_acute(marked);
     }
@@ -236,12 +235,16 @@ fn ensure_one_mark(text: &str) -> String {
 
 /// Lowercase normalised text -> (stressed text, oov flag).
 pub fn stressed(text: &str) -> (String, bool) {
-    let text = strip_stress(text);
+    let text = plus_to_acute(text);  // "+" before a vowel is a hand-written mark
     let mut oov = false;
-    let marked = word_re()
+    let marked = marked_word_re()
         .replace_all(&text, |caps: &Captures<'_>| {
             let word = caps.get(0).unwrap().as_str();
-            for part in word.split('-') {
+            let plain = strip_stress(word);
+            if plain != word {
+                return word.to_string();  // the user marked this word by hand
+            }
+            for part in plain.split('-') {
                 if part.chars().count() > 1
                     && !dict().contains_key(part)
                     && context_override(part).is_none()
@@ -249,10 +252,10 @@ pub fn stressed(text: &str) -> (String, bool) {
                     oov = true;
                 }
             }
-            if is_clitic(word) {
-                word.to_string()
+            if is_clitic(&plain) {
+                plain.clone()
             } else {
-                mark_word(word)
+                mark_word(&plain)
             }
         })
         .into_owned();

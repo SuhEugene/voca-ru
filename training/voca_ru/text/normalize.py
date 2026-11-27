@@ -58,7 +58,8 @@ INS_PREPS = {"с", "между", "над", "под", "перед"}
 def _clean(text):
     text = unicodedata.normalize("NFC", text)
     text = text.replace("\u00a0", " ").replace("\u202f", " ").replace("\u2009", " ")
-    text = text.replace("\u0301", "")  # drop an existing acute, so reruns are stable
+    # "+" before a vowel is how a user marks stress by hand; it becomes the acute
+    text = re.sub(r"\+([аеёиоуыэюяАЕЁИОУЫЭЮЯ])", lambda m: m.group(1) + "\u0301", text)
     text = text.lower().replace("ё", "ё")
     for bad in "\u200b\u200c\u200d\ufeff\t\r\n":
         text = text.replace(bad, " ")
@@ -397,7 +398,7 @@ def _punctuation(text):
         return "»" if state["open"] else "«"
 
     text = re.sub(r'"', quote, text)
-    allowed = set("абвгдеёжзийклмнопрстуфхцчшщъыьэюя ,.!?;:\"'()—…«»-–№%[]{}")
+    allowed = set("абвгдеёжзийклмнопрстуфхцчшщъыьэюя\u0301 ,.!?;:\"'()—…«»-–№%[]{}")
     text = "".join(char if char in allowed else " " for char in text)
     return text
 
