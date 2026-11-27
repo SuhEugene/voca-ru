@@ -15,30 +15,50 @@ tags:
 # voca-ru
 
 A 4.5M-parameter two-voice Russian text-to-speech model, trained from scratch with
-the [tiny-voca](https://github.com/n4ze3m/tiny-voca) recipe. Voices: `F2` (female)
-and `M2` (male).
+the [tiny-voca](https://github.com/n4ze3m/tiny-voca) recipe.
+
+**Current version (root of this repo) is v2**: a new warm female narrator voice and
+a corpus regenerated with context-resolved stress homographs.
+
+| voice | character | F0 in the model's output |
+|---|---|---|
+| `F2` | warm female narrator (`s3_lower_register`), 220 Hz clone | 209–235 Hz |
+| `M2` | male, unchanged since v1 | ~126 Hz |
 
 Weights only: the model takes phoneme ids and stress and returns a waveform. Text
 has to be turned into ids first — see [Frontend](#frontend).
 
 ## Files
 
-The main files are the +60k checkpoint (104 000 steps of the base run plus 60 000
-of adversarial fine-tuning with a strengthened discriminator). The two earlier
-checkpoints sit in `variants/` for comparison; on a listening test the difference
-between them is barely audible, so pick whichever you like.
-
 | file | size | what |
 |---|---|---|
 | `voca-ru.onnx` | 21.4 MB | ONNX graph, opset 17, one utterance in, waveform out |
 | `voca-ru.onnx.json` | 1 KB | sample rate, hop, voices, 76-symbol inventory, input/output names |
-| `gguf/voca-ru-js.gguf` | 23.5 MB | float32 GGUF in the `audiocpp` layout, tensors named `model/*` |
-| `inference.pt` | 18.2 MB | PyTorch checkpoint the two exports came from |
-| `variants/104k/` | 63 MB | the base run, 104 000 steps |
-| `variants/134k/` | 63 MB | base + 30 000 fine-tune steps |
-| `samples/` | | one phrase per voice |
+| `gguf/voca-ru-js.gguf` | 27.3 MB | float32 GGUF in the `audiocpp` layout, tensors named `model/*`, Russian front-end tables embedded |
+| `inference.pt` | 18.2 MB | PyTorch checkpoint the two exports came from, step 104 000 |
+| `variants/104k/` | 63 MB | previous voice set, base run, 104 000 steps |
+| `variants/134k/` | 63 MB | previous voice set, base + 30 000 fine-tune steps |
+| `variants/164k/` | 63 MB | previous voice set, base + 60 000 fine-tune steps |
+| `samples/` | | one phrase per voice, `plain`, `question`, `number`, `date`, `name` |
+| `rust/voca-data.tar.gz` | 18.3 MB | runtime bundle for the Rust app (`voca`): `tiny-voca.safetensors` + `phonemizer/` with the same 150 k / 53 710 tables |
 
 Every file carries the same 184 tensors / 4 537 291 parameters.
+
+## Versions
+
+| | v2 (root) | v1 (`variants/`) |
+|---|---|---|
+| female voice | `s3_lower_register`, warm narrator | `f_neutral` (bright, metallic — see limitations) |
+| male voice | `m_neutral` | `m_neutral` |
+| train clips / hours | 16 764 / 18.17 h | 18 057 / 20.35 h |
+| stress homographs | resolved by context, corpus regenerated | single reading per form |
+| test WER (80 clips) | 1.45 % | 0.45–0.68 % |
+| test CER (80 clips) | 0.37 % | 0.29–0.34 % |
+
+The v2 test split is disjoint from training (all validation/test sentences were
+regenerated in the new voice and never appear in train), while the v1 test split
+overlapped the general sentence pool, so the two WER numbers are not directly
+comparable.
 
 ## ONNX
 
@@ -58,87 +78,79 @@ audio, durations = session.run(None, feed)            # float32 [1, samples] at 
 ```
 
 Verified against PyTorch for the same seeded noise: identical durations, maximum
-relative waveform difference **0.0017** (float32 rounding). The shipped graph draws
-its own noise; export with `--external-noise` only if you need reproducible audio.
+relative waveform difference 0.0017 (float32 rounding).
 
 ## GGUF
 
 The layout follows `n4ze3m/tiny-voca`: GGUF v3, float32 tensors under
-`model/<attribute>`, an embedded `config.json` with `model` and `vocab`, and the
-Russian front-end tables under `phonemizer/`. `js/tiny-voca.js` reads it with no
-adapter; lengths and durations match PyTorch exactly.
-
-```js
-import { readGGUF, TinyVoca } from "./tiny-voca.js";
-const file = readGGUF(await (await fetch(url)).arrayBuffer());
-const voca = new TinyVoca(file);
-const { audio } = voca.synthesize(ids, stress, { voice: "M2", seed: 0 });
-```
-
-Shortest end-to-end check, using the Russian frontend from the `original` branch:
+`model/<attribute>`, an embedded `config.json`, and the Russian front-end tables
+under `phonemizer/`. `js/tiny-voca.js` reads it with no adapter.
 
 ```sh
 node js/say.mjs "Мой коллега уходит в отпуск на две недели." \
   --file gguf/voca-ru-js.gguf --output out.wav
-# 2.45 s of audio in 0.25 s, 9.9× real time
 ```
 
-The file also carries `phonemizer/stress_dict.tsv` (100 000 forms) and
-`phonemizer/g2p_lexicon.tsv` (14 492 entries) for a Russian frontend in the
-browser. The English `dizione` engine shipped with tiny-voca cannot read this
-model's symbols.
+The file carries `phonemizer/stress_dict.tsv` (150 000 forms) and
+`phonemizer/g2p_lexicon.tsv` (53 710 entries), rebuilt for this release from the
+product corpus plus the 46 091-sentence Common Voice pool.
+
+### Stress homographs in the shipped dictionaries
+
+RUAccent stores one reading per form (`accents.json`: `замок → з+амок`) and keeps
+the second reading only in a separate omograph table. Earlier releases shipped the
+first reading blindly. The dictionaries in this release carry the reading the
+omograph model chose most often on the training corpus (765 homograph forms were
+decided this way, e.g. `замок → замо́к`, `дела → де́ла`). The runtime dictionary is
+flat, so it still has one reading per form: a phrase where the corpus majority is
+the wrong sense (`за́мок` = castle) will be marked wrong. The training pipeline and
+the Python frontend resolve per sentence; the browser/Rust frontends do not.
 
 ## Frontend
 
-The model speaks a 76-symbol Russian inventory: normalisation (numbers, dates,
-money, «ё», Latin) → RUAccent stress, marked as U+0301 → eSpeak NG `ru` phonemes →
-ids. The Python implementation lives in the training repository
-(`training/voca_ru/text`), the Rust one in `crates/voca-ru-text`; both produce
-identical token ids across the 8 000-sentence corpus.
+Normalisation (numbers, dates, money, «ё», Latin) → RUAccent stress with a
+combining acute → eSpeak NG `ru` phonemes → 76-symbol ids. Python implementation in
+`training/voca_ru/text`, Rust one in `crates/voca-ru-text`; both produce identical
+token ids across the corpus.
 
 ## Training
 
-Synthetic corpus: 19 217 clips / 20.35 h from Qwen3-TTS-1.7B (VoiceDesign
-references + Base cloning) with a Russian stress LoRA, screened by Whisper
-(WER ≤ 15 %) and by a stress detector (meter2). 18 148 clips survived forced
-alignment. The base model trained 104 000 steps (GAN from step 8 000) on one
-RTX 4090 in 6 h 50 min.
+Synthetic corpus from Qwen3-TTS-1.7B (VoiceDesign references + Base cloning) with a
+Russian stress LoRA, screened by Whisper (WER ≤ 15 %) and a stress detector. v2:
+19 822 clips generated (95.0 % passed screening), 16 764 clips / 18.17 h survived
+forced alignment (93.1 %), trained 104 000 steps on one RTX 4090 in ~4 h, $4.57
+total including corpus generation.
 
-The shipped checkpoint adds 60 000 steps with a stronger discriminator
-(`gan_ratio` 0.7 → 1.1, `feature_matching` 30 → 45, adversarial from step 0).
+| metric (v2, step 104 000) | value |
+|---|---|
+| stft loss | 1.0808 |
+| mel loss | 0.4259 |
+| pitch loss (normalised, not semitones) | 0.084 |
+| voicing loss | 0.084 |
+| WER / CER, 40 held-out sentences × 2 voices | 1.45 % / 0.37 % |
 
-| metric | 104k | 134k | 164k |
-|---|---|---|---|
-| stft loss | 1.0728 | 1.0591 | 1.0585 |
-| mel loss | 0.4254 | 0.4175 | 0.4166 |
-| pitch error, semitones | 1.486 | 1.380 | 1.358 |
-| voicing accuracy | 0.9633 | 0.9642 | 0.9646 |
-
-Round-trip WER, Whisper large-v3-turbo on CPU, 40 held-out test sentences in both
-voices (80 clips):
-
-| checkpoint | WER | CER |
-|---|---|---|
-| 104k | **0.45 %** | 0.29 % |
-| 164k | 0.68 % | 0.34 % |
-
-The two are within noise of each other (4 versus 6 word errors out of ~880 words),
-so the fine-tune bought spectral accuracy, not transcription accuracy.
+Earlier releases quoted pitch error in semitones (1.36 at v1 164k); that number
+came from the evaluation summary, not from these training losses, so the two are
+not comparable.
 
 ## Known limitations
 
-- **The female voice is bright.** On the same text its 2–8 kHz energy sits
-  1.8 dB above the teacher's (2–4 kHz +1.3, 4–8 kHz +1.8), which reads as a
-  metallic timbre. The male voice sits 1.4–3.7 dB *below* the teacher and sounds
-  closer to natural.
-- **Both voices are pitched up** by 2–3 semitones relative to the teacher
-  (F2 240 Hz vs 207 Hz, M2 126 Hz vs 108 Hz). `pitch_shift = -0.18` and `-0.13`
-  bring them back exactly, and are the recommended defaults.
-- **60 000 extra steps did not fix the timbre.** They moved the female 2–8 kHz
-  excess by 0.7 dB, which is at the edge of audible. The next lever is model
-  capacity (192 → 256–320 channels), not more adversarial training.
-- Unknown words fall back to rules; the shipped lexicon covers 94.6 % of
-  sentences in the training corpus.
+- **v2 female timbre has not been evaluated by ear yet.** Samples are in `samples/`.
+  The previous female voice sat 1.8 dB above the teacher in 2–8 kHz (metallic);
+  the new reference voice was chosen to fix that, but no listening test or LTAS
+  measurement of v2 is published here yet.
+- **Pitch mapping is untuned for v2.** The model's female output measures
+  209–235 Hz against a 220 Hz clone, so `pitch_shift` may not be needed; the v1
+  recommendation (−0.18 for F2, −0.13 for M2) belongs to the old voice.
+- Homographs: one reading per form at runtime (see above).
+- Unknown words fall back to letter rules. Measured coverage: on the product corpus
+  the lexicon knows 99.8 % of word tokens and the stress dictionary 88.7 %; on
+  held-out FLEURS Russian (never used to build them) 79.9 % and 70.7 %. The rest
+  gets rule-based stress (penultimate vowel) and letter-to-sound phones, which is
+  audible but intelligible.
+- A dictionary covering **all** 3.19 M RUAccent forms would lift held-out stress
+  coverage to 88 % but weighs 153 MB, so it is not shipped; the 150 k selection is
+  ranked by frequency over real Russian text.
 - No streaming, one utterance per call, 32 s maximum.
 
 ## Licence and provenance

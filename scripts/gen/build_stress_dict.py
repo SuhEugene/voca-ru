@@ -61,15 +61,47 @@ def corpus_frequencies(paths):
     return counts
 
 
-def build(accents, omographs, yo_words, freq):
+def context_choices(paths):
+    """word -> reading the omograph model picked most often in the corpus.
+
+    RUAccent stores one reading per form in ``accents.json``; for a homograph the
+    second reading only exists in ``omographs.json``.  A flat runtime dictionary
+    cannot look at the sentence, so it takes the reading the corpus supports most
+    often instead of silently keeping variants[0].
+    """
+    if not paths:
+        return {}
+    from voca_ru.text.stress import Stressor
+    from voca_ru.text.normalize import normalize
+
+    stressor = Stressor().load()
+    tally = {}
+    for path in paths:
+        with open(path, encoding="utf-8") as handle:
+            for line in handle:
+                line = line.strip()
+                if not line:
+                    continue
+                text = normalize(json.loads(line)["text"])
+                words = text.split()
+                for index, variant in stressor._resolve_omographs(text).items():
+                    word = re.sub(r"[^а-яёa-z-]", "", words[index].lower())
+                    bucket = tally.setdefault(word, collections.Counter())
+                    bucket[variant] += 1
+    return {word: counts.most_common(1)[0][0] for word, counts in tally.items()}
+
+
+def build(accents, omographs, yo_words, freq, chosen=None):
     """source spelling -> RUAccent-style stressed string."""
+    chosen = chosen or {}
     entries = {}
     for word, marked in accents.items():
         entries[word] = plus_to_accent(marked)
     for word, variants in omographs.items():
         if word in yo_words:
             continue  # Python looks up the yo spelling instead
-        entries.setdefault(word, plus_to_accent(variants[0]))
+        # a homograph decided by context wins over the single stored reading
+        entries[word] = plus_to_accent(chosen.get(word, variants[0]))
     # Source spellings written with е but meant with ё.
     for source, yo in yo_words.items():
         if source in CONTEXT_OVERRIDES:
@@ -88,6 +120,8 @@ def main(argv=None):
     parser.add_argument("--dictionary", default=None,
                         help="directory with accents.json.gz")
     parser.add_argument("--corpus", nargs="*", default=[])
+    parser.add_argument("--context-corpus", nargs="*", default=[],
+                        help="sentences that decide homograph readings")
     parser.add_argument("--limit", type=int, default=100000)
     parser.add_argument("--out", default=str(
         ROOT / "crates/voca-ru-text/src/data/stress_dict.txt"))
@@ -110,7 +144,9 @@ def main(argv=None):
     omographs = load(directory, "omographs")
     yo_words = load(directory, "yo_words")
     freq = corpus_frequencies(args.corpus) if args.corpus else collections.Counter()
-    entries = build(accents, omographs, yo_words, freq)
+    chosen = context_choices(args.context_corpus)
+    entries = build(accents, omographs, yo_words, freq, chosen)
+    print(f"homographs decided by context: {len(chosen)}", file=sys.stderr)
 
     # Rank source spellings by corpus frequency, aggregating forms that map to
     # the same yo spelling.

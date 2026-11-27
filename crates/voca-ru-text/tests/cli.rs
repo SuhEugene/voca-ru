@@ -8,7 +8,7 @@ fn cli_prints_stress_phonemes_and_ids() {
         .expect("run voca-ru-text");
     assert!(output.status.success());
     let stdout = String::from_utf8(output.stdout).unwrap();
-    assert!(stdout.contains("stressed: приве́т, ка́к дела́?"), "{stdout}");
+    assert!(stdout.contains("stressed: приве́т, ка́к де́ла?"), "{stdout}");
     assert!(stdout.contains("phonemes: <bos> "), "{stdout}");
     assert!(stdout.contains("ids: 1 "), "{stdout}");
 }
