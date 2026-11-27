@@ -398,11 +398,50 @@ fn expand_time(text: &str) -> String {
 }
 
 fn expand_money(text: &str) -> String {
-    let mut out = sub(
-        text,
+    fn decimal(caps: &Captures<'_>, case: numbers::Case) -> String {
+        let whole: i64 = caps.get(1).unwrap().as_str().parse().unwrap();
+        // "2.1$" is two dollars ten cents: a single decimal digit is tenths
+        let minor: i64 = format!("{:0<2}", caps.get(2).unwrap().as_str()).parse().unwrap();
+        let unit = caps.get(3).unwrap().as_str();
+        let mut words = numbers::cardinal(whole, case, numbers::M);
+        if unit == "$" {
+            words.push(numbers::agree(whole, "доллар", "доллара", "долларов"));
+            if minor > 0 {
+                words.extend(numbers::cardinal(minor, numbers::NOM, numbers::M));
+                words.push(numbers::agree(minor, "цент", "цента", "центов"));
+            }
+            return words.join(" ");
+        }
+        if unit == "€" {
+            words.push("евро".into());
+            if minor > 0 {
+                words.extend(numbers::cardinal(minor, numbers::NOM, numbers::M));
+                words.push(numbers::agree(minor, "цент", "цента", "центов"));
+            }
+            return words.join(" ");
+        }
+        words.push(numbers::agree(whole, "рубль", "рубля", "рублей"));
+        if minor > 0 {
+            words.extend(numbers::cardinal(minor, numbers::NOM, numbers::F));
+            words.push(numbers::agree(minor, "копейка", "копейки", "копеек"));
+        }
+        words.join(" ")
+    }
+
+    // 2.1$ / 5,50€ / 169.99₽: the fraction belongs to a named subunit
+    let mut out = sub(text, r"(?<!\d)(\d{1,9})[.,](\d{1,2})\s*([$€₽])", |caps| decimal(&caps, numbers::NOM));
+    out = sub(
+        &out,
+        r"(?<!\d)(\d{1,9})[.,](\d{1,2})\s*(руб(?:\.|ль|ля|лей)?)\b",
+        |caps| {
+            let case = case_for(&out, caps.get(0).unwrap().start(), false, None);
+            decimal(&caps, case)
+        },
+    );
+    out = sub(
+        &out,
         r"(?<!\d)(\d{1,9})\s*(?:₽|руб(?:\.|ль|ля|лей)?\b)",
         |caps| {
-            let caps = caps;
             let value: i64 = caps.get(1).unwrap().as_str().parse().unwrap();
             let case = case_for(text, caps.get(0).unwrap().start(), false, None);
             let mut words = numbers::cardinal(value, case, numbers::M);
@@ -414,7 +453,6 @@ fn expand_money(text: &str) -> String {
         &out,
         r"(?<!\d)(\d{1,9})\s*(?:коп\.?|копейка|копейки|копеек)\b",
         |caps| {
-            let caps = caps;
             let value: i64 = caps.get(1).unwrap().as_str().parse().unwrap();
             let case = case_for(&out, caps.get(0).unwrap().start(), false, None);
             let mut words = numbers::cardinal(value, case, numbers::F);
@@ -423,17 +461,15 @@ fn expand_money(text: &str) -> String {
         },
     );
     out = sub(&out, r"(?<!\d)(\d{1,9})\s*€", |caps| {
-        let caps = caps;
         let value: i64 = caps.get(1).unwrap().as_str().parse().unwrap();
         let mut words = numbers::cardinal(value, numbers::NOM, numbers::M);
         words.push("евро".into());
         words.join(" ")
     });
     sub(&out, r"(?<!\d)(\d{1,9})\s*\$", |caps| {
-        let caps = caps;
         let value: i64 = caps.get(1).unwrap().as_str().parse().unwrap();
         let mut words = numbers::cardinal(value, numbers::NOM, numbers::M);
-        words.push("долларов".into());
+        words.push(numbers::agree(value, "доллар", "доллара", "долларов"));
         words.join(" ")
     })
 }

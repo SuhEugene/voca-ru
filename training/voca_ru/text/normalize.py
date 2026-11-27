@@ -232,6 +232,32 @@ def _expand_time(text):
 
 
 def _expand_money(text):
+    def decimal_money(match):
+        whole, unit = int(match.group(1)), match.group(3)
+        # "2.1$" is two dollars ten cents: a single decimal digit is tenths
+        minor = int(match.group(2).ljust(2, "0"))
+        if unit in ("$", "€"):
+            words = numbers.cardinal(whole, numbers.NOM, numbers.M)
+            if unit == "$":
+                words.append(numbers.agree(whole, "доллар", "доллара", "долларов"))
+            else:
+                words.append("евро")
+            if minor:
+                words.extend(numbers.cardinal(minor, numbers.NOM, numbers.M))
+                words.append(numbers.agree(minor, "цент", "цента", "центов"))
+            return " ".join(words)
+        case = _case_for(text, match.start(), lookahead=False)
+        words = numbers.cardinal(whole, case, numbers.M)
+        words.append(numbers.agree(whole, "рубль", "рубля", "рублей"))
+        if minor:
+            words.extend(numbers.cardinal(minor, numbers.NOM, numbers.F))
+            words.append(numbers.agree(minor, "копейка", "копейки", "копеек"))
+        return " ".join(words)
+
+    # 2.1$ / 5,50€ / 169.99₽ — the fraction belongs to a named subunit
+    text = re.sub(r"(?<!\d)(\d{1,9})[.,](\d{1,2})\s*([$€₽])", decimal_money, text)
+    text = re.sub(r"(?<!\d)(\d{1,9})[.,](\d{1,2})\s*(руб(?:\.|ль|ля|лей)?)\b", decimal_money, text)
+
     def rubles(match):
         value = int(match.group(1))
         case = _case_for(text, match.start(), lookahead=False)
@@ -251,8 +277,12 @@ def _expand_money(text):
     text = re.sub(r"(?<!\d)(\d{1,9})\s*(?:коп\.?|копейка|копейки|копеек)\b", kopecks, text)
     text = re.sub(r"(?<!\d)(\d{1,9})\s*€", lambda m: " ".join(
         numbers.cardinal(int(m.group(1)), numbers.NOM, numbers.M) + ["евро"]), text)
-    text = re.sub(r"(?<!\d)(\d{1,9})\s*\$", lambda m: " ".join(
-        numbers.cardinal(int(m.group(1)), numbers.NOM, numbers.M) + ["долларов"]), text)
+    def dollars(match):
+        value = int(match.group(1))
+        return " ".join(numbers.cardinal(value, numbers.NOM, numbers.M) + [
+            numbers.agree(value, "доллар", "доллара", "долларов")])
+
+    text = re.sub(r"(?<!\d)(\d{1,9})\s*\$", dollars, text)
     return text
 
 
