@@ -42,8 +42,8 @@ export class RussianText {
 
   // What js/text.js calls: one sentence -> ids + stress (+ symbols).
   phonemize(text) {
-    const { phonemes, stress, tokens } = this.analyze(text);
-    return { symbols: phonemes, ids: tokens, stress };
+    const { phonemes, stress, tokens, stressed_text } = this.analyze(text);
+    return { symbols: phonemes, ids: tokens, stress, stressed_text };
   }
 }
 

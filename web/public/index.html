@@ -105,13 +105,14 @@
       <div><dt>Время генерации</dt><dd id="m-time">–</dd></div>
       <div><dt>Скорость</dt><dd id="m-speed">–</dd></div>
       <div><dt>Текст в фонемы</dt><dd id="m-phonemes">–</dd></div>
+      <div><dt>Ударения</dt><dd id="m-stress">–</dd></div>
     </dl>
     <details><summary>Фонемы</summary><pre id="phonemes"></pre></details>
   </section>
 
   <section class="facts">
     <div><b>4 537 291</b><span>параметр, включая генератор сигнала</span></div>
-    <div><b>27,3 МБ</b><span>файл модели (GGUF, float32)</span></div>
+    <div><b>28,3 МБ</b><span>файл модели (GGUF, float32)</span></div>
     <div><b>24 кГц</b><span>моно на выходе</span></div>
     <div><b>2 голоса</b><span>F2 и M2, русский</span></div>
     <div><b>18,17 часа</b><span>синтетической русской речи в обучении</span></div>
@@ -175,11 +176,13 @@ function wav(samples, rate) {
 }
 
 let phonemes = [];
+let stressed = [];
 worker.onmessage = ({ data }) => {
   if (data.type === "status") setStatus(data.text, data.progress);
   else if (data.type === "ready") { ready = true; rate = data.sampleRate; setStatus("Готова."); update(); }
   else if (data.type === "sentence" && data.id === request) {
     phonemes.push(data.phonemes);
+    if (data.stressed) stressed.push(data.stressed);
     if (live && data.audio) live.add(data.audio, data.sampleRate);
     setStatus(`Говорю предложение ${data.index + 1} из ${data.total}`, (data.index + 1) / data.total);
   } else if (data.type === "done" && data.id === request) {
@@ -196,6 +199,7 @@ worker.onmessage = ({ data }) => {
     $("m-speed").textContent = (seconds / (data.totalTime / 1000)).toFixed(1) + "× реального времени";
     $("m-phonemes").textContent = Math.round(data.phonemeTime) + " мс";
     $("phonemes").textContent = phonemes.join("\n");
+    $("m-stress").textContent = stressed.join(" ") || "–";
     $("result").hidden = false;
     setStatus("Готово.");
   } else if (data.type === "error") {
@@ -222,7 +226,7 @@ $("audio").onplay = () => { if (live) live.stop(); };
 
 $("speak").onclick = () => {
   if (live && live.playing) { live.stop(); return; }
-  busy = true; phonemes = [];
+  busy = true; phonemes = []; stressed = [];
   request += 1;
   listen();
   update();

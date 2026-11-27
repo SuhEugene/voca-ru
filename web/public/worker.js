@@ -69,14 +69,14 @@ self.onmessage = async ({ data }) => {
     const rate = voca.config.sample_rate;
     const pieces = [];
     let total = 0;
-    parts.forEach(({ ids, stress, phonemes }, index) => {
+    parts.forEach(({ ids, stress, phonemes, stressed }, index) => {
       const audio = limited(voca.synthesize(ids, stress, { voice, speed, seed: index }).audio);
       pieces.push(audio);
       total += audio.length;
       // transfer a copy: transferring `audio` itself detaches the buffer we still
       // need to assemble the whole clip below
       const copy = audio.slice();
-      postMessage({ type: "sentence", id, index, total: parts.length, phonemes, audio: copy, sampleRate: rate },
+      postMessage({ type: "sentence", id, index, total: parts.length, phonemes, stressed, audio: copy, sampleRate: rate },
                   [copy.buffer]);
     });
 

@@ -30,7 +30,7 @@ export function utterancesOf(text, phonemizer, limit) {
     }
     if (result.ids.length <= limit) {
       const phonemes = result.symbols.map((symbol, i) => ["", "ˈ", "ˌ"][result.stress[i]] + symbol).slice(1, -1).join(" ");
-      return [{ ids: result.ids, stress: result.stress, phonemes }];
+      return [{ ids: result.ids, stress: result.stress, phonemes, stressed: result.stressed_text || "" }];
     }
     const pieces = sentence.split(/(?<=[,;:—])\s+/);
     if (pieces.length > 1) return pieces.flatMap(fit);
