@@ -87,11 +87,14 @@ Newest last. Every decision that constrains future work goes here, not only in m
 | 2026-11-19 | Batch corpus by length, not corpus order | 1.64× vs 3.0× realtime measured by G1 |
 | 2026-11-19 | Big HF files via `hf download` or `fetch-hf-file.sh` (no `curl --retry` + append) | `--retry` restarts ranges and silently corrupts |
 
-## Release artifacts (2026-11-26)
+## Release artifacts (2026-11-27, v2)
 
 | what | where |
 |---|---|
-| Model, three checkpoints (104k / 134k / 164k) | https://huggingface.co/SuhEugene/voca-ru — `voca-ru.onnx`, `gguf/voca-ru-js.gguf`, `variants/` |
+| Model v2 at the repo root (new female voice `s3_lower_register`, 104k steps, WER 1,45 %) | https://huggingface.co/SuhEugene/voca-ru — `voca-ru.onnx`, `gguf/voca-ru-js.gguf` (27,3 MB), `inference.pt`, `samples/` |
+| Previous voice set (104k / 134k / 164k) | same repo, `variants/<steps>/` — each with its own ONNX and GGUF |
+| Rust runtime bundle | same repo, `rust/voca-data.tar.gz` (18,3 MB: safetensors + phonemizer tables) |
+| Frontend dictionaries (all versions) | `crates/voca-ru-text/src/data/` — `stress_dict.txt` 150 000 форм, `g2p_lexicon.txt` 53 710 слов; на held-out FLEURS покрытие 70,7 % / 79,9 % (было 58,1 % / 66,4 %) |
 | Corpus | https://huggingface.co/datasets/SuhEugene/voca-ru-corpus |
 | Browser demo | https://tiny-voca.fnnk.dev — Dokploy app `tiny-voca` in project VL Self-Host, server `[Hoster] VLab`, built from GitHub `SuhEugene/voca-ru` branch `original` (Dockerfile → nginx:alpine serving `js/`), auto-deploy on push |
 | Rust inference | branch `master` (Russian frontend inside the binary, 349× real time) |
