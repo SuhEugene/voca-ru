@@ -18,7 +18,7 @@ PY=${PY:-python}
 inputs() {
     $PY scripts/gen/v2_inputs.py --female "$OUT" --male /workspace/v1/corpus \
         --out "$WORK/inputs" --female-voice f_storyteller \
-        --male-extra data/corpus-v2-male \
+        --male-extra "$OUT" \
         --female-audio "$OUT" --male-audio /workspace/v1/corpus
 }
 

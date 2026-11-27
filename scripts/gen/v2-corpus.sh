@@ -57,30 +57,16 @@ EOF
 }
 
 generate() {
-    $PY scripts/gen/split_corpus.py --generate-only --voices f_storyteller \
+    # both voices, every split: the male clips are regenerated too, so the whole
+    # corpus carries the context-resolved stress
+    $PY scripts/gen/split_corpus.py --generate-only --voices f_storyteller,m_neutral \
         --sources batch1.jsonl batch2.jsonl batch3.jsonl \
-        --ref-dir assets/voices --out "$OUT" --batch-size "${BATCH:-24}" --wave 1 --require-lora
-}
-
-# Homographs: drop the clips whose stress changes once context decides the reading,
-# then regenerate them, plus the validation/test sentences, for both voices.
-fix() {
-    $PY scripts/gen/omograph_fix.py --raw "$OUT" --male /workspace/v1/corpus
-    for sources in batch-omograph.jsonl batch-valtest.jsonl; do
-        $PY scripts/gen/split_corpus.py --generate-only --voices f_storyteller \
-            --sources "$sources" --ref-dir assets/voices --out "$OUT" \
-            --batch-size "${BATCH:-24}" --wave 1 --require-lora --split all
-        $PY scripts/gen/split_corpus.py --generate-only --voices m_neutral \
-            --sources "$sources" --ref-dir assets/voices --out data/corpus-v2-male \
-            --batch-size "${BATCH:-24}" --wave 1 --require-lora --split all
-    done
+        --ref-dir assets/voices --out "$OUT" --batch-size "${BATCH:-24}" --wave 1 \
+        --require-lora --split all
 }
 
 screen() {
-    $PY scripts/gen/split_corpus.py --screen-only --voices f_storyteller --out "$OUT" \
-        --max-wer 0.15 --asr-device cuda --asr-compute-type float16 \
-        --stress-device cuda --screen-batch 16
-    $PY scripts/gen/split_corpus.py --screen-only --voices m_neutral --out data/corpus-v2-male \
+    $PY scripts/gen/split_corpus.py --screen-only --voices f_storyteller,m_neutral --out "$OUT" \
         --max-wer 0.15 --asr-device cuda --asr-compute-type float16 \
         --stress-device cuda --screen-batch 16
 }
@@ -89,7 +75,6 @@ case "${1:-}" in
 models)   models ;;
 male)     male ;;
 generate) generate ;;
-fix)      fix ;;
 screen)   screen ;;
 *) echo "usage: $0 models|male|generate|fix|screen" >&2; exit 2 ;;
 esac

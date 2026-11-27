@@ -22,11 +22,12 @@ setup)
     ;;
 generate)
     raw=$(lines "$V2/raw.jsonl")
-    if [ "$raw" -ge 9316 ]; then echo "100 generate"; exit 0; fi
-    awk -v r="$raw" 'BEGIN{ p=r*98/9316; if(p>98)p=98; printf "%.1f generate\n", p }'
+    if [ "$raw" -ge 19822 ]; then echo "100 generate"; exit 0; fi
+    awk -v r="$raw" 'BEGIN{ p=r*98/19822; if(p>98)p=98; printf "%.1f generate\n", p }'
     ;;
 screen)
-    raw=$(lines "$V2/raw.jsonl"); done_=$(( $(lines "$V2/manifest.jsonl") + $(lines "$V2/review.jsonl") ))
+    raw=$(( $(lines "$V2/raw.jsonl") + $(lines "data/corpus-v2-male/raw.jsonl") ))
+    done_=$(( $(lines "$V2/manifest.jsonl") + $(lines "$V2/review.jsonl") + $(lines "data/corpus-v2-male/manifest.jsonl") + $(lines "data/corpus-v2-male/review.jsonl") ))
     if [ "$raw" -gt 0 ] && [ "$done_" -ge "$raw" ]; then echo "100 screen"; exit 0; fi
     awk -v d="$done_" -v r="$raw" 'BEGIN{ if(r==0){printf "0.0 screen\n"; exit} p=d*98/r; if(p>98)p=98; printf "%.1f screen\n", p }'
     ;;

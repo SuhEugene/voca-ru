@@ -10,7 +10,7 @@ cd /workspace/voca || exit 1
 
 V2=data/corpus-v2
 WORK=data/ru-corpus-v2
-EXPECTED_SENTENCES=9316
+EXPECTED_CLIPS=19822
 PY=${PY:-python}
 
 count() { [ -d "$1" ] && find "$1" -maxdepth 1 -name "$2" | wc -l || echo 0; }
@@ -29,18 +29,21 @@ generate() {
     local raw lost ok=1
     raw=$(lines "$V2/raw.jsonl")
     lost=$(lines "$V2/raw.jsonl.lost" 2>/dev/null || echo 0)
-    [ "$raw" -ge "$EXPECTED_SENTENCES" ] || ok=0
-    echo "generate raw=${raw} expect=${EXPECTED_SENTENCES} lost=${lost} status=$([ $ok = 1 ] && echo PASS || echo FAIL)"
+    [ "$raw" -ge "$EXPECTED_CLIPS" ] || ok=0
+    echo "generate raw=${raw} expect=${EXPECTED_CLIPS} lost=${lost} status=$([ $ok = 1 ] && echo PASS || echo FAIL)"
 }
 
 screen() {
-    local raw accepted rejected ok=1
-    raw=$(lines "$V2/raw.jsonl")
-    accepted=$(lines "$V2/manifest.jsonl")
-    rejected=$(lines "$V2/review.jsonl")
+    local raw accepted rejected ok=1 male_raw male_acc male_rej
+    male_raw=$(lines "data/corpus-v2-male/raw.jsonl")
+    male_acc=$(lines "data/corpus-v2-male/manifest.jsonl")
+    male_rej=$(lines "data/corpus-v2-male/review.jsonl")
+    raw=$(( $(lines "$V2/raw.jsonl") + male_raw ))
+    accepted=$(( $(lines "$V2/manifest.jsonl") + male_acc ))
+    rejected=$(( $(lines "$V2/review.jsonl") + male_rej ))
     [ "$raw" -gt 0 ] || ok=0
     [ $((accepted + rejected)) -ge "$raw" ] || ok=0
-    echo "screen raw=${raw} accepted=${accepted} rejected=${rejected} status=$([ $ok = 1 ] && echo PASS || echo FAIL)"
+    echo "screen raw=${raw} accepted=${accepted} rejected=${rejected} male=${male_acc} status=$([ $ok = 1 ] && echo PASS || echo FAIL)"
 }
 
 prepare() {
@@ -88,6 +91,7 @@ case "${1:-status}" in
 setup) setup ;;
 generate) generate ;;
 screen) screen ;;
+
 prepare) prepare ;;
 annotate) annotate ;;
 train) train ;;
